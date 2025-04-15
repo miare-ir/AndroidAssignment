@@ -8,8 +8,10 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import ir.miare.androidcodechallenge.R
 import ir.miare.androidcodechallenge.core.domain.OrderBy
 import ir.miare.androidcodechallenge.core.domain.Sort
 import ir.miare.androidcodechallenge.core.presentation.theme.AppTheme
@@ -40,57 +42,57 @@ private fun SortSectionImpl(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        SolidButton(
-            text = "Name Ascending",
+        RadioButton(
+            text = stringResource(id = R.string.name_ascending),
             selected = orderState == OrderBy.Name(sort = Sort.ASCENDING),
             onClick = {
                 onSortChange(OrderBy.Name(sort = Sort.ASCENDING))
             }
         )
-        SolidButton(
-            text = "Name Descending",
+        RadioButton(
+            text = stringResource(id = R.string.name_descending),
             selected = orderState == OrderBy.Name(sort = Sort.DESCENDING),
             onClick = {
                 onSortChange(OrderBy.Name(sort = Sort.DESCENDING))
             }
         )
-        SolidButton(
-            text = "Team rank Ascending",
+        RadioButton(
+            text = stringResource(id = R.string.team_rank_ascending),
             selected = orderState == OrderBy.TeamRank(sort = Sort.ASCENDING),
             onClick = {
                 onSortChange(OrderBy.TeamRank(sort = Sort.ASCENDING))
             }
         )
-        SolidButton(
-            text = "Team rank Descending",
+        RadioButton(
+            text = stringResource(id = R.string.team_rank_descending),
             selected = orderState == OrderBy.TeamRank(sort = Sort.DESCENDING),
             onClick = {
                 onSortChange(OrderBy.TeamRank(sort = Sort.DESCENDING))
             }
         )
-        SolidButton(
-            text = "Average score per match Ascending",
+        RadioButton(
+            text = stringResource(id = R.string.average_score_per_match_ascending),
             selected = orderState == OrderBy.AverageScorePerMatch(sort = Sort.ASCENDING),
             onClick = {
                 onSortChange(OrderBy.AverageScorePerMatch(sort = Sort.ASCENDING))
             }
         )
-        SolidButton(
-            text = "Average score per match Descending",
+        RadioButton(
+            text = stringResource(id = R.string.average_score_per_match_descending),
             selected = orderState == OrderBy.AverageScorePerMatch(sort = Sort.DESCENDING),
             onClick = {
                 onSortChange(OrderBy.AverageScorePerMatch(sort = Sort.DESCENDING))
             }
         )
-        SolidButton(
-            text = "Player score Ascending",
+        RadioButton(
+            text = stringResource(id = R.string.player_score_ascending),
             selected = orderState == OrderBy.PlayerScore(sort = Sort.ASCENDING),
             onClick = {
                 onSortChange(OrderBy.PlayerScore(sort = Sort.ASCENDING))
             }
         )
-        SolidButton(
-            text = "Player score Descending",
+        RadioButton(
+            text = stringResource(id = R.string.player_score_descending),
             selected = orderState == OrderBy.PlayerScore(sort = Sort.DESCENDING),
             onClick = {
                 onSortChange(OrderBy.PlayerScore(sort = Sort.DESCENDING))

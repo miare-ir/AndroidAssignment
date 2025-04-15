@@ -1,11 +1,17 @@
 package ir.miare.androidcodechallenge.presentation.composables
 
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -13,7 +19,7 @@ import androidx.compose.ui.unit.dp
 import ir.miare.androidcodechallenge.core.presentation.theme.AppTheme
 
 @Composable
-fun SolidButton(
+fun RadioButton(
     modifier: Modifier = Modifier,
     selected: Boolean,
     text: String,
@@ -34,19 +40,37 @@ private fun SolidButtonImpl(
     text: String,
     onClick: () -> Unit,
 ) {
-    Row(
-        modifier = modifier,
-        horizontalArrangement = Arrangement.spacedBy(8.dp),
-        verticalAlignment = Alignment.CenterVertically,
+    val animatedColor by animateColorAsState(
+        targetValue = if (selected) {
+            MaterialTheme.colorScheme.primaryContainer
+        } else {
+            MaterialTheme.colorScheme.surface
+        }
+    )
+
+    val colors =
+        CardDefaults.cardColors().copy(
+            containerColor = animatedColor
+        )
+
+    Card(
+        colors = colors,
+        shape = MaterialTheme.shapes.large
     ) {
-        RadioButton(
-            selected = selected,
-            onClick = onClick
-        )
-        Text(
-            text = text,
-            style = MaterialTheme.typography.labelMedium,
-        )
+        Row(
+            modifier = modifier.clickable(onClick = onClick),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            RadioButton(
+                selected = selected,
+                onClick = onClick
+            )
+            Text(
+                modifier = Modifier.padding(end = 8.dp),
+                text = text,
+                style = MaterialTheme.typography.labelMedium,
+            )
+        }
     }
 }
 
@@ -54,7 +78,7 @@ private fun SolidButtonImpl(
 @Composable
 private fun SolidButtonPreview() {
     AppTheme {
-        SolidButton(
+        RadioButton(
             text = "Label",
             selected = true,
             onClick = {},

@@ -3,7 +3,9 @@ package ir.miare.androidcodechallenge.presentation
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.CircularProgressIndicator
@@ -17,6 +19,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import ir.miare.androidcodechallenge.R
 import ir.miare.androidcodechallenge.core.presentation.UiState
@@ -67,6 +70,7 @@ private fun TopScorersScreenContent(
                                 onEvent(TopScorersScreenIntents.OnOrderList(orderBy = order))
                             }, orderState = state.orderBy
                         )
+                        Spacer(modifier = Modifier.height(8.dp))
                         PlayersList(
                             topScorers = state.topScorers.data,
                             onPlayerClick = { playerId ->

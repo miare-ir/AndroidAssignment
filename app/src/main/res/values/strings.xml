@@ -4,4 +4,12 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="unknown_error_message">Unknown error!</string>
     <string name="top_scorers_top_app_bar_title">Top Scorers</string>
+    <string name="name_ascending">Name Ascending</string>
+    <string name="name_descending">Name Descending</string>
+    <string name="team_rank_ascending">Team rank Ascending</string>
+    <string name="team_rank_descending">Team rank Descending</string>
+    <string name="average_score_per_match_ascending">Average score per match Ascending</string>
+    <string name="average_score_per_match_descending">Average score per match Descending</string>
+    <string name="player_score_ascending">Player score Ascending</string>
+    <string name="player_score_descending">Player score Descending</string>
 </resources>
