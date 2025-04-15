@@ -5,6 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import dagger.hilt.android.AndroidEntryPoint
+import ir.miare.androidcodechallenge.core.presentation.theme.AppTheme
 import ir.miare.androidcodechallenge.presentation.TopScorersViewModel
 import ir.miare.androidcodechallenge.presentation.TopScorersScreen
 
@@ -16,9 +17,11 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            TopScorersScreen(
-                viewModel = viewModel,
-            )
+            AppTheme {
+                TopScorersScreen(
+                    viewModel = viewModel,
+                )
+            }
         }
     }
 }
