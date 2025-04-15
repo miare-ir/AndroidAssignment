@@ -73,6 +73,7 @@ hilt-navigation-compose = { group = "androidx.hilt", name = "hilt-navigation-com
 ktor-client-core = { group = "io.ktor", name = "ktor-client-core", version.ref = "ktor" }
 ktor-client-logging = { group = "io.ktor", name = "ktor-client-logging", version.ref = "ktor" }
 ktor-client-android = { group = "io.ktor", name = "ktor-client-android", version.ref = "ktor" }
+ktor-client-mock = { group = "io.ktor", name = "ktor-client-mock", version.ref = "ktor" }
 ktor-client-content-negotiation = { group = "io.ktor", name = "ktor-client-content-negotiation", version.ref = "ktor" }
 ktor-serialization-kotlinx-json = { group = "io.ktor", name = "ktor-serialization-kotlinx-json", version.ref = "ktor" }
 
@@ -98,6 +99,7 @@ ktor = [
     "ktor-client-core",
     "ktor-client-logging",
     "ktor-client-android",
+    "ktor-client-mock",
     "ktor-client-content-negotiation",
     "ktor-serialization-kotlinx-json",
 ]
