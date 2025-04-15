@@ -16,16 +16,17 @@ import kotlin.coroutines.CoroutineContext
 class TopScorersRepositoryImpl @Inject constructor(
     private val client: HttpClient,
     private val coroutineContext: CoroutineContext = Dispatchers.IO
-): TopScorersRepository {
+) : TopScorersRepository {
     override suspend fun getTopScorers(): Result<List<TopScorers>> = withContext(coroutineContext) {
         return@withContext try {
             val response = client.get("topscorers")
-            when(response.status) {
+            when (response.status) {
                 HttpStatusCode.OK -> {
-                    val topScorersResponse = response.body<List<TopScorersResponse>>()
+                    val topScorersResponse: List<TopScorersResponse> = response.body()
                     val topScorersList = topScorersResponse.map { it.toDomain() }
                     Result.success(topScorersList)
                 }
+
                 else -> {
                     Result.failure(Exception("Error fetching data: ${response.status}"))
                 }

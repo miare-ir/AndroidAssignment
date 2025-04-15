@@ -5,5 +5,6 @@ import ir.miare.androidcodechallenge.core.presentation.UiState
 import ir.miare.androidcodechallenge.presentation.models.UiTopScorers
 
 data class TopScorersUiState(
-    val topScorers: UiState<List<UiTopScorers>> = UiState.Idle(),
-    val orderBy: OrderBy = OrderBy.Name(), )
+    val topScorers: UiState<List<UiTopScorers>> = UiState.Loading(),
+    val orderBy: OrderBy = OrderBy.PlayerScore()
+)

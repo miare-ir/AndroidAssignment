@@ -26,19 +26,3 @@ data class Team(
     @JsonProperty("name") val name: String,
     @JsonProperty("rank") val rank: Int
 ) : Serializable
-
-fun List<FakeData>.orderByAverageGoalPerMatch(descending: Boolean = true): List<FakeData> {
-    return this.map { scorers ->
-        scorers.copy(
-            players = if (descending) {
-                scorers.players.sortedByDescending { player ->
-                    player.totalGoal / scorers.league.totalMatches.toDouble()
-                }
-            } else {
-                scorers.players.sortedBy { player ->
-                    player.totalGoal / scorers.league.totalMatches.toDouble()
-                }
-            }
-        )
-    }
-}

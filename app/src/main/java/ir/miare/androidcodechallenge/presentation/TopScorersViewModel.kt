@@ -4,7 +4,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import ir.miare.androidcodechallenge.core.domain.OrderBy
-import ir.miare.androidcodechallenge.core.domain.Sort
 import ir.miare.androidcodechallenge.core.presentation.UiState
 import ir.miare.androidcodechallenge.core.presentation.UiText
 import ir.miare.androidcodechallenge.domain.usecases.GetTopScorers
@@ -34,22 +33,7 @@ class TopScorersViewModel @Inject constructor(
     fun onIntent(intent: TopScorersScreenIntents) {
         when (intent) {
             is TopScorersScreenIntents.UpdateTopScorers -> updateList()
-            is TopScorersScreenIntents.OrderList -> setOrderState(intent.orderBy)
-            is TopScorersScreenIntents.SortList -> setSortState(intent.sortType)
-        }
-    }
-
-    private fun setSortState(type: Sort) {
-        _state.update {
-            it.copy(
-                orderBy =
-                    when (it.orderBy) {
-                        is OrderBy.Name -> OrderBy.Name(type)
-                        is OrderBy.PlayerScore -> OrderBy.PlayerScore(type)
-                        is OrderBy.AverageScorePerMatch -> OrderBy.AverageScorePerMatch(type)
-                        is OrderBy.TeamRank -> OrderBy.TeamRank(type)
-                    }
-            )
+            is TopScorersScreenIntents.OnOrderList -> setOrderState(intent.orderBy)
         }
     }
 

@@ -1,6 +1,10 @@
 package ir.miare.androidcodechallenge.data.models
 
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class TopScorersResponse(
-    val playerResponses: List<PlayerResponse>,
-    val leagueResponse: LeagueResponse
+    @SerialName("players") val playerResponses: List<PlayerResponse>,
+    @SerialName("league") val leagueResponse: LeagueResponse
 )
