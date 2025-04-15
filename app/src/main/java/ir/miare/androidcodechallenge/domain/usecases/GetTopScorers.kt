@@ -7,7 +7,7 @@ import javax.inject.Inject
 class GetTopScorers @Inject constructor(
     private val repository: TopScorersRepository
 ) {
-    suspend operator fun invoke(): Result<List<TopScorers>> {
+    suspend operator fun invoke(): Result<TopScorers> {
         return repository.getTopScorers()
     }
 }

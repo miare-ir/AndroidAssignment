@@ -21,6 +21,8 @@ logging-intercepter = "4.12.0"
 espresso-core = "3.6.1"
 android-test-ext-junit = "1.2.1"
 devToolsKsp = "2.1.20-1.0.32"
+ktor = "3.1.0"
+
 
 [libraries]
 core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "android-core-ktx" }
@@ -67,6 +69,13 @@ hilt-compiler = { group = "com.google.dagger", name = "hilt-android-compiler", v
 hilt-android-test = { group = "com.google.dagger", name = "hilt-android-testing", version.ref = "hilt" }
 hilt-navigation-compose = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "hilt-compose" }
 
+# ktor
+ktor-client-core = { group = "io.ktor", name = "ktor-client-core", version.ref = "ktor" }
+ktor-client-logging = { group = "io.ktor", name = "ktor-client-logging", version.ref = "ktor" }
+ktor-client-android = { group = "io.ktor", name = "ktor-client-android", version.ref = "ktor" }
+ktor-client-content-negotiation = { group = "io.ktor", name = "ktor-client-content-negotiation", version.ref = "ktor" }
+ktor-serialization-kotlinx-json = { group = "io.ktor", name = "ktor-serialization-kotlinx-json", version.ref = "ktor" }
+
 # test
 junit = { group = "junit", name = "junit", version = "4.13.2" }
 robolectric = { group = "org.robolectric", name = "robolectric", version.ref = "robolectric" }
@@ -83,6 +92,14 @@ compose = [
     "androidx-ui-graphics",
     "androidx-material3",
     "navigation-compose",
+]
+
+ktor = [
+    "ktor-client-core",
+    "ktor-client-logging",
+    "ktor-client-android",
+    "ktor-client-content-negotiation",
+    "ktor-serialization-kotlinx-json",
 ]
 
 [plugins]
