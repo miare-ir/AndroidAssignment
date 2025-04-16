@@ -1,20 +1,27 @@
 package ir.miare.androidcodechallenge
 
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
-import ir.miare.androidcodechallenge.databinding.ActivityMainBinding
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.activity.viewModels
+import dagger.hilt.android.AndroidEntryPoint
+import ir.miare.androidcodechallenge.core.presentation.theme.AppTheme
+import ir.miare.androidcodechallenge.presentation.TopScorersViewModel
+import ir.miare.androidcodechallenge.presentation.TopScorersScreen
 
-class MainActivity : AppCompatActivity() {
+@AndroidEntryPoint
+class MainActivity : ComponentActivity() {
 
-    var binding: ActivityMainBinding? = null
+    val viewModel: TopScorersViewModel by viewModels<TopScorersViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding!!.root)
-
-        supportFragmentManager.beginTransaction()
-            .add(R.id.fragmentContainer, RankingFragment(-1))
-            .commit()
+        setContent {
+            AppTheme {
+                TopScorersScreen(
+                    viewModel = viewModel,
+                )
+            }
+        }
     }
 }

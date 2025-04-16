@@ -1,19 +1,22 @@
 plugins {
-    id 'com.android.application'
-    id 'org.jetbrains.kotlin.android'
+    alias libs.plugins.android.application
+    alias libs.plugins.kotlin.android
+    alias libs.plugins.compose.compiler
+    alias libs.plugins.hilt.android
+    alias libs.plugins.kotlin.serialization
+    alias libs.plugins.google.devtools.ksp
     id 'kotlin-kapt'
     id 'kotlin-parcelize'
-    id 'com.google.dagger.hilt.android'
 }
 
 android {
     namespace 'ir.miare.androidcodechallenge'
-    compileSdk 33
+    compileSdk 35
 
     defaultConfig {
         applicationId "ir.miare.androidcodechallenge"
         minSdk 21
-        targetSdk 33
+        targetSdk 35
         versionCode 1
         versionName "1.0"
 
@@ -21,59 +24,81 @@ android {
     }
 
     buildTypes {
+        debug {
+            buildConfigField "String", "BASE_URL", "\"https://test_baseurl.com/v2/\""
+        }
+
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
     kotlinOptions {
-        jvmTarget = '1.8'
+        jvmTarget = '17'
     }
-
+    packaging {
+        resources {
+            excludes.add("/META-INF/{AL2.0,LGPL2.1}")
+            excludes.add("META-INF/LICENSE.md")
+            excludes.add("META-INF/LICENSE-notice.md")
+        }
+    }
     buildFeatures {
+        buildConfig true
         viewBinding true
+        compose true
     }
 }
 
 dependencies {
-    def lifecycle_version = "2.5.1"
-    def jackson_version = '2.13.0'
-    def retrofit_version = '2.9.0'
-    def coroutines_version = "1.6.4"
-    def hilt_version = "2.44.2"
-    def mockFit_version = "1.1.0"
-    def robolectric_version = '4.3'
 
-    implementation 'androidx.core:core-ktx:1.9.0'
-    implementation 'androidx.appcompat:appcompat:1.6.1'
-    implementation 'com.google.android.material:material:1.8.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
-    implementation "androidx.fragment:fragment-ktx:1.5.5"
+    implementation libs.core.ktx
+    implementation libs.appcompat
+    implementation libs.material
+    implementation libs.constraintlayout
+    implementation libs.fragment.ktx
+    implementation libs.lifecycle.viewmodel.ktx
 
-    testImplementation 'junit:junit:4.13.2'
-    testImplementation "org.robolectric:robolectric:$robolectric_version"
-    testImplementation "org.robolectric:shadows-multidex:$robolectric_version"
-    testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+    implementation(platform libs.androidx.compose.bom)
+    implementation(libs.bundles.compose)
+    debugImplementation libs.androidx.ui.tooling
+    debugImplementation libs.androidx.ui.test.manifest
+    implementation libs.androidx.ui.tooling.preview
 
-    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
-    implementation "com.fasterxml.jackson.module:jackson-module-kotlin:$jackson_version"
-    implementation "com.fasterxml.jackson.datatype:jackson-datatype-joda:$jackson_version"
-    implementation("com.fasterxml.jackson.datatype:jackson-datatype-json-org:$jackson_version") {
+    implementation libs.bundles.ktor
+
+    testImplementation libs.junit
+    testImplementation libs.robolectric
+    testImplementation libs.shadows.multidex
+    testImplementation libs.coroutines.test
+
+    androidTestImplementation libs.test.ext.junit
+    androidTestImplementation libs.espresso.core
+    androidTestImplementation(platform libs.androidx.compose.bom)
+    androidTestImplementation libs.androidx.ui.test.junit4
+
+    testImplementation libs.mockk
+    androidTestImplementation libs.mockk.android
+
+    implementation libs.jackson.module.kotlin
+    implementation libs.jackson.datatype.joda
+    implementation(libs.jackson.datatype.json.org) {
         exclude group: 'org.json', module: 'json'
     }
-    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
-    implementation "com.squareup.retrofit2:converter-jackson:$retrofit_version"
-    implementation 'com.squareup.okhttp3:logging-interceptor:4.9.3'
-    implementation "com.github.javaherisaber.MockFit:runtime:$mockFit_version"
-    kapt "com.github.javaherisaber.MockFit:compiler:$mockFit_version"
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines_version"
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_version"
-    implementation "com.google.dagger:hilt-android:$hilt_version"
-    kapt "com.google.dagger:hilt-compiler:$hilt_version"
+    implementation libs.retrofit
+    implementation libs.converter.jackson
+    implementation libs.logging.interceptor
+    implementation libs.mockfit.runtime
+    kapt libs.mockfit.compiler
+
+    implementation libs.coroutines.android
+    implementation libs.coroutines.core
+    testImplementation libs.coroutines.test
+
+    implementation libs.hilt.android
+    ksp libs.hilt.compiler
 }
