@@ -13,10 +13,7 @@ class GetTopScorers @Inject constructor(
     suspend operator fun invoke(
         order: OrderBy,
     ): Result<List<TopScorers>> {
-        return repository.getTopScorers()
-            .onSuccess { scorers ->
-                scorers.orderList(order = order)
-            }
+        return runCatching { repository.getTopScorers().getOrThrow().orderList(order = order) }
     }
 
     private fun List<TopScorers>.orderList(order: OrderBy): List<TopScorers> {
