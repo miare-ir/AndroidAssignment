@@ -12,4 +12,7 @@
     <string name="average_score_per_match_descending">Average score per match Descending</string>
     <string name="player_score_ascending">Player score Ascending</string>
     <string name="player_score_descending">Player score Descending</string>
+    <string name="player_sheet_total_goals">Total goals: %1$s</string>
+    <string name="player_sheet_team">Team: %1$s</string>
+    <string name="player_sheet_close">Close</string>
 </resources>

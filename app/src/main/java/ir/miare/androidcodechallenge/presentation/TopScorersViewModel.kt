@@ -8,6 +8,7 @@ import ir.miare.androidcodechallenge.core.presentation.UiState
 import ir.miare.androidcodechallenge.core.presentation.UiText
 import ir.miare.androidcodechallenge.domain.usecases.GetTopScorers
 import ir.miare.androidcodechallenge.presentation.mappers.toUi
+import ir.miare.androidcodechallenge.presentation.models.UiPlayer
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted.Companion.WhileSubscribed
 import kotlinx.coroutines.flow.onStart
@@ -34,6 +35,15 @@ class TopScorersViewModel @Inject constructor(
         when (intent) {
             is TopScorersScreenIntents.UpdateTopScorers -> updateList()
             is TopScorersScreenIntents.OnOrderList -> setOrderState(intent.orderBy)
+            is TopScorersScreenIntents.OnPlayerSelected -> setPlayerState(intent.selectedPlayer)
+        }
+    }
+
+    private fun setPlayerState(player: UiPlayer?) {
+        _state.update {
+            it.copy(
+                selectedPlayer = player
+            )
         }
     }
 

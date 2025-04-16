@@ -16,7 +16,7 @@ import ir.miare.androidcodechallenge.presentation.models.UiTopScorers
 fun PlayersList(
     modifier: Modifier = Modifier,
     topScorers: List<UiTopScorers>,
-    onPlayerClick: (Int) -> Unit,
+    onPlayerClick: (UiPlayer) -> Unit,
 ) {
     PlayersListImpl(
         modifier = modifier,
@@ -29,7 +29,7 @@ fun PlayersList(
 private fun PlayersListImpl(
     modifier: Modifier = Modifier,
     topScorers: List<UiTopScorers>,
-    onPlayerClick: (Int) -> Unit,
+    onPlayerClick: (UiPlayer) -> Unit,
 ) {
     LazyColumn(
         modifier = modifier,
@@ -43,7 +43,7 @@ private fun PlayersListImpl(
             ) { player ->
                 PlayerItem(
                     modifier = Modifier.clickable {
-                        onPlayerClick(it.players.indexOf(player))
+                        onPlayerClick(player)
                     },
                     player = player,
                 )
