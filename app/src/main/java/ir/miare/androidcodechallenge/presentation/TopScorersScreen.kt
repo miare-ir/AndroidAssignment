@@ -32,6 +32,7 @@ import ir.miare.androidcodechallenge.core.presentation.theme.AppTheme
 import ir.miare.androidcodechallenge.presentation.TopScorersScreenIntents.OnOrderList
 import ir.miare.androidcodechallenge.presentation.TopScorersScreenIntents.OnPlayerSelected
 import ir.miare.androidcodechallenge.presentation.TopScorersScreenIntents.UpdateTopScorers
+import ir.miare.androidcodechallenge.presentation.composables.MessageSection
 import ir.miare.androidcodechallenge.presentation.composables.PlayerInfoBottomSheetContent
 import ir.miare.androidcodechallenge.presentation.composables.PlayersList
 import ir.miare.androidcodechallenge.presentation.composables.SortSection
@@ -69,9 +70,10 @@ private fun TopScorersScreenContent(
         content = {
             when (state.topScorers) {
                 is UiState.Failure -> {
-                    Text(
-                        text = state.topScorers.error.asString(),
-                        color = MaterialTheme.colorScheme.error
+                    MessageSection(
+                        modifier = Modifier.padding(horizontal = 16.dp),
+                        isErrorMessage = true,
+                        message = state.topScorers.error.asString()
                     )
                 }
 

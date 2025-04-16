@@ -32,7 +32,8 @@ class TopScorersRepositoryImpl @Inject constructor(
                 }
             }
         } catch (e: Exception) {
-            Result.failure(e)
+            e.printStackTrace()
+            Result.failure(Exception("Unknown Error!"))
         }
     }
 }

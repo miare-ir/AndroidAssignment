@@ -3,6 +3,7 @@ package ir.miare.androidcodechallenge.presentation
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import ir.miare.androidcodechallenge.R
 import ir.miare.androidcodechallenge.core.domain.OrderBy
 import ir.miare.androidcodechallenge.core.presentation.UiState
 import ir.miare.androidcodechallenge.core.presentation.UiText
@@ -69,7 +70,7 @@ class TopScorersViewModel @Inject constructor(
                 val errorMessage = error.localizedMessage?.let {
                     UiText.DynamicString(it)
                 } ?: UiText.StringResource(
-                    resId = ir.miare.androidcodechallenge.R.string.unknown_error_message
+                    resId = R.string.unknown_error_message
                 )
                 _state.update {
                     it.copy(
