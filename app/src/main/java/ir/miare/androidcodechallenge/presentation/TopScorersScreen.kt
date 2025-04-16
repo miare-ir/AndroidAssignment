@@ -1,5 +1,6 @@
 package ir.miare.androidcodechallenge.presentation
 
+import androidx.annotation.VisibleForTesting
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Column
@@ -10,7 +11,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -21,6 +21,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
@@ -40,6 +41,10 @@ import ir.miare.androidcodechallenge.presentation.models.UiLeague
 import ir.miare.androidcodechallenge.presentation.models.UiPlayer
 import ir.miare.androidcodechallenge.presentation.models.UiTeam
 import ir.miare.androidcodechallenge.presentation.models.UiTopScorers
+import ir.miare.androidcodechallenge.presentation.utils.Constants.ERROR_MESSAGE_TAG
+import ir.miare.androidcodechallenge.presentation.utils.Constants.LOADING_INDICATOR_TAG
+import ir.miare.androidcodechallenge.presentation.utils.Constants.TOP_SCORERS_LIST_TAG
+import ir.miare.androidcodechallenge.presentation.utils.Constants.TOP_SCORERS_ORDER_SECTION
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -57,10 +62,9 @@ fun TopScorersScreen(
         onEvent = viewModel::onIntent,
     )
 }
-
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun TopScorersScreenContent(
+@VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+internal fun TopScorersScreenContent(
     state: TopScorersUiState,
     onEvent: (TopScorersScreenIntents) -> Unit,
 ) {
@@ -71,14 +75,16 @@ private fun TopScorersScreenContent(
             when (state.topScorers) {
                 is UiState.Failure -> {
                     MessageSection(
-                        modifier = Modifier.padding(horizontal = 16.dp),
+                        modifier = Modifier.padding(horizontal = 16.dp).testTag(ERROR_MESSAGE_TAG),
                         isErrorMessage = true,
                         message = state.topScorers.error.asString()
                     )
                 }
 
                 is UiState.Loading -> {
-                    CircularProgressIndicator()
+                    CircularProgressIndicator(
+                        modifier = Modifier.testTag(LOADING_INDICATOR_TAG),
+                    )
                 }
 
                 is UiState.Success -> {
@@ -95,12 +101,14 @@ private fun TopScorersScreenContent(
                         modifier = Modifier.fillMaxSize()
                     ) {
                         SortSection(
+                            modifier = Modifier.testTag(TOP_SCORERS_ORDER_SECTION),
                             onSortChange = { order ->
                                 onEvent(OnOrderList(orderBy = order))
                             }, orderState = state.orderBy
                         )
                         Spacer(modifier = Modifier.height(8.dp))
                         PlayersList(
+                            modifier = Modifier.testTag(TOP_SCORERS_LIST_TAG),
                             topScorers = state.topScorers.data,
                             onPlayerClick = { player ->
                                 onEvent(OnPlayerSelected(selectedPlayer = player))

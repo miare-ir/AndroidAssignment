@@ -22,6 +22,9 @@ espresso-core = "3.6.1"
 android-test-ext-junit = "1.2.1"
 devToolsKsp = "2.1.20-1.0.32"
 ktor = "3.1.0"
+mockk = "1.13.12"
+truth = "1.4.4"
+junit = "4.13.2"
 
 
 [libraries]
@@ -78,11 +81,19 @@ ktor-client-content-negotiation = { group = "io.ktor", name = "ktor-client-conte
 ktor-serialization-kotlinx-json = { group = "io.ktor", name = "ktor-serialization-kotlinx-json", version.ref = "ktor" }
 
 # test
-junit = { group = "junit", name = "junit", version = "4.13.2" }
+junit = { group = "junit", name = "junit", version.ref = "junit" }
 robolectric = { group = "org.robolectric", name = "robolectric", version.ref = "robolectric" }
 shadows-multidex = { group = "org.robolectric", name = "shadows-multidex", version.ref = "robolectric" }
 espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espresso-core" }
 test-ext-junit = { group = "androidx.test.ext", name = "junit", version.ref = "android-test-ext-junit" }
+
+# mockk
+mockk = { group = "io.mockk", name = "mockk", version.ref = "mockk" }
+mockk-android = { group = "io.mockk", name = "mockk-android", version.ref = "mockk" }
+mockk-agent = { group = "io.mockk", name = "mockk-agent", version.ref = "mockk" }
+
+# truth
+google-truth = { group = "com.google.truth", name = "truth", version.ref = "truth" }
 
 [bundles]
 compose = [
