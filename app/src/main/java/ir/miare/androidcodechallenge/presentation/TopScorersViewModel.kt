@@ -7,6 +7,7 @@ import ir.miare.androidcodechallenge.core.domain.OrderBy
 import ir.miare.androidcodechallenge.core.presentation.UiState
 import ir.miare.androidcodechallenge.core.presentation.UiText
 import ir.miare.androidcodechallenge.domain.usecases.GetTopScorers
+import ir.miare.androidcodechallenge.presentation.TopScorersScreenIntents.*
 import ir.miare.androidcodechallenge.presentation.mappers.toUi
 import ir.miare.androidcodechallenge.presentation.models.UiPlayer
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -33,9 +34,9 @@ class TopScorersViewModel @Inject constructor(
 
     fun onIntent(intent: TopScorersScreenIntents) {
         when (intent) {
-            is TopScorersScreenIntents.UpdateTopScorers -> updateList()
-            is TopScorersScreenIntents.OnOrderList -> setOrderState(intent.orderBy)
-            is TopScorersScreenIntents.OnPlayerSelected -> setPlayerState(intent.selectedPlayer)
+            is UpdateTopScorers -> updateList()
+            is OnOrderList -> setOrderState(intent.orderBy)
+            is OnPlayerSelected -> setPlayerState(intent.selectedPlayer)
         }
     }
 
@@ -56,7 +57,7 @@ class TopScorersViewModel @Inject constructor(
     private fun updateList() {
         viewModelScope.launch {
             getTopScorers(
-                order = state.value.orderBy
+                order = _state.value.orderBy
             ).onSuccess { scorers ->
                 _state.update {
                     val uiScorersList = scorers.map { it.toUi() }
