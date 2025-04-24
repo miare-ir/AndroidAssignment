@@ -4,11 +4,12 @@ plugins {
     id 'kotlin-kapt'
     id 'kotlin-parcelize'
     id 'com.google.dagger.hilt.android'
+    id 'org.jetbrains.kotlin.plugin.compose'
 }
 
 android {
     namespace 'ir.miare.androidcodechallenge'
-    compileSdk 33
+    compileSdk 34
 
     defaultConfig {
         applicationId "ir.miare.androidcodechallenge"
@@ -36,6 +37,7 @@ android {
 
     buildFeatures {
         viewBinding true
+        compose true
     }
 }
 
@@ -76,4 +78,27 @@ dependencies {
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_version"
     implementation "com.google.dagger:hilt-android:$hilt_version"
     kapt "com.google.dagger:hilt-compiler:$hilt_version"
+
+    def composeBom = platform('androidx.compose:compose-bom:2024.04.01')
+    implementation composeBom
+    androidTestImplementation composeBom
+
+    // Core Compose libraries
+    implementation 'androidx.activity:activity-compose'
+    implementation 'androidx.compose.ui:ui'
+    implementation 'androidx.compose.ui:ui-tooling-preview'
+    implementation 'androidx.compose.material3:material3'
+
+    // Optional: Compose UI tooling/debugging
+    debugImplementation 'androidx.compose.ui:ui-tooling'
+    debugImplementation 'androidx.compose.ui:ui-test-manifest'
+
+    // Optional: Integration with ViewModel
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-compose'
+
+    // Optional: Navigation
+    implementation 'androidx.navigation:navigation-compose:2.7.7'
+
+    // Testing
+    androidTestImplementation 'androidx.compose.ui:ui-test-junit4'
 }
