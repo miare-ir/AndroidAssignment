@@ -24,6 +24,7 @@ import androidx.compose.material3.RadioButtonDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -58,7 +59,11 @@ class MainActivity : ComponentActivity() {
         setContent {
             MiareTheme{
                 val (state, event) = use(viewModel = viewModel)
-                RankingScreen(state, event)
+                RankingScreen(
+                    state = state,
+                    event = event,
+                    viewModel = viewModel
+                )
             }
         }
     }
@@ -67,7 +72,8 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun RankingScreen(
     state: MainContract.State,
-    event: (MainContract.Event) -> Unit
+    event: (MainContract.Event) -> Unit,
+    viewModel: MainViewModel
 ) {
 
     var showPlayerDetailsBottomSheet by remember { mutableStateOf(false) }
@@ -85,12 +91,14 @@ fun RankingScreen(
         }
     ) { innerPadding ->
 
+        val sortedList = viewModel.sortedList.collectAsState()
+
         LazyColumn(
             modifier = Modifier.fillMaxSize()
                 .padding(top = innerPadding.calculateTopPadding())
         ) {
 
-            items(state.topPlayers){
+            items(sortedList.value){
                 TopItem(fakeData = it, onPlayerClicked = {
                     showPlayerDetailsBottomSheet = true
                 })
