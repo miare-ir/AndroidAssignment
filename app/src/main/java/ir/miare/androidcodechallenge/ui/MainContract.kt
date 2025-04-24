@@ -1,4 +1,6 @@
-package ir.miare.androidcodechallenge
+package ir.miare.androidcodechallenge.ui
+
+import ir.miare.androidcodechallenge.domain.FakeData
 
 interface MainContract :
     UnidirectionalViewModel<MainContract.Event, MainContract.State> {

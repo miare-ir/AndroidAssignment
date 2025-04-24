@@ -14,6 +14,7 @@ import ir.logicbase.mockfit.MockFitInterceptor
 import ir.miare.androidcodechallenge.databinding.FragmentRankingBinding
 import ir.miare.androidcodechallenge.databinding.ItemLeagueBinding
 import ir.miare.androidcodechallenge.databinding.ItemPlayerBinding
+import ir.miare.androidcodechallenge.data.FakeData
 import okhttp3.OkHttpClient
 import retrofit2.Call
 import retrofit2.Callback

@@ -1,4 +1,4 @@
-package ir.miare.androidcodechallenge
+package ir.miare.androidcodechallenge.ui
 
 enum class SortType(val title: String) {
 

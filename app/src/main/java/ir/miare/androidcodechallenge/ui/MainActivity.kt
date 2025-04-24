@@ -1,4 +1,4 @@
-package ir.miare.androidcodechallenge
+package ir.miare.androidcodechallenge.ui
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -30,11 +30,15 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import dagger.hilt.android.AndroidEntryPoint
+import ir.miare.androidcodechallenge.domain.*
+import ir.miare.androidcodechallenge.R
 import ir.miare.androidcodechallenge.theme.Black
 import ir.miare.androidcodechallenge.theme.Gray
 import ir.miare.androidcodechallenge.theme.Indigo_200
@@ -43,6 +47,7 @@ import ir.miare.androidcodechallenge.theme.LightGray
 import ir.miare.androidcodechallenge.theme.MiareTheme
 import ir.miare.androidcodechallenge.theme.Teal_700
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
     private val viewModel: MainViewModel by viewModels()
@@ -82,7 +87,7 @@ fun RankingScreen(
 
         LazyColumn(
             modifier = Modifier.fillMaxSize()
-                .padding(top = innerPadding.calculateTopPadding()),
+                .padding(top = innerPadding.calculateTopPadding())
         ) {
 
             items(state.topPlayers){
@@ -102,11 +107,12 @@ fun TopItem(
     Column(modifier = Modifier.fillMaxWidth()) {
         Text(
             modifier = Modifier.fillMaxWidth()
-                .background(color = Gray).padding(16.dp),
+                .background(color = LightGray).padding(16.dp),
             text = fakeData.league.name.plus(" - ")
                 .plus(fakeData.league.country),
             textAlign = TextAlign.Center,
-            fontSize = 18.sp
+            fontSize = 18.sp,
+            color = Gray
         )
 
         for(i in 0..2){
@@ -125,8 +131,10 @@ fun PlayerItem(
 ) {
 
     Row(
-        modifier = Modifier.fillMaxWidth()
-            .clickable { onPlayerClicked(player) },
+        modifier = Modifier
+            .clickable { onPlayerClicked(player) }
+            .padding(vertical = 16.dp)
+            .fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically
     ) {
 
@@ -156,7 +164,8 @@ fun PlayerItem(
                 modifier = Modifier.fillMaxWidth(),
                 text = player.team.name,
                 textAlign = TextAlign.Start,
-                fontSize = 12.sp
+                fontSize = 12.sp,
+                color = Gray
             )
         }
     }
@@ -182,7 +191,8 @@ fun SortingSection(
             modifier = Modifier.fillMaxWidth(),
             textAlign = TextAlign.Center,
             fontWeight = FontWeight.Bold,
-            text = stringResource(R.string.sort_title)
+            text = stringResource(R.string.sort_title),
+            color = Color.DarkGray
         )
 
         Spacer(modifier = Modifier.height(16.dp))
