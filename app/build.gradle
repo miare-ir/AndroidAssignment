@@ -39,6 +39,10 @@ android {
         viewBinding true
         compose true
     }
+
+    testOptions {
+        animationsDisabled = true
+    }
 }
 
 dependencies {
@@ -102,6 +106,7 @@ dependencies {
     implementation 'androidx.hilt:hilt-navigation-compose:1.2.0'
 
 
-    // Testing
-    androidTestImplementation 'androidx.compose.ui:ui-test-junit4'
+    androidTestImplementation "androidx.compose.ui:ui-test-junit4"
+    debugImplementation "androidx.compose.ui:ui-test-manifest"
+
 }

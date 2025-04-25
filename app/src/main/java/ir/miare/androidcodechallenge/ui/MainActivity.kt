@@ -45,6 +45,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.platform.LocalLifecycleOwner
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -281,7 +282,8 @@ fun TopItem(
             modifier = Modifier
                 .fillMaxWidth()
                 .background(color = LightGray)
-                .padding(16.dp),
+                .padding(16.dp)
+                .testTag("LeagueHeader"),
             text = fakeData.league.name.plus(" - ")
                 .plus(fakeData.league.country),
             textAlign = TextAlign.Center,
@@ -308,7 +310,7 @@ fun PlayerItem(
         modifier = Modifier
             .clickable { onPlayerClicked(player) }
             .padding(vertical = 16.dp)
-            .fillMaxWidth(),
+            .fillMaxWidth().testTag("PlayerItem"),
         verticalAlignment = Alignment.CenterVertically
     ) {
 
