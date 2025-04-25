@@ -6,7 +6,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import ir.miare.androidcodechallenge.Resource
 import ir.miare.androidcodechallenge.domain.FakeData
 import ir.miare.androidcodechallenge.domain.GetRankingsUseCase
-import ir.miare.androidcodechallenge.domain.Player
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -28,6 +27,9 @@ class MainViewModel @Inject constructor(
 
     private val _errorMessage = MutableSharedFlow<String>()
     val errorMessage = _errorMessage.asSharedFlow()
+
+    private val _showLoading = MutableStateFlow(false)
+    val showLoading = _showLoading.asStateFlow()
 
     private val _sortedList = MutableStateFlow<List<FakeData>>(emptyList())
     val sortedList = _sortedList.asStateFlow()
@@ -61,6 +63,10 @@ class MainViewModel @Inject constructor(
                 }
             }
         }
+
+        is MainContract.Event.OnPlayerClicked -> {
+            mutableState.update { prev -> prev.copy(selectedPlayer = event.player) }
+        }
     }
 
     init {
@@ -68,8 +74,10 @@ class MainViewModel @Inject constructor(
     }
 
     private fun getRankings() {
+        _showLoading.update { true }
         getRankingsUseCase()
             .onEach { result ->
+                _showLoading.update { false }
                 when (result) {
                     is Resource.Error -> {
                         result.message?.let {
@@ -78,7 +86,6 @@ class MainViewModel @Inject constructor(
                     }
 
                     is Resource.Success -> {
-
                         result.data?.let {
                             mutableState.update { prevState ->
                                 prevState.copy(
@@ -92,6 +99,7 @@ class MainViewModel @Inject constructor(
                 }
             }
             .catch { exception ->
+                _showLoading.update { false }
                 exception.message?.let {
                     _errorMessage.emit(it)
                 }
