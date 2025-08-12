@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import ir.miare.androidcodechallenge.R
-import ir.miare.androidcodechallenge.data.Player
+import ir.miare.androidcodechallenge.data.model.Player
 import ir.miare.androidcodechallenge.databinding.BottomSheetPlayerInfoBinding
 
 class PlayerInfoBottomSheet(

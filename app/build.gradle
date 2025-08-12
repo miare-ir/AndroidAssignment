@@ -14,8 +14,8 @@ android {
         applicationId "ir.miare.androidcodechallenge"
         minSdk 21
         targetSdk 35
-        versionCode 4
-        versionName "1.0.3"
+        versionCode 5
+        versionName "1.1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -46,7 +46,6 @@ dependencies {
     def jackson_version = '2.19.2'
     def retrofit_version = '3.0.0'
     def coroutines_version = "1.10.2"
-    def hilt_version = "2.44.2"
     def mockFit_version = "2.0.0"
 
     implementation 'androidx.core:core-ktx:1.16.0'
@@ -75,6 +74,6 @@ dependencies {
     kapt "com.github.javaherisaber.MockFit:compiler:$mockFit_version"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines_version"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_version"
-    implementation "com.google.dagger:hilt-android:$hilt_version"
-    kapt "com.google.dagger:hilt-compiler:$hilt_version"
+    implementation "com.google.dagger:hilt-android:2.57"
+    kapt "com.google.dagger:hilt-compiler:2.57"
 }
