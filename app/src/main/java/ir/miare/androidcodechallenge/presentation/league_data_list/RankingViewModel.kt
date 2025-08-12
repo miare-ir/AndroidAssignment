@@ -12,12 +12,16 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class LeagueViewModel @Inject constructor(
+class RankingViewModel @Inject constructor(
     private val getLeagueDataUseCase: GetLeagueDataUseCase
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(LeagueUiState())
     val uiState: StateFlow<LeagueUiState> = _uiState
+
+    init {
+        fetchLeagues()
+    }
 
     fun fetchLeagues() {
         viewModelScope.launch {
@@ -45,7 +49,9 @@ class LeagueViewModel @Inject constructor(
                     }
 
                     is Result.Loading -> {
-                        _uiState.update { it.copy(isLoading = true) }
+                        _uiState.update {
+                            it.copy(isLoading = true)
+                        }
                     }
                 }
             }

@@ -3,7 +3,8 @@ plugins {
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-kapt'
     id 'kotlin-parcelize'
-    id 'com.google.dagger.hilt.android'
+    id 'dagger.hilt.android.plugin'
+    id("org.jetbrains.kotlin.plugin.compose") version "2.2.0"
 }
 
 android {
@@ -14,8 +15,8 @@ android {
         applicationId "ir.miare.androidcodechallenge"
         minSdk 21
         targetSdk 35
-        versionCode 5
-        versionName "1.1.0"
+        versionCode 6
+        versionName "1.1.1"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -38,6 +39,11 @@ android {
 
     buildFeatures {
         viewBinding true
+        compose true    // <-- ADD THIS
+    }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion = "1.4.8"
     }
 }
 
@@ -76,4 +82,17 @@ dependencies {
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_version"
     implementation "com.google.dagger:hilt-android:2.57"
     kapt "com.google.dagger:hilt-compiler:2.57"
+    annotationProcessor 'com.google.dagger:hilt-android-compiler:2.57'
+    implementation "androidx.hilt:hilt-navigation-compose:1.2.0"
+    implementation platform('androidx.compose:compose-bom:2025.07.00')
+    implementation 'androidx.compose.ui:ui'               // Core UI
+    implementation 'androidx.compose.material3:material3' // Material3 Components
+    implementation 'androidx.compose.ui:ui-tooling-preview' // Preview support
+    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.9.2'
+    implementation 'androidx.activity:activity-compose:1.10.1'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-compose:2.9.2'
+    debugImplementation 'androidx.compose.ui:ui-tooling'
+    debugImplementation 'androidx.compose.ui:ui-test-manifest'
+
+
 }
