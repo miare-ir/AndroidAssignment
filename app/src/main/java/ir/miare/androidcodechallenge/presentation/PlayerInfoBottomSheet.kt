@@ -1,10 +1,12 @@
-package ir.miare.androidcodechallenge
+package ir.miare.androidcodechallenge.presentation
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import ir.miare.androidcodechallenge.R
+import ir.miare.androidcodechallenge.data.Player
 import ir.miare.androidcodechallenge.databinding.BottomSheetPlayerInfoBinding
 
 class PlayerInfoBottomSheet(
