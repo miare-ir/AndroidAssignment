@@ -1,4 +1,4 @@
-package ir.miare.androidcodechallenge
+package ir.miare.androidcodechallenge.presentation
 
 import android.os.Bundle
 import android.os.Handler
@@ -11,6 +11,8 @@ import androidx.fragment.app.Fragment
 import ir.logicbase.mockfit.Mock
 import ir.logicbase.mockfit.MockFitConfig
 import ir.logicbase.mockfit.MockFitInterceptor
+import ir.miare.androidcodechallenge.R
+import ir.miare.androidcodechallenge.data.LeagueData
 import ir.miare.androidcodechallenge.databinding.FragmentRankingBinding
 import ir.miare.androidcodechallenge.databinding.ItemLeagueBinding
 import ir.miare.androidcodechallenge.databinding.ItemPlayerBinding
@@ -29,7 +31,7 @@ class RankingFragment(val sortingMode: Int) : Fragment() {
     interface Api {
         @Mock("data.json")
         @GET("list")
-        fun getData(): Call<List<FakeData>>
+        fun getData(): Call<List<LeagueData>>
     }
 
     var binding: FragmentRankingBinding? = null
@@ -66,10 +68,10 @@ class RankingFragment(val sortingMode: Int) : Fragment() {
             ).build()
         binding!!.pbLoading.show()
         thread(name = "NetworkWorker") {
-            retrofit.create(Api::class.java).getData().enqueue(object : Callback<List<FakeData>> {
+            retrofit.create(Api::class.java).getData().enqueue(object : Callback<List<LeagueData>> {
                 override fun onResponse(
-                    call: Call<List<FakeData>>,
-                    response: Response<List<FakeData>>
+                    call: Call<List<LeagueData>>,
+                    response: Response<List<LeagueData>>
                 ) {
                     val data = response.body()!!
 
@@ -214,7 +216,7 @@ class RankingFragment(val sortingMode: Int) : Fragment() {
                     }
                 }
 
-                override fun onFailure(call: Call<List<FakeData>>, t: Throwable) {
+                override fun onFailure(call: Call<List<LeagueData>>, t: Throwable) {
                     t.printStackTrace()
                 }
             })
