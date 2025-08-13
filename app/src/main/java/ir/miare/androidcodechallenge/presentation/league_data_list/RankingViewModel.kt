@@ -7,7 +7,12 @@ import androidx.paging.cachedIn
 import dagger.hilt.android.lifecycle.HiltViewModel
 import ir.miare.androidcodechallenge.data.model.LeagueData
 import ir.miare.androidcodechallenge.domain.use_case.GetLeagueDataUseCase
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.flatMapLatest
 import javax.inject.Inject
 
 @HiltViewModel
@@ -15,7 +20,16 @@ class RankingViewModel @Inject constructor(
     private val getLeagueDataUseCase: GetLeagueDataUseCase
 ) : ViewModel() {
 
+    private val _sort = MutableStateFlow<RankingSort>(RankingSort.None)
+    val sort: StateFlow<RankingSort> = _sort.asStateFlow()
+
+    @OptIn(ExperimentalCoroutinesApi::class)
     val leaguesPagingFlow: Flow<PagingData<LeagueData>> =
-        getLeagueDataUseCase(pageSize = 1) // load 5 per page
-            .cachedIn(viewModelScope)
+        sort.flatMapLatest { sort ->
+            getLeagueDataUseCase(pageSize = 5, sort = sort)
+        }.cachedIn(viewModelScope)
+
+    fun setSort(newSort: RankingSort) {
+        _sort.value = newSort
+    }
 }
