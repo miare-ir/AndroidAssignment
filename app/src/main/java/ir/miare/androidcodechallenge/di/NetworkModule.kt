@@ -3,6 +3,9 @@ package ir.miare.androidcodechallenge.di
 
 import android.content.Context
 import android.util.Log
+import com.fasterxml.jackson.databind.DeserializationFeature
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.module.kotlin.KotlinModule
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -46,16 +49,29 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideRetrofit(client: OkHttpClient): Retrofit =
-        Retrofit.Builder()
+    fun provideRetrofit(client: OkHttpClient, objectMapper: ObjectMapper): Retrofit {
+        return Retrofit.Builder()
             .baseUrl("https://test_baseurl.com/v2/")
             .client(client)
-            .addConverterFactory(JacksonConverterFactory.create())
+            .addConverterFactory(
+                JacksonConverterFactory.create(objectMapper)
+            )
             .build()
+    }
 
     @Provides
     @Singleton
     fun provideApiService(retrofit: Retrofit): ApiService =
         retrofit.create(ApiService::class.java)
 
+    @Provides
+    @Singleton
+    fun provideObjectMapper(): ObjectMapper {
+        return ObjectMapper()
+            .registerModule(KotlinModule.Builder().build())
+            .configure(
+                DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES,
+                false
+            )
+    }
 }

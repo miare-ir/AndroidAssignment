@@ -15,7 +15,7 @@ class LeagueRepositoryImpl(
         return Pager(
             config = PagingConfig(
                 pageSize = pageSize,
-                enablePlaceholders = true
+                enablePlaceholders = false
             ),
             pagingSourceFactory = {
                 LeaguePagingSource(

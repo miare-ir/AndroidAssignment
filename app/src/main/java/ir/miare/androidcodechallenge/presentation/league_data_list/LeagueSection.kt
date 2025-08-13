@@ -9,9 +9,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import ir.miare.androidcodechallenge.data.model.LeagueData
+import ir.miare.androidcodechallenge.data.model.Player
 
 @Composable
-fun LeagueSection(leagueData: LeagueData) {
+fun LeagueSection(
+    leagueData: LeagueData,
+    onFollowClick: (Player) -> Unit
+) {
     Column {
         Text(
             text = "${leagueData.league.name} (${leagueData.league.country})",
@@ -19,7 +23,7 @@ fun LeagueSection(leagueData: LeagueData) {
         )
         Spacer(modifier = Modifier.height(8.dp))
         leagueData.players.take(3).forEach { player ->
-            PlayerItem(player)
+            PlayerItem(player = player, onFollowClick = onFollowClick)
             Spacer(modifier = Modifier.height(4.dp))
         }
     }

@@ -11,6 +11,7 @@ import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -29,6 +30,13 @@ import ir.miare.androidcodechallenge.presentation.league_data_list.RankingViewMo
 fun RankingScreen(viewModel: RankingViewModel = hiltViewModel()) {
     val leagues = viewModel.leaguesPagingFlow.collectAsLazyPagingItems()
     val currentSort by viewModel.sort.collectAsState()
+
+    LaunchedEffect(leagues.itemCount) {
+        println("Leagues item count: ${leagues.itemCount}")
+        for (i in 0 until leagues.itemCount) {
+            println("LeagueData[$i]: ${leagues[i]}")
+        }
+    }
 
     Column(modifier = Modifier.fillMaxSize()) {
         var expanded by remember { mutableStateOf(false) }
@@ -67,7 +75,9 @@ fun RankingScreen(viewModel: RankingViewModel = hiltViewModel()) {
         ) {
             items(leagues.itemCount) { index ->
                 leagues[index]?.let { leagueData ->
-                    LeagueSection(leagueData)
+                    LeagueSection(leagueData) { player ->
+                        viewModel.toggleFollow(player, leagueData.league)
+                    }
                 }
             }
 
