@@ -1,7 +1,8 @@
 package ir.miare.androidcodechallenge.domain.repository
 
+import androidx.paging.Pager
 import ir.miare.androidcodechallenge.data.model.LeagueData
 
 interface LeagueRepository {
-    suspend fun getLeagueData(): List<LeagueData>
+    fun getLeaguePager(pageSize: Int): Pager<Int, LeagueData>
 }
