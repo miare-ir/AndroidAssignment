@@ -15,7 +15,7 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideCardToCardRepository(
+    fun provideLeagueRepository(
         api: ApiService
     ): LeagueRepository = LeagueRepositoryImpl(api)
 

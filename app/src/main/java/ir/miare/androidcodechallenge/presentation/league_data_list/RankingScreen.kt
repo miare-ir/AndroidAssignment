@@ -1,25 +1,55 @@
 package ir.miare.androidcodechallenge.presentation.league_data_list
 
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.paging.LoadState
+import androidx.paging.compose.collectAsLazyPagingItems
 
 @Composable
 fun RankingScreen(viewModel: RankingViewModel = hiltViewModel()) {
-    val uiState by viewModel.uiState.collectAsState()
+    val leagues = viewModel.leaguesPagingFlow.collectAsLazyPagingItems()
 
-    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-        when {
-            uiState.isLoading -> CircularProgressIndicator()
-            uiState.error != null -> Text(text = "Error: ${uiState.error}")
-            else -> LeagueList(leagues = uiState.leagues)
+    LazyColumn(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(8.dp),
+        verticalArrangement = Arrangement.spacedBy(16.dp)
+    ) {
+        items(leagues.itemCount) { index ->
+            leagues[index]?.let { leagueData ->
+                LeagueSection(leagueData)
+            }
+        }
+
+        leagues.apply {
+            when {
+                loadState.refresh is LoadState.Loading -> {
+                    item { Text("Loading first page...") }
+                }
+
+                loadState.append is LoadState.Loading -> {
+                    item { Text("Loading more...") }
+                }
+
+                loadState.append is LoadState.Error -> {
+                    val e = leagues.loadState.append as LoadState.Error
+                    item {
+                        Column {
+                            Text("Error: ${e.error.localizedMessage}")
+                            Button(onClick = { retry() }) { Text("Retry") }
+                        }
+                    }
+                }
+            }
         }
     }
 }
