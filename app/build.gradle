@@ -5,6 +5,7 @@ plugins {
     id 'kotlin-parcelize'
     id 'dagger.hilt.android.plugin'
     id("org.jetbrains.kotlin.plugin.compose") version "2.2.0"
+    id 'org.jetbrains.kotlin.plugin.serialization' version '2.2.10'
 }
 
 android {
@@ -15,8 +16,8 @@ android {
         applicationId "ir.miare.androidcodechallenge"
         minSdk 21
         targetSdk 35
-        versionCode 10
-        versionName "1.4.1"
+        versionCode 11
+        versionName "1.5.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -83,8 +84,10 @@ dependencies {
     implementation "com.google.dagger:hilt-android:2.57"
     kapt "com.google.dagger:hilt-compiler:2.57"
     annotationProcessor 'com.google.dagger:hilt-android-compiler:2.57'
+    implementation("androidx.navigation:navigation-compose:2.9.3")
+
     implementation "androidx.hilt:hilt-navigation-compose:1.2.0"
-    implementation platform('androidx.compose:compose-bom:2025.07.00')
+    implementation platform('androidx.compose:compose-bom:2025.08.00')
     implementation 'androidx.compose.ui:ui'               // Core UI
     implementation 'androidx.compose.material3:material3' // Material3 Components
     implementation 'androidx.compose.ui:ui-tooling-preview' // Preview support
@@ -104,5 +107,7 @@ dependencies {
 
 // Kotlin coroutines support for Room
     implementation "androidx.room:room-ktx:2.7.2"
+
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3")
 
 }

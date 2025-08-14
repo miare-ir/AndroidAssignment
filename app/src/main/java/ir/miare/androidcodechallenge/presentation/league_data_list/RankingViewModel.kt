@@ -72,19 +72,4 @@ class RankingViewModel @Inject constructor(
             }
         }
     }
-
-    val followedPlayers: Flow<List<Player>> = getFollowedPlayersUseCase()
-        .map { entities ->
-            entities.map { entity ->
-                Player(
-                    name = entity.playerName,
-                    totalGoal = entity.totalGoal,
-                    team = Team(
-                        name = entity.teamName,
-                        rank = entity.teamRank
-                    ),
-                    isFollowed = true // always true since these are followed players
-                )
-            }
-        }
 }
