@@ -1,69 +1,62 @@
-# Android Assignment
-######  We have an interview, yay
+# ⚽ Football Players App
 
-### TL;DR
+A modern Android application showcasing top football players from various leagues with advanced features and clean architecture.
 
-Clone this project, open it in Android Studio and build it.
+## ✨ Features
 
-#### What is this?
+- **📱 Player List**: Paginated display of football players with smooth scrolling (local data paging)
+- **🔍 Smart Sorting**: Multiple sorting options (Alphabetical, Most Goals, Team & League Rank)
+- **⭐ Follow System**: Follow/unfollow players with persistent local storage
+- **📋 Dedicated Views**: Separate screens for all players and followed players
+- **🎨 Modern UI**: Beautiful Material 3 design with Jetpack Compose
 
-This app shows a list of the top three scoring football players in different leagues.
+## 🏗️ Architecture
 
-#### What do I do with this?
+- **Clean Architecture** with clear separation of concerns
+- **MVVM** pattern with StateFlow for reactive state management
+- **Repository Pattern** for data abstraction
+- **Use Cases** for business logic
+- **Hilt** for dependency injection
+- **Jetpack Paging 3** for efficient local data pagination
 
-- Clone it
-- Open it in Android Studio
-- Let it download its dependencies
-- Make the project once (since we have some intermediate classes which need to be generated)
-- Chill :)
+## 🛠️ Tech Stack
 
-#### 📝 Task Description
-In this task, you are expected to design and implement an Android application that displays football player data for all leagues and players provided.
+- **UI**: Jetpack Compose + Material 3
+- **Architecture**: MVVM + Clean Architecture
+- **State Management**: StateFlow + Coroutines
+- **Data**: DataStore + Retrofit + MockFit
+- **Testing**: JUnit + Compose UI Tests + Hilt Testing
+- **Dependency Injection**: Hilt
 
-Core Requirements:
-1. Display a list of players
-- Player data must be displayed using pagination.
-- Sorting should be applied across the entire dataset, not just the current page.
-- The method of implementing pagination and sorting — and how they interact — is completely up to you.
+## 🚀 Quick Start
 
-2. Follow / Unfollow players
-- The user must be able to follow or unfollow any player.
-- Followed players should be persisted locally, so the follow status remains after closing and reopening the app.
-- How you model and store this state is entirely your decision.
+1. **Clone** the repository
+2. **Open** in Android Studio
+3. **Build** the project (generates intermediate classes)
+4. **Run** on device/emulator
 
-3. Followed players screen
-- The user must be able to view their followed players in a dedicated screen.
-- How this screen is accessed is also up to you (e.g. a button on the main screen, or a tab in bottom navigation).
+## 📱 App Structure
 
+- **Main Screen**: All players with sorting and pagination
+- **Followed Tab**: Personal collection of followed players
+- **Sort Options**: A-Z, Most Goals, Team & League Rank
+- **Follow Toggle**: Star icon for each player
 
+## 🧪 Testing
 
-#### 🔧 Technical Requirements
-The following are mandatory and will be strictly evaluated:
+- **Unit Tests**: ViewModel, Use Cases, Repositories, Paging
+- **UI Tests**: Navigation, Sorting, Player Display
+- **Test Coverage**: Comprehensive testing of key components
 
-Use Jetpack Compose for UI.
+## 📊 Data Source
 
-Follow Clean Architecture principles with clear separation of layers (Presentation / Domain / Data).
+- **Local Paging System**: Implemented local paging since network pagination wasn't available
+- All data loaded from bundled JSON assets for smooth offline experience
+- Mock API with local JSON data for development/testing
+- Football players from top leagues (La Liga, Premier League, etc.)
+- Player stats, team rankings, and league information
 
-Implement Unit Tests for key components.
+---
 
-Implement UI Tests for important user flows.
-
-Additional technical decisions — including state management, navigation, persistence, dependency injection, design system, etc. — are entirely up to you.
-
-Final UI/UX design is also open to your judgment and will be evaluated based on your analysis and decisions.
-
-
-
-#### 📌 Evaluation Criteria
-This task is not just about the final result — we're primarily evaluating your approach and thought process:
-
-- Accurate understanding and coverage of the requirements
-- Scalable and flexible architectural design
-- Clean and maintainable code structure
-- Proper state and data flow management
-- Code readability and modularity
-- Smooth, intuitive, and consistent user experience
-- Effective persistence and handling of follow state
-- Meaningful test coverage (both Unit and UI)
-- Quality of documentation and clarity of technical decisions
+*Built with modern Android development practices and best practices for scalability and maintainability.*
 
