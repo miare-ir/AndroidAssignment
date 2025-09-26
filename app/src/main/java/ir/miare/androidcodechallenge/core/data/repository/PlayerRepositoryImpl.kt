@@ -19,13 +19,13 @@ import java.util.UUID
 import javax.inject.Inject
 
 
-class FootballRepositoryImpl @Inject constructor(
+class PlayerRepositoryImpl @Inject constructor(
     private val leagueDao: LeagueDao,
     private val playerDao: PlayerDao,
     private val teamDao: TeamDao,
     private val fileReader: FileReader,
     private val sortSettings: SortSettings,
-) : FootballRepository {
+) : PlayerRepository {
 
     override val sortMode: Flow<SortMode> = sortSettings.sortMode
 

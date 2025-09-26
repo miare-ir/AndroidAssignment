@@ -4,8 +4,8 @@ import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import ir.miare.androidcodechallenge.core.data.repository.FootballRepository
-import ir.miare.androidcodechallenge.core.data.repository.FootballRepositoryImpl
+import ir.miare.androidcodechallenge.core.data.repository.PlayerRepository
+import ir.miare.androidcodechallenge.core.data.repository.PlayerRepositoryImpl
 import ir.miare.androidcodechallenge.core.data.repository.LeagueRepository
 import ir.miare.androidcodechallenge.core.data.repository.LeagueRepositoryImpl
 import ir.miare.androidcodechallenge.core.data.repository.TeamRepository
@@ -17,8 +17,8 @@ interface DataModule {
 
     @Binds
     fun bindFootballRepository(
-        repository: FootballRepositoryImpl
-    ): FootballRepository
+        repository: PlayerRepositoryImpl
+    ): PlayerRepository
 
     @Binds
     fun bindLeagueRepository(

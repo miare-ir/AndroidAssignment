@@ -2,7 +2,7 @@ package ir.miare.androidcodechallenge
 
 import android.app.Application
 import dagger.hilt.android.HiltAndroidApp
-import ir.miare.androidcodechallenge.core.data.repository.FootballRepository
+import ir.miare.androidcodechallenge.core.data.repository.PlayerRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -14,7 +14,7 @@ class MyApplication : Application() {
     private val appScope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
 
     @Inject
-    lateinit var repository: FootballRepository
+    lateinit var repository: PlayerRepository
 
     override fun onCreate() {
         super.onCreate()

@@ -3,7 +3,7 @@ package ir.miare.androidcodechallenge.feature.player
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import ir.miare.androidcodechallenge.core.data.repository.FootballRepository
+import ir.miare.androidcodechallenge.core.data.repository.PlayerRepository
 import ir.miare.androidcodechallenge.core.model.PlayerWithDetails
 import ir.miare.androidcodechallenge.core.model.SortMode
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -21,10 +21,10 @@ import javax.inject.Inject
 
 @HiltViewModel
 class PlayersViewModel @Inject constructor(
-    private val footballRepository: FootballRepository
+    private val playerRepository: PlayerRepository
 ) : ViewModel() {
 
-    val sortMode: StateFlow<SortMode> = footballRepository.sortMode
+    val sortMode: StateFlow<SortMode> = playerRepository.sortMode
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), SortMode.DEFAULT)
 
     private val pageSize = 20
@@ -35,7 +35,7 @@ class PlayersViewModel @Inject constructor(
     val uiState: StateFlow<PlayersUiState> =
         combine(sortMode, pageIndex) { mode, page -> mode to page }
             .flatMapLatest { (_, page) ->
-                footballRepository.players(
+                playerRepository.players(
                     pageSize = pageSize,
                     offset = page * pageSize
                 )
@@ -54,11 +54,11 @@ class PlayersViewModel @Inject constructor(
             .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), PlayersUiState.Loading)
 
     fun onSortSelected(mode: SortMode) {
-        viewModelScope.launch { footballRepository.setSortMode(mode) }
+        viewModelScope.launch { playerRepository.setSortMode(mode) }
     }
 
     fun onFollowClicked(playerId: String, follow: Boolean) {
-        viewModelScope.launch { footballRepository.setPlayerFollowed(playerId, follow) }
+        viewModelScope.launch { playerRepository.setPlayerFollowed(playerId, follow) }
     }
 
     fun onSearch(query: String) {
