@@ -11,5 +11,5 @@ data class FootballLeague(
     @SerialName("total_matches")
     val totalMatches: Int,
     @SerialName("league_logo_Url")
-    val imageUrl: String?,
+    val imageUrl: String? = null,
 )

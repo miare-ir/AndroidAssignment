@@ -8,5 +8,5 @@ data class Team(
     val name: String,
     val rank: Int,
     @SerialName("logo_url")
-    val imageUrl: String?,
+    val imageUrl: String? = null,
 )

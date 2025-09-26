@@ -9,5 +9,5 @@ data class Player(
     val totalGoal: Int,
     val team: Team,
     @SerialName("image_url")
-    val imageUrl: String?,
+    val imageUrl: String? = null,
 )
