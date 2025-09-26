@@ -89,4 +89,6 @@ dependencies {
 
     androidTestImplementation(libs.androidx.work.testing)
     implementation(libs.androidx.datastore.preferences)
+
+    implementation(libs.coil.compose)
 }
