@@ -195,7 +195,7 @@ private fun PaginationBar(
     ) {
         Button(onClick = onPrev, colors = ButtonDefaults.buttonColors()) { Text("Prev") }
         Text(
-            "  Page $page  ",
+            "Page $page",
             style = MaterialTheme.typography.bodyMedium,
             modifier = Modifier.padding(horizontal = 8.dp)
         )
