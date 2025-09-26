@@ -43,7 +43,7 @@ class FootballRepositoryImpl @Inject constructor(
         val teamEntities = mutableListOf<TeamEntity>()
 
         seedItems.forEach { item ->
-            val leagueId = item.league.name
+            val leagueId = UUID.randomUUID().toString()
             leagueEntities.add(
                 LeagueEntity(
                     leagueId = leagueId,
@@ -55,7 +55,7 @@ class FootballRepositoryImpl @Inject constructor(
                 )
             )
             item.players.forEach { player ->
-                val teamId = player.team.name
+                val teamId = UUID.randomUUID().toString()
                 teamEntities.add(
                     TeamEntity(
                         teamId = teamId,
