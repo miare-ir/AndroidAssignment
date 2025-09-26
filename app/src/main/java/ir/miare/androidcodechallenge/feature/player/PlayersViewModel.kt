@@ -1,0 +1,93 @@
+package ir.miare.androidcodechallenge.feature.player
+
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
+import ir.miare.androidcodechallenge.core.data.repository.FootballRepository
+import ir.miare.androidcodechallenge.core.model.PlayerWithDetails
+import ir.miare.androidcodechallenge.core.model.SortMode
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
+import javax.inject.Inject
+
+@HiltViewModel
+class PlayersViewModel @Inject constructor(
+    private val footballRepository: FootballRepository
+) : ViewModel() {
+
+    val sortMode: StateFlow<SortMode> = footballRepository.sortMode
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), SortMode.DEFAULT)
+
+    private val pageSize = 20
+    private val pageIndex = MutableStateFlow(0)
+    private val searchQuery = MutableStateFlow("")
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    val uiState: StateFlow<PlayersUiState> =
+        combine(sortMode, pageIndex) { mode, page -> mode to page }
+            .flatMapLatest { (_, page) ->
+                footballRepository.players(
+                    pageSize = pageSize,
+                    offset = page * pageSize
+                )
+            }
+            .combine(searchQuery) { list, q ->
+                val query = q.trim().lowercase()
+                if (query.isEmpty()) list else list.filter {
+                    it.playerName.lowercase().contains(query) ||
+                            it.teamName.lowercase().contains(query) ||
+                            it.leagueName.lowercase().contains(query)
+                }
+            }
+            .map<List<PlayerWithDetails>, PlayersUiState> { PlayersUiState.Success(it) }
+            .onStart { emit(PlayersUiState.Loading) }
+            .catch { emit(PlayersUiState.Error(it.message ?: "Something went wrong")) }
+            .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), PlayersUiState.Loading)
+
+    val players: StateFlow<List<PlayerWithDetails>> = uiState
+        .map { state ->
+            when (state) {
+                is PlayersUiState.Success -> state.data
+                else -> emptyList()
+            }
+        }
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
+
+    fun onSortSelected(mode: SortMode) {
+        viewModelScope.launch { footballRepository.setSortMode(mode) }
+    }
+
+    fun onFollowClicked(playerId: String, follow: Boolean) {
+        viewModelScope.launch { footballRepository.setPlayerFollowed(playerId, follow) }
+    }
+
+    fun onSearch(query: String) {
+        searchQuery.value = query
+    }
+
+    fun nextPage() {
+        pageIndex.value = pageIndex.value + 1
+    }
+
+    fun prevPage() {
+        pageIndex.value = (pageIndex.value - 1).coerceAtLeast(0)
+    }
+
+    val pageNumber: StateFlow<Int> = pageIndex.map { it + 1 }
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), 1)
+}
+
+sealed interface PlayersUiState {
+    data object Loading : PlayersUiState
+    data class Success(val data: List<PlayerWithDetails>) : PlayersUiState
+    data class Error(val message: String) : PlayersUiState
+}
