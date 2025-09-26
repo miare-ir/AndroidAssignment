@@ -6,6 +6,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import ir.miare.androidcodechallenge.core.database.model.PlayerEntity
 import ir.miare.androidcodechallenge.core.model.PlayerWithDetails
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface PlayerDao {
@@ -28,7 +29,7 @@ interface PlayerDao {
         INNER JOIN leagues AS l ON t.leagueId = l.leagueId
     """
     )
-    suspend fun getAllPlayers(): List<PlayerWithDetails>
+    fun getAllPlayers(): Flow<List<PlayerWithDetails>>
 
     @Query(
         """
@@ -47,7 +48,7 @@ interface PlayerDao {
         LIMIT :pageSize OFFSET :offset
     """
     )
-    fun getPlayersSortedByGoals(pageSize: Int, offset: Int): List<PlayerWithDetails>
+    fun getPlayersSortedByGoals(pageSize: Int, offset: Int): Flow<List<PlayerWithDetails>>
 
     @Query(
         """
@@ -66,7 +67,7 @@ interface PlayerDao {
         LIMIT :pageSize OFFSET :offset
     """
     )
-    fun getPlayersSortedByLeagueRank(pageSize: Int, offset: Int): List<PlayerWithDetails>
+    fun getPlayersSortedByLeagueRank(pageSize: Int, offset: Int): Flow<List<PlayerWithDetails>>
 
     @Query(
         """
@@ -85,7 +86,7 @@ interface PlayerDao {
         LIMIT :pageSize OFFSET :offset
     """
     )
-    fun getPlayersSortedByTeamRank(pageSize: Int, offset: Int): List<PlayerWithDetails>
+    fun getPlayersSortedByTeamRank(pageSize: Int, offset: Int): Flow<List<PlayerWithDetails>>
 
     @Query("UPDATE players SET isFollowed = :isFollowed WHERE playerId = :playerId")
     suspend fun updatePlayerFollowStatus(playerId: String, isFollowed: Boolean)
@@ -106,5 +107,5 @@ interface PlayerDao {
         WHERE p.isFollowed = 1
     """
     )
-    fun getFollowedPlayers(): List<PlayerWithDetails>
+    fun getFollowedPlayers(): Flow<List<PlayerWithDetails>>
 }
