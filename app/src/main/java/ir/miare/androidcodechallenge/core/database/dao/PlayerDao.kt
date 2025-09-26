@@ -27,9 +27,10 @@ interface PlayerDao {
         FROM players AS p
         INNER JOIN teams AS t ON p.teamId = t.teamId
         INNER JOIN leagues AS l ON t.leagueId = l.leagueId
+        LIMIT :pageSize OFFSET :offset
     """
     )
-    fun getAllPlayers(): Flow<List<PlayerWithDetails>>
+    fun getPlayersDefaultPaged(pageSize: Int, offset: Int): Flow<List<PlayerWithDetails>>
 
     @Query(
         """
@@ -108,4 +109,7 @@ interface PlayerDao {
     """
     )
     fun getFollowedPlayers(): Flow<List<PlayerWithDetails>>
+
+    @Query("SELECT COUNT(*) FROM players")
+    suspend fun countPlayers(): Int
 }
