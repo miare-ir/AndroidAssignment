@@ -8,4 +8,6 @@ data class Player(
     @SerialName("total_goal")
     val totalGoal: Int,
     val team: Team,
+    @SerialName("image_url")
+    val imageUrl: String?,
 )

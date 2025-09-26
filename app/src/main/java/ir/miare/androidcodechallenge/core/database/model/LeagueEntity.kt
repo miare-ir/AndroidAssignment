@@ -9,5 +9,6 @@ data class LeagueEntity(
     val leagueName: String,
     val country: String,
     val rank: Int,
-    val totalMatches: Int
+    val totalMatches: Int,
+    val imageUrl: String? = null
 )

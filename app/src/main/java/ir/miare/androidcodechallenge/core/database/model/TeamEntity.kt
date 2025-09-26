@@ -24,5 +24,6 @@ data class TeamEntity(
     @PrimaryKey val teamId: String,
     val teamName: String,
     val leagueId: String,
-    val rank: Int
+    val rank: Int,
+    val imageUrl: String? = null,
 )

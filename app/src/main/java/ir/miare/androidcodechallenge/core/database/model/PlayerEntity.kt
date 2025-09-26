@@ -25,5 +25,6 @@ data class PlayerEntity(
     val playerName: String,
     val goalsScored: Int,
     val teamId: String,
-    val isFollowed: Boolean = false
+    val isFollowed: Boolean = false,
+    val imageUrl: String? = null
 )

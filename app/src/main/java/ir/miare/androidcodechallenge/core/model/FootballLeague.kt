@@ -9,5 +9,7 @@ data class FootballLeague(
     val country: String,
     val rank: Int,
     @SerialName("total_matches")
-    val totalMatches: Int
+    val totalMatches: Int,
+    @SerialName("league_logo_Url")
+    val imageUrl: String?,
 )

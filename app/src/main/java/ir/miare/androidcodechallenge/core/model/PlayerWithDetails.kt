@@ -10,5 +10,6 @@ data class PlayerWithDetails(
     val teamId: String,
     val teamName: String,
     val leagueName: String,
-    val isFollowed: Boolean
+    val isFollowed: Boolean,
+    val imageUrl: String? = null,
 )
