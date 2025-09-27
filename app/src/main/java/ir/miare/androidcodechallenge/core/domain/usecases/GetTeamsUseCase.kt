@@ -1,12 +1,12 @@
 package ir.miare.androidcodechallenge.core.domain.usecases
 
 import ir.miare.androidcodechallenge.core.data.repository.TeamRepository
-import ir.miare.androidcodechallenge.core.database.model.TeamEntity
+import ir.miare.androidcodechallenge.core.model.TeamModel
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class GetTeamsUseCase @Inject constructor(
     private val repository: TeamRepository
 ) {
-    operator fun invoke(): Flow<List<TeamEntity>> = repository.getTeams()
+    operator fun invoke(): Flow<List<TeamModel>> = repository.getTeams()
 }

@@ -24,11 +24,11 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import ir.miare.androidcodechallenge.R
-import ir.miare.androidcodechallenge.core.model.PlayerWithDetails
+import ir.miare.androidcodechallenge.core.model.networkmodel.PlayerModel
 
 @Composable
 fun PlayerCard(
-    player: PlayerWithDetails,
+    player: PlayerModel,
     onToggleFollow: (Boolean) -> Unit,
 ) {
     Card(
@@ -66,14 +66,14 @@ fun PlayerCard(
                 )
             }
             Column(modifier = Modifier.weight(1f)) {
-                Text(text = player.playerName, style = MaterialTheme.typography.titleMedium)
+                Text(text = player.name, style = MaterialTheme.typography.titleMedium)
                 Text(
                     text = "${player.teamName} • ${player.leagueName}",
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
                 Text(
-                    text = "Goals: ${player.goalsScored}",
+                    text = "Goals: ${player.goals}",
                     style = MaterialTheme.typography.bodySmall
                 )
             }

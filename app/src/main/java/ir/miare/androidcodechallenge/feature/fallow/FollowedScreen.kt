@@ -70,10 +70,10 @@ internal fun FollowedScreen(
                 if (state.data.isEmpty()) {
                     item { Text("You aren't following any players yet. Tap the star to follow.") }
                 } else {
-                    items(state.data) { p ->
-                        PlayerCard(p) { follow ->
+                    items(state.data) { player ->
+                        PlayerCard(player) { follow ->
                             onFollowClicked(
-                                p.playerId,
+                                player.id,
                                 follow
                             )
                         }

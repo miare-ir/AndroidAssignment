@@ -3,11 +3,11 @@ package ir.miare.androidcodechallenge.feature.team
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import ir.miare.androidcodechallenge.core.database.model.TeamEntity
 import ir.miare.androidcodechallenge.core.domain.usecases.GetSortModeUseCase
 import ir.miare.androidcodechallenge.core.domain.usecases.GetTeamsUseCase
 import ir.miare.androidcodechallenge.core.domain.usecases.SetSortModeUseCase
 import ir.miare.androidcodechallenge.core.model.SortMode
+import ir.miare.androidcodechallenge.core.model.TeamModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
@@ -26,7 +26,7 @@ class TeamsViewModel @Inject constructor(
     ) : ViewModel() {
 
     val uiState: StateFlow<TeamUiState> = getTeamsUseCase()
-        .map<List<TeamEntity>, TeamUiState> { TeamUiState.Success(it) }
+        .map<List<TeamModel>, TeamUiState> { TeamUiState.Success(it) }
         .onStart { emit(TeamUiState.Loading) }
         .catch { emit(TeamUiState.Error(it.message ?: "Failed to load teams")) }
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), TeamUiState.Loading)
@@ -41,7 +41,7 @@ class TeamsViewModel @Inject constructor(
 
 sealed interface TeamUiState {
     data object Loading : TeamUiState
-    data class Success(val data: List<TeamEntity>) : TeamUiState
+    data class Success(val data: List<TeamModel>) : TeamUiState
     data class Error(val message: String) : TeamUiState
 }
 

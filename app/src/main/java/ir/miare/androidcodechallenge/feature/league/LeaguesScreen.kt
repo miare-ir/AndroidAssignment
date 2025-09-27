@@ -33,7 +33,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import ir.miare.androidcodechallenge.R
-import ir.miare.androidcodechallenge.core.database.model.LeagueEntity
+import ir.miare.androidcodechallenge.core.model.LeagueModel
 import ir.miare.androidcodechallenge.core.model.SortMode
 
 @Composable
@@ -114,8 +114,8 @@ internal fun LeaguesScreen(
             is LeagueUiState.Success -> {
                 LazyColumn(contentPadding = PaddingValues(16.dp)) {
                     item { Text("Leagues", style = MaterialTheme.typography.titleMedium) }
-                    items(state.data) { l ->
-                        LeagueCard(l)
+                    items(state.data) { league ->
+                        LeagueCard(league)
                     }
                 }
             }
@@ -125,7 +125,7 @@ internal fun LeaguesScreen(
 
 @Composable
 private fun LeagueCard(
-    league: LeagueEntity
+    league: LeagueModel
 ) {
     Card(
         modifier = Modifier
@@ -162,7 +162,7 @@ private fun LeagueCard(
                 )
             }
             Column(modifier = Modifier.weight(1f)) {
-                Text(text = league.leagueName, style = MaterialTheme.typography.titleMedium)
+                Text(text = league.name, style = MaterialTheme.typography.titleMedium)
                 Text(
                     text = league.country,
                     style = MaterialTheme.typography.bodySmall,

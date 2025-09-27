@@ -33,8 +33,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import ir.miare.androidcodechallenge.R
-import ir.miare.androidcodechallenge.core.database.model.TeamEntity
 import ir.miare.androidcodechallenge.core.model.SortMode
+import ir.miare.androidcodechallenge.core.model.TeamModel
 
 @Composable
 fun TeamsScreen(
@@ -115,8 +115,8 @@ internal fun TeamsScreen(
             is TeamUiState.Success -> {
                 LazyColumn(contentPadding = PaddingValues(16.dp)) {
                     item { Text("Teams", style = MaterialTheme.typography.titleMedium) }
-                    items(state.data) { t ->
-                        TeamCard(t)
+                    items(state.data) { team ->
+                        TeamCard(team)
                     }
                 }
             }
@@ -126,7 +126,7 @@ internal fun TeamsScreen(
 
 @Composable
 private fun TeamCard(
-    team: TeamEntity
+    team: TeamModel
 ) {
     Card(
         modifier = Modifier
@@ -163,7 +163,7 @@ private fun TeamCard(
                 )
             }
             Column(modifier = Modifier.weight(1f)) {
-                Text(text = team.teamName, style = MaterialTheme.typography.titleMedium)
+                Text(text = team.name, style = MaterialTheme.typography.titleMedium)
                 Text(
                     text = "Rank: ${team.rank}",
                     style = MaterialTheme.typography.bodySmall,

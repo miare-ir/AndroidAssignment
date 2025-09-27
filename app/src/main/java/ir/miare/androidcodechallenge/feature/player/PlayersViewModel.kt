@@ -7,8 +7,8 @@ import ir.miare.androidcodechallenge.core.domain.usecases.GetPlayersPagedUseCase
 import ir.miare.androidcodechallenge.core.domain.usecases.GetSortModeUseCase
 import ir.miare.androidcodechallenge.core.domain.usecases.SetPlayerFollowedUseCase
 import ir.miare.androidcodechallenge.core.domain.usecases.SetSortModeUseCase
-import ir.miare.androidcodechallenge.core.model.PlayerWithDetails
 import ir.miare.androidcodechallenge.core.model.SortMode
+import ir.miare.androidcodechallenge.core.model.networkmodel.PlayerModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -49,12 +49,12 @@ class PlayersViewModel @Inject constructor(
             .combine(searchQuery) { list, query ->
                 val searchedString = query.trim().lowercase()
                 if (searchedString.isEmpty()) list else list.filter { player ->
-                    player.playerName.lowercase().contains(searchedString) ||
+                    player.name.lowercase().contains(searchedString) ||
                             player.teamName.lowercase().contains(searchedString) ||
                             player.leagueName.lowercase().contains(searchedString)
                 }
             }
-            .map<List<PlayerWithDetails>, PlayersUiState> { PlayersUiState.Success(it) }
+            .map<List<PlayerModel>, PlayersUiState> { PlayersUiState.Success(it) }
             .onStart { emit(PlayersUiState.Loading) }
             .catch { emit(PlayersUiState.Error(it.message ?: "Something went wrong")) }
             .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), PlayersUiState.Loading)
@@ -85,6 +85,6 @@ class PlayersViewModel @Inject constructor(
 
 sealed interface PlayersUiState {
     data object Loading : PlayersUiState
-    data class Success(val data: List<PlayerWithDetails>) : PlayersUiState
+    data class Success(val data: List<PlayerModel>) : PlayersUiState
     data class Error(val message: String) : PlayersUiState
 }

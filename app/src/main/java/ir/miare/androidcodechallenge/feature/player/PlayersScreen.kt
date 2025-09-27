@@ -106,13 +106,11 @@ internal fun PlayersScreen(
                 val players = uiState.data
                 LazyColumn(contentPadding = PaddingValues(16.dp)) {
                     item { Text("Players", style = MaterialTheme.typography.titleMedium) }
-                    items(players) { p ->
-                        PlayerCard(p) { follow ->
-                            onFollowClicked(
-                                p.playerId,
-                                follow
-                            )
-                        }
+                    items(players) { player ->
+                        PlayerCard(
+                            player = player,
+                            onToggleFollow = { onFollowClicked(player.id, it) }
+                        )
                     }
                     item {
                         PaginationBar(

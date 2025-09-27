@@ -3,10 +3,10 @@ package ir.miare.androidcodechallenge.feature.league
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import ir.miare.androidcodechallenge.core.database.model.LeagueEntity
 import ir.miare.androidcodechallenge.core.domain.usecases.GetLeaguesUseCase
 import ir.miare.androidcodechallenge.core.domain.usecases.GetSortModeUseCase
 import ir.miare.androidcodechallenge.core.domain.usecases.SetSortModeUseCase
+import ir.miare.androidcodechallenge.core.model.LeagueModel
 import ir.miare.androidcodechallenge.core.model.SortMode
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -25,7 +25,7 @@ class LeaguesViewModel @Inject constructor(
 ) : ViewModel() {
 
     val uiState: StateFlow<LeagueUiState> = getLeagues()
-        .map<List<LeagueEntity>, LeagueUiState> { LeagueUiState.Success(it) }
+        .map<List<LeagueModel>, LeagueUiState> { LeagueUiState.Success(it) }
         .onStart { emit(LeagueUiState.Loading) }
         .catch { emit(LeagueUiState.Error(it.message ?: "Failed to load leagues")) }
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), LeagueUiState.Loading)
@@ -40,6 +40,6 @@ class LeaguesViewModel @Inject constructor(
 
 sealed interface LeagueUiState {
     data object Loading : LeagueUiState
-    data class Success(val data: List<LeagueEntity>) : LeagueUiState
+    data class Success(val data: List<LeagueModel>) : LeagueUiState
     data class Error(val message: String) : LeagueUiState
 }
