@@ -1,4 +1,5 @@
-package ir.miare.androidcodechallenge.core.model
+package ir.miare.androidcodechallenge.core.model.networkmodel
+
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 

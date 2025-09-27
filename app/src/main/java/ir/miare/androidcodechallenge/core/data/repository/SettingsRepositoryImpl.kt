@@ -7,7 +7,7 @@ import ir.miare.androidcodechallenge.core.database.dao.TeamDao
 import ir.miare.androidcodechallenge.core.database.model.LeagueEntity
 import ir.miare.androidcodechallenge.core.database.model.PlayerEntity
 import ir.miare.androidcodechallenge.core.database.model.TeamEntity
-import ir.miare.androidcodechallenge.core.model.Competition
+import ir.miare.androidcodechallenge.core.model.networkmodel.Competition
 import kotlinx.serialization.json.Json
 import java.util.UUID
 import javax.inject.Inject
