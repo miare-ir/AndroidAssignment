@@ -2,7 +2,6 @@ package ir.miare.androidcodechallenge.core.data.repository
 
 import ir.miare.androidcodechallenge.core.database.dao.LeagueDao
 import ir.miare.androidcodechallenge.core.database.model.LeagueEntity
-import ir.miare.androidcodechallenge.core.model.SortMode
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flatMapLatest
@@ -17,11 +16,7 @@ class LeagueRepositoryImpl @Inject constructor(
     override fun leagues(): Flow<List<LeagueEntity>> {
         return sortSettings.sortMode
             .flatMapLatest { mode ->
-                when (mode) {
-                    SortMode.LEAGUE_GOAL_AVG -> leagueDao.getLeaguesSortedByGoalAverage()
-                    SortMode.LEAGUE_RANK -> leagueDao.getLeaguesSortedByRank()
-                    else -> leagueDao.getAllLeagues()
-                }
+                leagueDao.getLeaguesSorted(mode.storageKey)
             }
     }
 }

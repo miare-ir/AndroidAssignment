@@ -9,13 +9,14 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface TeamDao {
-
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAll(teams: List<TeamEntity>)
 
-    @Query("SELECT * FROM teams")
-    fun getAllTeams(): Flow<List<TeamEntity>>
-
-    @Query("SELECT * FROM teams ORDER BY rank ASC")
-    fun getTeamsSortedByRank(): Flow<List<TeamEntity>>
+    @Query(
+        """
+        SELECT * FROM teams
+        ORDER BY CASE WHEN :sortKey = 'team_rank' THEN rank END ASC
+        """
+    )
+    fun getTeamsSorted(sortKey: String): Flow<List<TeamEntity>>
 }

@@ -27,67 +27,18 @@ interface PlayerDao {
         FROM players AS p
         INNER JOIN teams AS t ON p.teamId = t.teamId
         INNER JOIN leagues AS l ON t.leagueId = l.leagueId
+        ORDER BY 
+            CASE WHEN :sortKey = 'goals_scored' THEN p.goalsScored END DESC,
+            CASE WHEN :sortKey = 'league_rank' THEN l.rank END ASC,
+            CASE WHEN :sortKey = 'team_rank' THEN t.rank END ASC
         LIMIT :pageSize OFFSET :offset
     """
     )
-    fun getPlayersDefaultPaged(pageSize: Int, offset: Int): Flow<List<PlayerWithDetails>>
-
-    @Query(
-        """
-        SELECT 
-            p.playerId, 
-            p.playerName, 
-            p.goalsScored, 
-            p.teamId, 
-            p.isFollowed,
-            t.teamName,
-            l.leagueName
-        FROM players AS p
-        INNER JOIN teams AS t ON p.teamId = t.teamId
-        INNER JOIN leagues AS l ON t.leagueId = l.leagueId
-        ORDER BY p.goalsScored DESC
-        LIMIT :pageSize OFFSET :offset
-    """
-    )
-    fun getPlayersSortedByGoals(pageSize: Int, offset: Int): Flow<List<PlayerWithDetails>>
-
-    @Query(
-        """
-        SELECT 
-            p.playerId, 
-            p.playerName, 
-            p.goalsScored, 
-            p.teamId, 
-            p.isFollowed,
-            t.teamName,
-            l.leagueName
-        FROM players AS p
-        INNER JOIN teams AS t ON p.teamId = t.teamId
-        INNER JOIN leagues AS l ON t.leagueId = l.leagueId
-        ORDER BY l.rank ASC
-        LIMIT :pageSize OFFSET :offset
-    """
-    )
-    fun getPlayersSortedByLeagueRank(pageSize: Int, offset: Int): Flow<List<PlayerWithDetails>>
-
-    @Query(
-        """
-        SELECT 
-            p.playerId, 
-            p.playerName, 
-            p.goalsScored, 
-            p.teamId, 
-            p.isFollowed,
-            t.teamName,
-            l.leagueName
-        FROM players AS p
-        INNER JOIN teams AS t ON p.teamId = t.teamId
-        INNER JOIN leagues AS l ON t.leagueId = l.leagueId
-        ORDER BY t.rank ASC
-        LIMIT :pageSize OFFSET :offset
-    """
-    )
-    fun getPlayersSortedByTeamRank(pageSize: Int, offset: Int): Flow<List<PlayerWithDetails>>
+    fun getPlayersPagedSorted(
+        pageSize: Int,
+        offset: Int,
+        sortKey: String
+    ): Flow<List<PlayerWithDetails>>
 
     @Query("UPDATE players SET isFollowed = :isFollowed WHERE playerId = :playerId")
     suspend fun updatePlayerFollowStatus(playerId: String, isFollowed: Boolean)

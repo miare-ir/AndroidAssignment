@@ -20,15 +20,7 @@ class PlayerRepositoryImpl @Inject constructor(
     override fun players(pageSize: Int, offset: Int): Flow<List<PlayerWithDetails>> {
         return sortMode
             .flatMapLatest { mode ->
-                when (mode) {
-                    SortMode.GOALS_SCORED -> playerDao.getPlayersSortedByGoals(pageSize, offset)
-                    SortMode.LEAGUE_RANK -> playerDao.getPlayersSortedByLeagueRank(pageSize, offset)
-                    SortMode.TEAM_RANK -> playerDao.getPlayersSortedByTeamRank(pageSize, offset)
-                    SortMode.DEFAULT, SortMode.LEAGUE_GOAL_AVG -> playerDao.getPlayersDefaultPaged(
-                        pageSize,
-                        offset
-                    )
-                }
+                playerDao.getPlayersPagedSorted(pageSize, offset, mode.storageKey)
             }
     }
 
