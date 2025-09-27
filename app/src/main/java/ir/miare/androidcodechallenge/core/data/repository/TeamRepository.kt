@@ -4,5 +4,5 @@ import ir.miare.androidcodechallenge.core.model.TeamModel
 import kotlinx.coroutines.flow.Flow
 
 interface TeamRepository {
-    fun getTeams(): Flow<List<TeamModel>>
+    fun getTeams(sortKey: String): Flow<List<TeamModel>>
 }

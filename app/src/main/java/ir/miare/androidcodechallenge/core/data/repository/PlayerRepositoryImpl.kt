@@ -6,7 +6,6 @@ import ir.miare.androidcodechallenge.core.model.asExternalModel
 import ir.miare.androidcodechallenge.core.model.networkmodel.PlayerModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
@@ -19,16 +18,10 @@ class PlayerRepositoryImpl @Inject constructor(
     override suspend fun setSortMode(mode: SortMode) = sortSettings.setSortMode(mode)
 
     @OptIn(ExperimentalCoroutinesApi::class)
-    override fun players(pageSize: Int, offset: Int): Flow<List<PlayerModel>> =
-        sortMode
-            .flatMapLatest { mode ->
-                playerDao.getPlayersPagedSorted(
-                    pageSize,
-                    offset,
-                    mode.storageKey
-                )
-            }
+    override fun getPlayers(pageSize: Int, offset: Int, sortKey: String): Flow<List<PlayerModel>> =
+        playerDao.getPlayersPagedSorted(pageSize, offset, sortKey)
             .map { it.map { dto -> dto.asExternalModel() } }
+
 
     override fun followedPlayers(): Flow<List<PlayerModel>> =
         playerDao.getFollowedPlayers().map { it.map { dto -> dto.asExternalModel() } }

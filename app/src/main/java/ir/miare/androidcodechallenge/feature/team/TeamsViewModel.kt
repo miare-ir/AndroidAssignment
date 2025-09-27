@@ -8,9 +8,11 @@ import ir.miare.androidcodechallenge.core.domain.usecases.GetTeamsUseCase
 import ir.miare.androidcodechallenge.core.domain.usecases.SetSortModeUseCase
 import ir.miare.androidcodechallenge.core.model.SortMode
 import ir.miare.androidcodechallenge.core.model.TeamModel
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
@@ -25,14 +27,16 @@ class TeamsViewModel @Inject constructor(
 
     ) : ViewModel() {
 
-    val uiState: StateFlow<TeamUiState> = getTeamsUseCase()
+    val sortMode: StateFlow<SortMode> = getSortMode()
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), SortMode.DEFAULT)
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    val uiState: StateFlow<TeamUiState> = sortMode
+        .flatMapLatest { mode -> getTeamsUseCase(mode.storageKey) }
         .map<List<TeamModel>, TeamUiState> { TeamUiState.Success(it) }
         .onStart { emit(TeamUiState.Loading) }
         .catch { emit(TeamUiState.Error(it.message ?: "Failed to load teams")) }
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), TeamUiState.Loading)
-
-    val sortMode: StateFlow<SortMode> = getSortMode()
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), SortMode.DEFAULT)
 
     fun onSortSelected(mode: SortMode) {
         viewModelScope.launch { setSortMode(mode) }

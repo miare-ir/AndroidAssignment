@@ -31,7 +31,11 @@ class PlayersViewModel @Inject constructor(
 ) : ViewModel() {
 
     val sortMode: StateFlow<SortMode> = getSortMode()
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), SortMode.DEFAULT)
+        .stateIn(
+            viewModelScope,
+            SharingStarted.WhileSubscribed(5000),
+            SortMode.DEFAULT
+        )
 
     private val pageSize = 20
     private val pageIndex = MutableStateFlow(0)
@@ -40,10 +44,11 @@ class PlayersViewModel @Inject constructor(
     @OptIn(ExperimentalCoroutinesApi::class)
     val uiState: StateFlow<PlayersUiState> =
         combine(sortMode, pageIndex) { mode, page -> mode to page }
-            .flatMapLatest { (_, page) ->
+            .flatMapLatest { (mode, page) ->
                 getPlayersPaged(
                     pageSize = pageSize,
-                    offset = page * pageSize
+                    offset = page * pageSize,
+                    sortKey = mode.storageKey,
                 )
             }
             .combine(searchQuery) { list, query ->

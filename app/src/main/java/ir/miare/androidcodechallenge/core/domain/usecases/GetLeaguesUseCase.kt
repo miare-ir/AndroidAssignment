@@ -8,5 +8,5 @@ import javax.inject.Inject
 class GetLeaguesUseCase @Inject constructor(
     private val repository: LeagueRepository
 ) {
-    operator fun invoke(): Flow<List<LeagueModel>> = repository.getLeagues()
+    operator fun invoke(sortKey: String): Flow<List<LeagueModel>> = repository.getLeagues(sortKey)
 }

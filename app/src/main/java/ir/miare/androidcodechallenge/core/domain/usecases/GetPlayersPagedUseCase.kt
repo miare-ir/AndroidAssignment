@@ -8,6 +8,6 @@ import javax.inject.Inject
 class GetPlayersPagedUseCase @Inject constructor(
     private val repository: PlayerRepository
 ) {
-    operator fun invoke(pageSize: Int, offset: Int): Flow<List<PlayerModel>> =
-        repository.players(pageSize, offset)
+    operator fun invoke(pageSize: Int, offset: Int, sortKey: String): Flow<List<PlayerModel>> =
+        repository.getPlayers(pageSize, offset, sortKey)
 }

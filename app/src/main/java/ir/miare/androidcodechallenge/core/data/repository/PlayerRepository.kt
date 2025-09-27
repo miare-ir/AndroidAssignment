@@ -10,6 +10,6 @@ interface PlayerRepository {
     suspend fun setSortMode(mode: SortMode)
     suspend fun setPlayerFollowed(playerId: String, isFollowed: Boolean)
 
-    fun players(pageSize: Int, offset: Int): Flow<List<PlayerModel>>
+    fun getPlayers(pageSize: Int, offset: Int, sortKey: String): Flow<List<PlayerModel>>
     fun followedPlayers(): Flow<List<PlayerModel>>
 }
