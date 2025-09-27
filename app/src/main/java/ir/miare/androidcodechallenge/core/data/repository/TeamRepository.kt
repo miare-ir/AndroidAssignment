@@ -1,8 +1,8 @@
 package ir.miare.androidcodechallenge.core.data.repository
 
-import ir.miare.androidcodechallenge.core.database.model.TeamEntity
+import ir.miare.androidcodechallenge.core.model.TeamModel
 import kotlinx.coroutines.flow.Flow
 
 interface TeamRepository {
-    fun getTeams(): Flow<List<TeamEntity>>
+    fun getTeams(): Flow<List<TeamModel>>
 }

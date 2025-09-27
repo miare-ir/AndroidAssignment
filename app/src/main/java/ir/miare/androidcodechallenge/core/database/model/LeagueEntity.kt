@@ -2,6 +2,7 @@ package ir.miare.androidcodechallenge.core.database.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import ir.miare.androidcodechallenge.core.model.LeagueModel
 
 @Entity(tableName = "leagues")
 data class LeagueEntity(
@@ -11,4 +12,13 @@ data class LeagueEntity(
     val rank: Int,
     val totalMatches: Int,
     val imageUrl: String? = null
+)
+
+fun LeagueEntity.asExternalModel() = LeagueModel(
+    id = leagueId,
+    name = leagueName,
+    country = country,
+    rank = rank,
+    totalMatches = totalMatches,
+    imageUrl = imageUrl,
 )

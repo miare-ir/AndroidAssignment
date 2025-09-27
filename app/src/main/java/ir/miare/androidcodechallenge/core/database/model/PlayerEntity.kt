@@ -5,6 +5,7 @@ import androidx.room.ForeignKey
 import androidx.room.ForeignKey.Companion.CASCADE
 import androidx.room.Index
 import androidx.room.PrimaryKey
+import ir.miare.androidcodechallenge.core.model.LeagueModel
 
 @Entity(
     tableName = "players",

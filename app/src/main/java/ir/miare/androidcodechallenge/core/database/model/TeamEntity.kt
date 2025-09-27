@@ -5,6 +5,7 @@ import androidx.room.ForeignKey
 import androidx.room.ForeignKey.Companion.CASCADE
 import androidx.room.Index
 import androidx.room.PrimaryKey
+import ir.miare.androidcodechallenge.core.model.TeamModel
 
 @Entity(
     tableName = "teams",
@@ -26,4 +27,12 @@ data class TeamEntity(
     val leagueId: String,
     val rank: Int,
     val imageUrl: String? = null,
+)
+
+fun TeamEntity.asExternalModel() = TeamModel(
+    id = teamId,
+    name = teamName,
+    rank = rank,
+    leagueId = leagueId,
+    imageUrl = imageUrl,
 )
