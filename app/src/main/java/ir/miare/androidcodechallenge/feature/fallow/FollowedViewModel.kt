@@ -3,7 +3,8 @@ package ir.miare.androidcodechallenge.feature.fallow
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import ir.miare.androidcodechallenge.core.data.repository.PlayerRepository
+import ir.miare.androidcodechallenge.core.domain.usecases.GetFollowedPlayersUseCase
+import ir.miare.androidcodechallenge.core.domain.usecases.SetPlayerFollowedUseCase
 import ir.miare.androidcodechallenge.core.model.PlayerWithDetails
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -16,9 +17,10 @@ import javax.inject.Inject
 
 @HiltViewModel
 class FollowedViewModel @Inject constructor(
-    private val playerRepository: PlayerRepository
+    private val setPlayerFollowed: SetPlayerFollowedUseCase,
+    getFollowedPlayers: GetFollowedPlayersUseCase,
 ) : ViewModel() {
-    val uiState: StateFlow<FollowedUiState> = playerRepository.followedPlayers()
+    val uiState: StateFlow<FollowedUiState> = getFollowedPlayers()
         .map<List<PlayerWithDetails>, FollowedUiState> { FollowedUiState.Success(it) }
         .onStart { emit(FollowedUiState.Loading) }
         .catch { emit(FollowedUiState.Error(it.message ?: "Failed to load followed players")) }
@@ -26,7 +28,7 @@ class FollowedViewModel @Inject constructor(
 
     fun onFollowClicked(playerId: String, follow: Boolean) {
         viewModelScope.launch {
-            playerRepository.setPlayerFollowed(playerId, follow)
+            setPlayerFollowed(playerId, follow)
         }
     }
 }

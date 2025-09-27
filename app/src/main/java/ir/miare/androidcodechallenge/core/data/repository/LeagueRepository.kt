@@ -4,5 +4,5 @@ import ir.miare.androidcodechallenge.core.database.model.LeagueEntity
 import kotlinx.coroutines.flow.Flow
 
 interface LeagueRepository {
-    fun leagues(): Flow<List<LeagueEntity>>
+    fun getLeagues(): Flow<List<LeagueEntity>>
 }

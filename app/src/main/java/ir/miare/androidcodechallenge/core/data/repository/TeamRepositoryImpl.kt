@@ -13,7 +13,7 @@ class TeamRepositoryImpl @Inject constructor(
 ) : TeamRepository {
 
     @OptIn(ExperimentalCoroutinesApi::class)
-    override fun teams(): Flow<List<TeamEntity>> {
+    override fun getTeams(): Flow<List<TeamEntity>> {
         return sortSettings.sortMode
             .flatMapLatest { mode ->
                 teamDao.getTeamsSorted(mode.storageKey)

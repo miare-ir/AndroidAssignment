@@ -13,7 +13,7 @@ class LeagueRepositoryImpl @Inject constructor(
 ) : LeagueRepository {
 
     @OptIn(ExperimentalCoroutinesApi::class)
-    override fun leagues(): Flow<List<LeagueEntity>> {
+    override fun getLeagues(): Flow<List<LeagueEntity>> {
         return sortSettings.sortMode
             .flatMapLatest { mode ->
                 leagueDao.getLeaguesSorted(mode.storageKey)

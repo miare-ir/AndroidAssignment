@@ -3,7 +3,10 @@ package ir.miare.androidcodechallenge.feature.player
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import ir.miare.androidcodechallenge.core.data.repository.PlayerRepository
+import ir.miare.androidcodechallenge.core.domain.usecases.GetPlayersPagedUseCase
+import ir.miare.androidcodechallenge.core.domain.usecases.GetSortModeUseCase
+import ir.miare.androidcodechallenge.core.domain.usecases.SetPlayerFollowedUseCase
+import ir.miare.androidcodechallenge.core.domain.usecases.SetSortModeUseCase
 import ir.miare.androidcodechallenge.core.model.PlayerWithDetails
 import ir.miare.androidcodechallenge.core.model.SortMode
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -21,10 +24,13 @@ import javax.inject.Inject
 
 @HiltViewModel
 class PlayersViewModel @Inject constructor(
-    private val playerRepository: PlayerRepository
+    private val getPlayersPaged: GetPlayersPagedUseCase,
+    private val setPlayerFollowed: SetPlayerFollowedUseCase,
+    private val setSortMode: SetSortModeUseCase,
+    getSortMode: GetSortModeUseCase,
 ) : ViewModel() {
 
-    val sortMode: StateFlow<SortMode> = playerRepository.sortMode
+    val sortMode: StateFlow<SortMode> = getSortMode()
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), SortMode.DEFAULT)
 
     private val pageSize = 20
@@ -35,7 +41,7 @@ class PlayersViewModel @Inject constructor(
     val uiState: StateFlow<PlayersUiState> =
         combine(sortMode, pageIndex) { mode, page -> mode to page }
             .flatMapLatest { (_, page) ->
-                playerRepository.players(
+                getPlayersPaged(
                     pageSize = pageSize,
                     offset = page * pageSize
                 )
@@ -54,11 +60,11 @@ class PlayersViewModel @Inject constructor(
             .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), PlayersUiState.Loading)
 
     fun onSortSelected(mode: SortMode) {
-        viewModelScope.launch { playerRepository.setSortMode(mode) }
+        viewModelScope.launch { setSortMode(mode) }
     }
 
     fun onFollowClicked(playerId: String, follow: Boolean) {
-        viewModelScope.launch { playerRepository.setPlayerFollowed(playerId, follow) }
+        viewModelScope.launch { setPlayerFollowed(playerId, follow) }
     }
 
     fun onSearch(query: String) {
