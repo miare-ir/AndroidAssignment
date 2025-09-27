@@ -1,13 +1,11 @@
 package ir.miare.androidcodechallenge.core.repository
 
-import io.mockk.Runs
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every
-import io.mockk.just
 import io.mockk.mockk
 import ir.miare.androidcodechallenge.core.data.helper.FileReader
-import ir.miare.androidcodechallenge.core.data.repository.PlayerRepositoryImpl
+import ir.miare.androidcodechallenge.core.data.repository.SettingsRepositoryImpl
 import ir.miare.androidcodechallenge.core.data.repository.SortPreferencesRepository
 import ir.miare.androidcodechallenge.core.database.dao.LeagueDao
 import ir.miare.androidcodechallenge.core.database.dao.PlayerDao
@@ -24,32 +22,31 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Test
 
-@OptIn(ExperimentalCoroutinesApi::class)
-class FootballRepositoryImplTest {
-
+class SettingsRepositoryImplTest {
     private val leagueDao: LeagueDao = mockk(relaxed = true)
     private val playerDao: PlayerDao = mockk(relaxed = true)
     private val teamDao: TeamDao = mockk(relaxed = true)
     private val fileReader: FileReader = mockk()
     private val sortSettings: SortPreferencesRepository = mockk()
 
-    private lateinit var repository: PlayerRepositoryImpl
+    private lateinit var repository: SettingsRepositoryImpl
 
     private val testDispatcher = StandardTestDispatcher()
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     @Before
     fun setup() {
         Dispatchers.setMain(testDispatcher)
         every { sortSettings.sortMode } returns flowOf(SortMode.DEFAULT)
-        repository = PlayerRepositoryImpl(
+        repository = SettingsRepositoryImpl(
             leagueDao,
             playerDao,
             teamDao,
             fileReader,
-            sortSettings,
         )
     }
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     @After
     fun tearDown() {
         Dispatchers.resetMain()
@@ -109,15 +106,6 @@ class FootballRepositoryImplTest {
             })
         }
     }
-
-    @Test
-    fun `setSortMode delegates to sortSettings`() = runTest {
-        coEvery { sortSettings.setSortMode(SortMode.LEAGUE_RANK) } just Runs
-
-        repository.setSortMode(SortMode.LEAGUE_RANK)
-
-        coVerify { sortSettings.setSortMode(SortMode.LEAGUE_RANK) }
-    }
 }
 
 private val fakeJson = """
@@ -174,6 +162,3 @@ private val fakeJson = """
               }
             ]
         """.trimIndent()
-
-
-
