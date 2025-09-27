@@ -7,7 +7,6 @@ import kotlinx.coroutines.flow.Flow
 interface PlayerRepository {
     val sortMode: Flow<SortMode>
 
-    suspend fun ensureSeeded()
     suspend fun setSortMode(mode: SortMode)
     suspend fun setPlayerFollowed(playerId: String, isFollowed: Boolean)
 

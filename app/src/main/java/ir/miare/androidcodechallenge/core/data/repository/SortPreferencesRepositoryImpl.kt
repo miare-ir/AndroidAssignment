@@ -1,4 +1,4 @@
-package ir.miare.androidcodechallenge.core.data.helper
+package ir.miare.androidcodechallenge.core.data.repository
 
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
@@ -9,17 +9,17 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
-class SortSettings @Inject constructor(
+class SortPreferencesRepositoryImpl @Inject constructor(
     private val dataStore: DataStore<Preferences>,
-) {
-    private val SORT_MODE_KEY: Preferences.Key<Int> = intPreferencesKey("sort_mode")
+) : SortPreferencesRepository {
+    private val SORT_MODE_KEY = intPreferencesKey("sort_mode")
 
-    val sortMode: Flow<SortMode> = dataStore.data.map { prefs ->
+    override val sortMode: Flow<SortMode> = dataStore.data.map { prefs ->
         val ordinal = prefs[SORT_MODE_KEY] ?: SortMode.DEFAULT.ordinal
         SortMode.entries.toTypedArray().getOrElse(ordinal) { SortMode.DEFAULT }
     }
 
-    suspend fun setSortMode(mode: SortMode) {
+    override suspend fun setSortMode(mode: SortMode) {
         dataStore.edit { it[SORT_MODE_KEY] = mode.ordinal }
     }
 }

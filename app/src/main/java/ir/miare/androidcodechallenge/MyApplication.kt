@@ -1,9 +1,9 @@
 package ir.miare.androidcodechallenge
 
 import android.app.Application
-import ir.miare.androidcodechallenge.core.common.network.di.ApplicationScope
 import dagger.hilt.android.HiltAndroidApp
-import ir.miare.androidcodechallenge.core.data.repository.PlayerRepository
+import ir.miare.androidcodechallenge.core.common.network.di.ApplicationScope
+import ir.miare.androidcodechallenge.core.data.repository.SettingsRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -16,7 +16,7 @@ class MyApplication : Application() {
     lateinit var scope: CoroutineScope
 
     @Inject
-    lateinit var repository: PlayerRepository
+    lateinit var repository: SettingsRepository
 
     override fun onCreate() {
         super.onCreate()

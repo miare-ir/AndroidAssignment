@@ -3,7 +3,7 @@ package ir.miare.androidcodechallenge.feature.team
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import ir.miare.androidcodechallenge.core.data.helper.SortSettings
+import ir.miare.androidcodechallenge.core.data.repository.SortPreferencesRepository
 import ir.miare.androidcodechallenge.core.data.repository.TeamRepository
 import ir.miare.androidcodechallenge.core.database.model.TeamEntity
 import ir.miare.androidcodechallenge.core.model.SortMode
@@ -19,7 +19,7 @@ import javax.inject.Inject
 @HiltViewModel
 class TeamsViewModel @Inject constructor(
     repository: TeamRepository,
-    private val sortSettings: SortSettings,
+    private val sortSettings: SortPreferencesRepository,
 ) : ViewModel() {
 
     val uiState: StateFlow<TeamUiState> = repository.teams()

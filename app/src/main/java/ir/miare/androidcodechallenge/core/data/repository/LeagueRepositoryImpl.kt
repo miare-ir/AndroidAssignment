@@ -1,17 +1,16 @@
 package ir.miare.androidcodechallenge.core.data.repository
 
-import ir.miare.androidcodechallenge.core.data.helper.SortSettings
 import ir.miare.androidcodechallenge.core.database.dao.LeagueDao
 import ir.miare.androidcodechallenge.core.database.model.LeagueEntity
 import ir.miare.androidcodechallenge.core.model.SortMode
-import javax.inject.Inject
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flatMapLatest
+import javax.inject.Inject
 
 class LeagueRepositoryImpl @Inject constructor(
     private val leagueDao: LeagueDao,
-    private val sortSettings: SortSettings,
+    private val sortSettings: SortPreferencesRepository,
 ) : LeagueRepository {
 
     @OptIn(ExperimentalCoroutinesApi::class)

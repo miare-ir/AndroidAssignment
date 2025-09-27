@@ -7,8 +7,8 @@ import io.mockk.every
 import io.mockk.just
 import io.mockk.mockk
 import ir.miare.androidcodechallenge.core.data.helper.FileReader
-import ir.miare.androidcodechallenge.core.data.helper.SortSettings
 import ir.miare.androidcodechallenge.core.data.repository.PlayerRepositoryImpl
+import ir.miare.androidcodechallenge.core.data.repository.SortPreferencesRepository
 import ir.miare.androidcodechallenge.core.database.dao.LeagueDao
 import ir.miare.androidcodechallenge.core.database.dao.PlayerDao
 import ir.miare.androidcodechallenge.core.database.dao.TeamDao
@@ -31,7 +31,7 @@ class FootballRepositoryImplTest {
     private val playerDao: PlayerDao = mockk(relaxed = true)
     private val teamDao: TeamDao = mockk(relaxed = true)
     private val fileReader: FileReader = mockk()
-    private val sortSettings: SortSettings = mockk()
+    private val sortSettings: SortPreferencesRepository = mockk()
 
     private lateinit var repository: PlayerRepositoryImpl
 

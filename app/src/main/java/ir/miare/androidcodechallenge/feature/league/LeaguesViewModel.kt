@@ -3,8 +3,8 @@ package ir.miare.androidcodechallenge.feature.league
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import ir.miare.androidcodechallenge.core.data.helper.SortSettings
 import ir.miare.androidcodechallenge.core.data.repository.LeagueRepository
+import ir.miare.androidcodechallenge.core.data.repository.SortPreferencesRepository
 import ir.miare.androidcodechallenge.core.database.model.LeagueEntity
 import ir.miare.androidcodechallenge.core.model.SortMode
 import kotlinx.coroutines.flow.SharingStarted
@@ -19,7 +19,7 @@ import javax.inject.Inject
 @HiltViewModel
 class LeaguesViewModel @Inject constructor(
     repository: LeagueRepository,
-    private val sortSettings: SortSettings,
+    private val sortSettings: SortPreferencesRepository,
 ) : ViewModel() {
 
     val uiState: StateFlow<LeagueUiState> = repository.leagues()
