@@ -20,3 +20,10 @@ dependencyResolutionManagement {
 }
 rootProject.name = "AndroidCodeChallenge"
 include(":app")
+include(":core:data")
+include(":feature:home")
+include(":core:domain")
+include(":core:model")
+include(":core:network")
+include(":core:ui")
+include(":core:designsystem")
