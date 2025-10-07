@@ -6,5 +6,5 @@ import retrofit2.http.GET
 
 internal interface HomeApi {
     @GET("list")
-    suspend fun getHome(): Response<NetworkFakeData>
+    suspend fun getHome(): Response<List<NetworkFakeData>>
 }

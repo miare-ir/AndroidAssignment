@@ -4,5 +4,5 @@ import ir.miare.androidcodechallenge.core.network.model.NetworkFakeData
 import ir.miare.androidcodechallenge.core.network.util.ApiResult
 
 interface NetworkDataSource {
-    suspend fun getHome(): ApiResult<NetworkFakeData>
+    suspend fun getHome(): ApiResult<List<NetworkFakeData>>
 }

@@ -12,7 +12,7 @@ internal class RetrofitNetwork @Inject constructor(
     val homeApi: HomeApi,
 ) : NetworkDataSource {
 
-    override suspend fun getHome(): ApiResult<NetworkFakeData> {
+    override suspend fun getHome(): ApiResult<List<NetworkFakeData>> {
         return safeApiCall { homeApi.getHome() }
     }
 }
