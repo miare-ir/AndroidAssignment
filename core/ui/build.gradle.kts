@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "morz.eventcalendar.lib.core.ui"
+    namespace = "ir.miare.androidcodechallenge.core.ui"
     compileSdk = 36
 
     defaultConfig {
@@ -36,4 +36,8 @@ dependencies {
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
+    implementation(libs.material)
+    testImplementation(libs.junit)
+    androidTestImplementation(libs.androidx.junit)
+    androidTestImplementation(libs.androidx.espresso.core)
 }
