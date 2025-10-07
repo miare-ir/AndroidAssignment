@@ -14,7 +14,7 @@ object ApiModule {
 
     @Provides
     @Singleton
-    fun providesToDoApi(retrofit: Retrofit): HomeApi {
+    internal fun providesHomeApi(retrofit: Retrofit): HomeApi {
         return retrofit.create(HomeApi::class.java)
     }
 }
