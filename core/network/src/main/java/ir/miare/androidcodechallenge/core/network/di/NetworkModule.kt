@@ -1,5 +1,6 @@
 package ir.miare.androidcodechallenge.core.network.di
 
+import android.content.Context
 import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.PropertyNamingStrategies
@@ -7,8 +8,10 @@ import com.fasterxml.jackson.module.kotlin.registerKotlinModule
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import ir.miare.androidcodechallenge.core.network.util.BASE_URL
+import ir.miare.androidcodechallenge.core.network.util.MockInterceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -26,13 +29,22 @@ object NetworkModule {
             level = HttpLoggingInterceptor.Level.BODY
         }
     }
+    @Provides
+    @Singleton
+    fun provideMockInterceptor(
+        @ApplicationContext context: Context,
+    ): MockInterceptor {
+        return MockInterceptor(context)
+    }
 
     @Provides
     @Singleton
     fun provideOkHttpClient(
-        loggingInterceptor: HttpLoggingInterceptor
+        loggingInterceptor: HttpLoggingInterceptor,
+        mockInterceptor: MockInterceptor
     ): OkHttpClient =
         OkHttpClient.Builder()
+            .addInterceptor(mockInterceptor)
             .addInterceptor(loggingInterceptor)
             .build()
 

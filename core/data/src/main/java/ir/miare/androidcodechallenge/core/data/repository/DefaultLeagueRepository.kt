@@ -15,20 +15,15 @@ import javax.inject.Singleton
 class DefaultLeagueRepository @Inject constructor(
     private val networkDataSource: NetworkDataSource
 ) : LeagueRepository {
-    override suspend fun getHome(): ApiResult<Flow<List<FakeData>>> {
-        return when (val result = networkDataSource.getHome()) {
+    override fun getHome(): Flow<ApiResult<List<FakeData>>> = flow{
+        when (val result = networkDataSource.getHome()) {
             is ApiResult.Success -> {
-                ApiResult.Success(
-                    flow {
-                        emit(
-                            result.data.map(NetworkFakeData::asFakeData)
-                        )
-                    }
-                )
+                val data = result.data.map(NetworkFakeData::asFakeData)
+                emit(ApiResult.Success(data))
             }
 
             is ApiResult.Error -> {
-                ApiResult.Error(result.throwable)
+                emit(ApiResult.Error(result.throwable))
             }
         }
     }

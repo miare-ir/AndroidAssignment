@@ -5,5 +5,5 @@ import ir.miare.androidcodechallenge.core.network.util.ApiResult
 import kotlinx.coroutines.flow.Flow
 
 interface LeagueRepository {
-    suspend fun getHome() : ApiResult<Flow<List<FakeData>>>
+    fun getHome() : Flow<ApiResult<List<FakeData>>>
 }
