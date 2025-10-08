@@ -109,7 +109,7 @@ fun SortSelectionScreen(
                 .fillMaxWidth()
                 .padding(16.dp)
         ) {
-            // Header
+
             Column(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalAlignment = Alignment.CenterHorizontally
@@ -125,7 +125,6 @@ fun SortSelectionScreen(
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // Day Selection List
             LazyColumn(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -150,7 +149,6 @@ fun SortSelectionScreen(
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // Action Buttons
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(12.dp)

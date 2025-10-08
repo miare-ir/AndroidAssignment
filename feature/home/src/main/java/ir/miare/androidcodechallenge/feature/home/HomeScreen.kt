@@ -1,6 +1,5 @@
 package ir.miare.androidcodechallenge.feature.home
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -26,10 +25,8 @@ import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -50,17 +47,17 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.paging.PagingData
+import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
-import ir.miare.androidcodechallenge.core.model.League
 import ir.miare.androidcodechallenge.core.model.LeagueDisplayItem
 import ir.miare.androidcodechallenge.core.model.Player
 import ir.miare.androidcodechallenge.core.model.SortOption
-import ir.miare.androidcodechallenge.core.model.Team
 import ir.miare.androidcodechallenge.core.model.stableKey
+import ir.miare.androidcodechallenge.core.ui.EmptySection
+import ir.miare.androidcodechallenge.core.ui.LoadingSection
 import ir.miare.androidcodechallenge.core.ui.PlayerCard
-import kotlinx.coroutines.flow.flowOf
+import ir.miare.androidcodechallenge.core.ui.Title
 
 @Composable
 internal fun HomeRoute(
@@ -76,7 +73,7 @@ internal fun HomeRoute(
 
     val refreshState = pagingData.loadState.refresh
     LaunchedEffect(sortOption, refreshState) {
-        if (refreshState is androidx.paging.LoadState.NotLoading && pagingData.itemCount > 0) {
+        if (refreshState is LoadState.NotLoading && pagingData.itemCount > 0) {
             listState.animateScrollToItem(0)
         }
     }
@@ -107,7 +104,6 @@ internal fun HomeRoute(
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
 internal fun HomeScreen(
     modifier: Modifier = Modifier,
@@ -126,11 +122,9 @@ internal fun HomeScreen(
 
         Spacer(Modifier.height(10.dp))
 
-        Text(
-            modifier = modifier.fillMaxWidth(),
-            textAlign = TextAlign.Center,
-            text = "Leagues & Players",
-            style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.SemiBold)
+        Title(
+            modifier,
+            text = "Leagues & Players"
         )
 
         Spacer(Modifier.height(20.dp))
@@ -140,16 +134,16 @@ internal fun HomeScreen(
             onSortBarClick = onSortBarClick,
             sortOption = sortOption,
         )
+
         when (uiState) {
             is HomeUiState.Loading -> {
-                Box(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(32.dp),
-                    contentAlignment = Alignment.Center
-                ) {
-                    CircularProgressIndicator()
-                }
+                LoadingSection()
+            }
+
+            is HomeUiState.Empty -> {
+                EmptySection(
+                    text = "There is no data to show"
+                )
             }
 
             is HomeUiState.Error -> {
@@ -179,7 +173,7 @@ internal fun HomeScreen(
                     }
                 }
             ) { index ->
-                val item = pagingData[index] ?: return@items  // <-- observable read, not peek
+                val item = pagingData[index] ?: return@items
                 when (item) {
                     is LeagueDisplayItem.Header -> {
                         LeagueHeaderCard(
@@ -195,8 +189,38 @@ internal fun HomeScreen(
                     }
                 }
             }
+
+            item {
+                when (pagingData.loadState.append) {
+                    is LoadState.Loading -> {
+                        PaginationLoadingIndicator()
+                    }
+
+                    is LoadState.Error -> {
+                        val error = (pagingData.loadState.append as LoadState.Error).error
+                        ErrorPane(
+                            message = error.message ?: "Error happened",
+                            onRetry = { pagingData.refresh() }
+                        )
+                    }
+
+                    else -> {}
+                }
+            }
         }
         Spacer(Modifier.windowInsetsBottomHeight(WindowInsets.navigationBars))
+    }
+}
+
+@Composable
+fun PaginationLoadingIndicator(modifier: Modifier = Modifier) {
+    Box(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(16.dp),
+        contentAlignment = Alignment.Center
+    ) {
+        CircularProgressIndicator()
     }
 }
 
@@ -254,41 +278,6 @@ private fun ErrorPane(message: String, onRetry: () -> Unit) {
 }
 
 @Composable
-private fun SortCompact(
-    sortOption: SortOption,
-    onSortChanged: (SortOption) -> Unit
-) {
-    Column(horizontalAlignment = Alignment.End, modifier = Modifier.padding(end = 8.dp)) {
-        Text(
-            "Sort",
-            style = MaterialTheme.typography.labelSmall,
-            color = MaterialTheme.colorScheme.onSurfaceVariant
-        )
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            SortOption.entries.forEach { option ->
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier
-                        .clickable { onSortChanged(option) }
-                        .padding(start = 6.dp)
-                ) {
-                    RadioButton(
-                        selected = sortOption == option,
-                        onClick = { onSortChanged(option) }
-                    )
-                    Text(
-                        text = option.name.replace('_', ' ')
-                            .lowercase()
-                            .replaceFirstChar { it.uppercase() },
-                        style = MaterialTheme.typography.labelMedium
-                    )
-                }
-            }
-        }
-    }
-}
-
-@Composable
 fun SortBar(
     modifier: Modifier = Modifier,
     onSortBarClick: () -> Unit = {},
@@ -333,63 +322,6 @@ fun SortBar(
         )
 
     }
-}
-
-
-@Composable
-private fun demoPagingItems(): LazyPagingItems<LeagueDisplayItem> {
-    val demo = listOf(
-        LeagueDisplayItem.Header(
-            league = League(
-                name = "La Liga",
-                country = "Spain",
-                rank = 2,
-                totalMatches = 38
-            )
-        ),
-        LeagueDisplayItem.PlayerItem(
-            player = Player(
-                name = "Jude Bellingham",
-                totalGoal = 19,
-                team = Team(name = "Real Madrid", rank = 1)
-            ),
-            league = League(
-                name = "La Liga", country = "Spain", rank = 2, totalMatches = 38
-            ),
-            avgGoals = 0.50f
-        ),
-        LeagueDisplayItem.PlayerItem(
-            player = Player(
-                name = "Robert Lewandowski",
-                totalGoal = 23,
-                team = Team(name = "Barcelona", rank = 2)
-            ),
-            league = League(
-                name = "La Liga", country = "Spain", rank = 2, totalMatches = 38
-            ),
-            avgGoals = 0.61f
-        ),
-        LeagueDisplayItem.Header(
-            league = League(
-                name = "Premier League",
-                country = "England",
-                rank = 1,
-                totalMatches = 38
-            )
-        ),
-        LeagueDisplayItem.PlayerItem(
-            player = Player(
-                name = "Erling Haaland",
-                totalGoal = 27,
-                team = Team(name = "Man City", rank = 1)
-            ),
-            league = League(
-                name = "Premier League", country = "England", rank = 1, totalMatches = 38
-            ),
-            avgGoals = 0.71f
-        )
-    )
-    return flowOf(PagingData.from(demo)).collectAsLazyPagingItems()
 }
 
 @Preview(showBackground = true)

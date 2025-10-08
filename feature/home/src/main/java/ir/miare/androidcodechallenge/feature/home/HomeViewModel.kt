@@ -11,8 +11,7 @@ import androidx.paging.map
 import dagger.hilt.android.lifecycle.HiltViewModel
 import ir.miare.androidcodechallenge.core.domain.GetSortedLeagueDisplayItemsUseCase
 import ir.miare.androidcodechallenge.core.domain.ObserveFollowedSet
-import ir.miare.androidcodechallenge.core.domain.ToggleFollow
-import ir.miare.androidcodechallenge.core.domain.UnFollowPlayerUseCase
+import ir.miare.androidcodechallenge.core.domain.ToggleFollowUseCase
 import ir.miare.androidcodechallenge.core.model.LeagueDisplayItem
 import ir.miare.androidcodechallenge.core.model.Player
 import ir.miare.androidcodechallenge.core.model.SortOption
@@ -34,9 +33,8 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val getSortedLeagueDisplayItemsUseCase: GetSortedLeagueDisplayItemsUseCase,
-    private val unFollowPlayerUseCase: UnFollowPlayerUseCase,
-    private val observeFollowedSet: ObserveFollowedSet,
-    private val toggleFollow: ToggleFollow,
+    observeFollowedSet: ObserveFollowedSet,
+    private val toggleFollow: ToggleFollowUseCase,
     private val savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
 
@@ -53,8 +51,13 @@ class HomeViewModel @Inject constructor(
             .flatMapLatest { option ->
                 getSortedLeagueDisplayItemsUseCase(option).map { result ->
                     when (result) {
-                        is ApiResult.Success ->
-                            HomeUiState.Success(result.data)
+                        is ApiResult.Success -> {
+                            if (result.data.isEmpty()){
+                                HomeUiState.Empty
+                            }else{
+                                HomeUiState.Success(result.data)
+                            }
+                        }
 
                         is ApiResult.Error ->
                             HomeUiState.Error(result.throwable.message ?: "error happened")
@@ -74,6 +77,7 @@ class HomeViewModel @Inject constructor(
                     Pager(
                         config = PagingConfig(
                             pageSize = 20,
+                            initialLoadSize = 20,
                             enablePlaceholders = true,
                             prefetchDistance = 2
                         ),

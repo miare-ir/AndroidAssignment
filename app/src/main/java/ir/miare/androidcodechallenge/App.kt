@@ -21,7 +21,6 @@ fun App(
 
     Scaffold(
         topBar = {
-
             AppTopAppBar(
                 modifier = Modifier.testTag("AppTopAppBar"),
                 titleImage = R.drawable.ic_player,

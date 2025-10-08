@@ -10,8 +10,10 @@ import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -23,6 +25,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.darkColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -32,6 +35,7 @@ import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -40,12 +44,20 @@ import androidx.compose.ui.unit.sp
 
 @Composable
 fun SplashScreen() {
-    val dark = androidx.compose.foundation.isSystemInDarkTheme()
+    val dark = isSystemInDarkTheme()
 
     val gradientColors = if (dark) {
-        listOf(Color(0xFF0B1220), Color(0xFF0F2E53), Color(0xFF144E7A))
+        listOf(
+            MaterialTheme.colorScheme.surfaceContainerHighest,
+            MaterialTheme.colorScheme.primaryContainer,
+            MaterialTheme.colorScheme.primary
+        )
     } else {
-        listOf(Color(0xFFE6F3FF), Color(0xFFBFE1FF), Color(0xFF8FD0FF))
+        listOf(
+            MaterialTheme.colorScheme.surfaceContainerLowest,
+            MaterialTheme.colorScheme.primaryContainer,
+            MaterialTheme.colorScheme.primary
+        )
     }
 
     val inf = rememberInfiniteTransition(label = "bg")
@@ -61,6 +73,7 @@ fun SplashScreen() {
 
     Box(
         modifier = Modifier
+            .testTag("Splash Screen")
             .fillMaxSize()
             .background(
                 Brush.linearGradient(
@@ -71,54 +84,71 @@ fun SplashScreen() {
             )
             .padding(24.dp)
     ) {
+
         SoftBlob(
             modifier = Modifier
                 .size(220.dp)
                 .align(Alignment.TopEnd)
                 .offset(x = 24.dp, y = (-24).dp),
-            color = Color.White.copy(alpha = 0.18f)
+            MaterialTheme.colorScheme.primary.copy(alpha = 0.15f)
         )
+
         SoftBlob(
             modifier = Modifier
                 .size(260.dp)
                 .align(Alignment.BottomStart)
                 .offset((-24).dp, 24.dp),
-            color = Color.White.copy(alpha = 0.14f)
+            color = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.12f)
         )
 
-        Column(
-            modifier = Modifier
-                .fillMaxSize(),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
-        ) {
-            GlowingRotatingBall()
+        AppName()
 
-            Spacer(Modifier.height(20.dp))
+        Loading()
+    }
+}
 
-            Text(
-                text = "Fooootball",
-                style = MaterialTheme.typography.headlineMedium.copy(
-                    fontWeight = FontWeight.ExtraBold,
-                    letterSpacing = 0.5.sp
-                ),
-                color = if (dark) Color(0xFFE9F5FF) else Color(0xFF06243A)
-            )
-            Text(
-                text = "Scores · Stats · Highlights",
-                style = MaterialTheme.typography.bodyMedium,
-                color = if (dark) Color(0xFFB7D8F7) else Color(0xFF1B4A66).copy(alpha = 0.8f)
-            )
-        }
+@Composable
+fun AppName(
+    modifier: Modifier = Modifier
+) {
+    Column(
+        modifier = modifier
+            .fillMaxSize(),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+        GlowingRotatingBall()
+
+        Spacer(Modifier.height(20.dp))
+
         Text(
-            text = "Loading…",
-            style = MaterialTheme.typography.labelLarge,
-            color = if (dark) Color(0xFFB7D8F7) else Color(0xFF1B4A66),
-            modifier = Modifier
-                .align(Alignment.BottomCenter)
-                .padding(bottom = 28.dp)
+            text = "Fooootball",
+            style = MaterialTheme.typography.headlineMedium.copy(
+                fontWeight = FontWeight.ExtraBold,
+                letterSpacing = 0.5.sp
+            ),
+            color = MaterialTheme.colorScheme.onSurface
+        )
+        Text(
+            text = "Scores · Stats · Highlights",
+            style = MaterialTheme.typography.bodyMedium,
+            color = MaterialTheme.colorScheme.onSurface
         )
     }
+}
+
+@Composable
+fun BoxScope.Loading(
+    modifier: Modifier = Modifier
+) {
+    Text(
+        text = "Loading…",
+        style = MaterialTheme.typography.labelLarge,
+        color = MaterialTheme.colorScheme.onSurface,
+        modifier = modifier
+            .align(Alignment.BottomCenter)
+            .padding(bottom = 28.dp)
+    )
 }
 
 @Composable
@@ -155,13 +185,14 @@ private fun GlowingRotatingBall() {
     val size = 120.dp
     val ringSize = 170.dp
 
+    val color = MaterialTheme.colorScheme.inversePrimary.copy(alpha = 0.16f)
     Box(
         modifier = Modifier
             .size(ringSize)
             .drawBehind {
                 val r = (size.toPx() * pulse)
                 drawCircle(
-                    color = Color.White.copy(alpha = 0.16f),
+                    color = color,
                     radius = r
                 )
             },
@@ -176,7 +207,7 @@ private fun GlowingRotatingBall() {
                     drawCircle(
                         brush = Brush.radialGradient(
                             colors = listOf(
-                                Color.White.copy(alpha = 0.45f * glow),
+                                color.copy(alpha = 0.45f * glow),
                                 Color.Transparent
                             )
                         ),
@@ -186,7 +217,7 @@ private fun GlowingRotatingBall() {
             shape = CircleShape,
             tonalElevation = 10.dp,
             shadowElevation = 16.dp,
-            color = Color.White.copy(alpha = 0.9f)
+            color = color.copy(alpha = 0.9f)
         ) {
             Box(contentAlignment = Alignment.Center) {
                 Image(
@@ -226,7 +257,7 @@ private fun SplashPreviewLight() {
 @Preview(showBackground = true)
 @Composable
 private fun SplashPreviewDark() {
-    MaterialTheme(colorScheme = androidx.compose.material3.darkColorScheme()) {
+    MaterialTheme(colorScheme = darkColorScheme()) {
         SplashScreen()
     }
 }

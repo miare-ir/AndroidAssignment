@@ -38,7 +38,7 @@ class MainActivity : ComponentActivity() {
 
         enableEdgeToEdge()
         setContent {
-            AppTheme() {
+            AppTheme {
                 when (uiState) {
                     UiState.Loading -> SplashScreen()
                     is UiState.Success -> App()

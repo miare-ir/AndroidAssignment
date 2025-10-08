@@ -23,7 +23,7 @@ class MainActivityViewModel @Inject constructor(
     )
 
     fun makeDelayForSplash() = flow {
-        delay(100)
+        delay(5000)
         emit(Unit)
     }
 }

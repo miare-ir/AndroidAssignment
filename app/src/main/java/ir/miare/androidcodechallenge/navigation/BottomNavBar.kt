@@ -26,7 +26,7 @@ sealed class BottomNavItem(
         icon = {
             Icon(
                 imageVector = Icons.Rounded.Home,
-                contentDescription = "icon profile"
+                contentDescription = "icon home"
             )
         }
     )
@@ -37,7 +37,7 @@ sealed class BottomNavItem(
         icon = {
             Icon(
                 imageVector = Icons.Rounded.Favorite,
-                contentDescription = "icon tools"
+                contentDescription = "icon followed"
             )
         }
     )

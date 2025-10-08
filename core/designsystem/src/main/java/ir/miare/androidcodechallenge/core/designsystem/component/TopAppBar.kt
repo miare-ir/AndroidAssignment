@@ -36,7 +36,7 @@ fun AppTopAppBar(
             ) {
                 Image(
                     painter = painterResource(titleImage),
-                    contentDescription = "Title Image",
+                    contentDescription = "TopAppBar Title Image",
                     contentScale = ContentScale.Inside,
                     modifier = Modifier
                         .height(40.dp)
