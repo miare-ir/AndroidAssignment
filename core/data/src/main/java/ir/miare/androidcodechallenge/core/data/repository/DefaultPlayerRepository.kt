@@ -25,6 +25,4 @@ class DefaultPlayerRepository @Inject constructor(
 
     override fun getFollowedPlayers(): Flow<List<Player>> =
         followedPlayerDao.getAllPlayers().map{it.map(FollowedPlayerEntity::asPlayer)}
-
-
 }
