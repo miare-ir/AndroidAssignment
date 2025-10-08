@@ -51,6 +51,8 @@ android {
 dependencies {
 
     implementation(project(":feature:home"))
+    implementation(project(":feature:followedplayers"))
+    implementation(project(":core:designsystem"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
