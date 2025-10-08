@@ -62,6 +62,7 @@ import ir.miare.androidcodechallenge.core.model.LeagueDisplayItem
 import ir.miare.androidcodechallenge.core.model.Player
 import ir.miare.androidcodechallenge.core.model.SortOption
 import ir.miare.androidcodechallenge.core.model.Team
+import ir.miare.androidcodechallenge.core.model.stableKey
 import kotlinx.coroutines.flow.flowOf
 
 @Composable
@@ -72,7 +73,7 @@ internal fun HomeRoute(
 ) {
     val uiState by viewModel.homeUiState.collectAsStateWithLifecycle()
     val sortOption by viewModel.sortOption.collectAsStateWithLifecycle()
-    val pagingData = viewModel.pagingDataState.collectAsLazyPagingItems()
+    val pagingData = viewModel.pagingUi.collectAsLazyPagingItems()
 
     HomeScreen(
         modifier = modifier,
@@ -80,6 +81,7 @@ internal fun HomeRoute(
         sortOption = sortOption,
         pagingData = pagingData,
         onSortChanged = viewModel::onSortChanged,
+        onFollowClick = viewModel::onFollowClick,
         onBackClick = onBackClick,
     )
 }
@@ -93,6 +95,7 @@ internal fun HomeScreen(
     pagingData: LazyPagingItems<LeagueDisplayItem>,
     onSortChanged: (SortOption) -> Unit,
     onBackClick: () -> Unit,
+    onFollowClick: (Player)-> Unit = {}
 ) {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
     val listState = rememberLazyListState()
@@ -169,10 +172,14 @@ internal fun HomeScreen(
 
                         is LeagueDisplayItem.PlayerItem -> {
                             item(
-                                key = "ply-$index",
+                                key = item.player.stableKey(),
                                 contentType = "player"
                             ) {
-                                PlayerCard(item)
+                                PlayerCard(
+                                    item = item,
+                                    onFollowClick = onFollowClick
+                                )
+
                             }
                         }
                     }
@@ -235,7 +242,10 @@ private fun LeagueHeaderCard(title: String) {
 }
 
 @Composable
-private fun PlayerCard(item: LeagueDisplayItem.PlayerItem) {
+private fun PlayerCard(
+    item: LeagueDisplayItem.PlayerItem,
+    onFollowClick: (Player)-> Unit = {}
+    ) {
     ElevatedCard(
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(20.dp),
@@ -262,10 +272,14 @@ private fun PlayerCard(item: LeagueDisplayItem.PlayerItem) {
                 )
 
                 AssistChip(
-                    onClick = { /* no-op */ },
-                    label = { Text("Team ${item.player.team.rank}") },
+                    onClick = {
+                        onFollowClick(item.player)
+                    },
+                    label = { Text(
+                        text = if (item.player.isFollowed) "Followed" else "Follow"
+                    ) },
                     colors = AssistChipDefaults.assistChipColors(
-                        labelColor = MaterialTheme.colorScheme.onSurfaceVariant
+                        labelColor = MaterialTheme.colorScheme.onSurfaceVariant,
                     )
                 )
             }

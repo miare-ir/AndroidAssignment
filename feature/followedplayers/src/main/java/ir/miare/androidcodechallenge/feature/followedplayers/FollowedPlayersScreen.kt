@@ -32,6 +32,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import ir.miare.androidcodechallenge.core.model.Player
+import ir.miare.androidcodechallenge.core.model.stableKey
 
 /**
  * Route-level composable:
@@ -168,7 +169,7 @@ private fun PlayersListSection(
         contentPadding = PaddingValues(12.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
-        items(players, key = { it.id }) { player ->
+        items(players, key = { it.stableKey() }) { player ->
             PlayerCard(
                 player = player,
                 onUnfollowClick = { onUnfollowClick(player) }

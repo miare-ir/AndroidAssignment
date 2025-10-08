@@ -2,6 +2,7 @@ package ir.miare.androidcodechallenge.core.data.model
 
 import ir.miare.androidcodechallenge.core.database.entity.FollowedPlayerEntity
 import ir.miare.androidcodechallenge.core.model.Player
+import ir.miare.androidcodechallenge.core.model.stableKey
 import ir.miare.androidcodechallenge.core.network.model.NetworkPlayer
 
 fun NetworkPlayer.asPlayer() = Player(
@@ -11,7 +12,7 @@ fun NetworkPlayer.asPlayer() = Player(
 )
 
 fun Player.asEntity() = FollowedPlayerEntity(
-    id = this.id,
+    stableKey = stableKey(),
     playerName = this.name,
     totalGoal = this.totalGoal,
     teamName = this.team.name,
