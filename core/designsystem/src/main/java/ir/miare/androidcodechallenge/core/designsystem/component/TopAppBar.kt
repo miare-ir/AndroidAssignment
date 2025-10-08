@@ -1,14 +1,12 @@
 package ir.miare.androidcodechallenge.core.designsystem.component
 
-
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.size
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
@@ -26,14 +24,8 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun AppTopAppBar(
     @DrawableRes titleImage: Int,
-    @DrawableRes navigationIcon: Int,
-    navigationIconContentDescription: String?,
-    @DrawableRes actionIcon: Int,
-    actionIconContentDescription: String?,
     modifier: Modifier = Modifier,
     bgColor: Color,
-    onNavigationClick: () -> Unit = {},
-    onActionClick: () -> Unit = {},
 ) {
 
     TopAppBar(
@@ -48,29 +40,6 @@ fun AppTopAppBar(
                     contentScale = ContentScale.Inside,
                     modifier = Modifier
                         .height(40.dp)
-                )
-            }
-        },
-        navigationIcon = {
-
-            IconButton(onClick = onNavigationClick) {
-                Image(
-                    painter = painterResource(navigationIcon),
-                    contentScale = ContentScale.Crop,
-                    modifier = Modifier
-                        .size(20.dp),
-                    contentDescription = navigationIconContentDescription
-                )
-            }
-        },
-        actions = {
-            IconButton(onClick = onActionClick) {
-                Image(
-                    painter = painterResource(actionIcon),
-                    contentScale = ContentScale.Crop,
-                    modifier = Modifier
-                        .size(20.dp),
-                    contentDescription = actionIconContentDescription
                 )
             }
         },
@@ -89,10 +58,6 @@ fun AppTopAppBar(
 private fun TopAppBarPreview() {
     AppTopAppBar(
         titleImage = android.R.drawable.ic_dialog_info,
-        navigationIcon = android.R.drawable.ic_dialog_info,
-        bgColor = Color.Gray,
-        navigationIconContentDescription = "App TopAppBar navigation icon bank login",
-        actionIcon = android.R.drawable.ic_dialog_info,
-        actionIconContentDescription = "App TopAppBar action icon avatar"
+        bgColor = MaterialTheme.colorScheme.primary
     )
 }

@@ -1,6 +1,7 @@
 package ir.miare.androidcodechallenge.core.designsystem.component
 
 import androidx.compose.foundation.layout.RowScope
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.NavigationBarItemDefaults
@@ -29,10 +30,10 @@ fun RowScope.AppNavigationBarItem(
         label = label,
         alwaysShowLabel = alwaysShowLabel,
         colors = NavigationBarItemDefaults.colors(
-            selectedIconColor = Color.Red,
-            unselectedIconColor = Color.White,
-            selectedTextColor = Color.Red,
-            unselectedTextColor = Color.White,
+            selectedIconColor = MaterialTheme.colorScheme.onPrimaryContainer,
+            selectedTextColor = MaterialTheme.colorScheme.onPrimaryContainer,
+            unselectedIconColor = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.7f),
+            unselectedTextColor = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.7f),
             indicatorColor = Color.Transparent,
         ),
     )
@@ -41,7 +42,7 @@ fun RowScope.AppNavigationBarItem(
 @Composable
 fun AppNavigationBar(
     modifier: Modifier = Modifier,
-    containerColor: Color = Color.Gray,
+    containerColor: Color = MaterialTheme.colorScheme.primaryContainer,
     content: @Composable RowScope.() -> Unit
 ) {
     NavigationBar(

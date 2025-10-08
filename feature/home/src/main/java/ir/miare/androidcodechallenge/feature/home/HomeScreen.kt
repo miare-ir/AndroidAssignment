@@ -1,7 +1,6 @@
 package ir.miare.androidcodechallenge.feature.home
 
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -12,28 +11,23 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawing
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.windowInsetsBottomHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material3.AssistChip
-import androidx.compose.material3.AssistChipDefaults
+import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.Divider
-import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Scaffold
@@ -41,9 +35,11 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
@@ -52,6 +48,7 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.paging.PagingData
@@ -63,26 +60,41 @@ import ir.miare.androidcodechallenge.core.model.Player
 import ir.miare.androidcodechallenge.core.model.SortOption
 import ir.miare.androidcodechallenge.core.model.Team
 import ir.miare.androidcodechallenge.core.model.stableKey
+import ir.miare.androidcodechallenge.core.ui.PlayerCard
 import kotlinx.coroutines.flow.flowOf
 
 @Composable
 internal fun HomeRoute(
     modifier: Modifier = Modifier,
-    onBackClick: () -> Unit = {},
     viewModel: HomeViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.homeUiState.collectAsStateWithLifecycle()
     val sortOption by viewModel.sortOption.collectAsStateWithLifecycle()
     val pagingData = viewModel.pagingUi.collectAsLazyPagingItems()
 
+    var showSortSelectionBottomSheet by remember { mutableStateOf(false) }
+
+    if (showSortSelectionBottomSheet) {
+        SortSelectionBottomSheet(
+            onCancel = {
+                showSortSelectionBottomSheet = false
+            },
+            onConfirm = { sortOption ->
+                showSortSelectionBottomSheet = false
+                viewModel.onSortChanged(sortOption)
+            }
+        )
+    }
+
     HomeScreen(
         modifier = modifier,
         uiState = uiState,
         sortOption = sortOption,
         pagingData = pagingData,
-        onSortChanged = viewModel::onSortChanged,
         onFollowClick = viewModel::onFollowClick,
-        onBackClick = onBackClick,
+        onSortBarClick = {
+            showSortSelectionBottomSheet = true
+        },
     )
 }
 
@@ -93,15 +105,15 @@ internal fun HomeScreen(
     uiState: HomeUiState,
     sortOption: SortOption,
     pagingData: LazyPagingItems<LeagueDisplayItem>,
-    onSortChanged: (SortOption) -> Unit,
-    onBackClick: () -> Unit,
-    onFollowClick: (Player)-> Unit = {}
+    onSortBarClick: () -> Unit = {},
+    onFollowClick: (Player) -> Unit = {}
 ) {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
     val listState = rememberLazyListState()
 
     Scaffold(
         modifier = modifier,
+        contentWindowInsets = WindowInsets.safeDrawing,
         topBar = {
             CenterAlignedTopAppBar(
                 title = {
@@ -110,18 +122,9 @@ internal fun HomeScreen(
                         style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.SemiBold)
                     )
                 },
-                navigationIcon = {
-                    IconButton(onClick = onBackClick) {
-                        Icon(Icons.Default.ArrowBack, contentDescription = "Back")
-                    }
-                },
-                actions = {
-                    SortCompact(sortOption = sortOption, onSortChanged = onSortChanged)
-                },
                 scrollBehavior = scrollBehavior
             )
-        },
-        contentWindowInsets = WindowInsets.safeDrawing
+        }
     ) { innerPadding ->
 
         Column(
@@ -129,6 +132,12 @@ internal fun HomeScreen(
                 .fillMaxSize()
                 .padding(innerPadding)
         ) {
+
+            SortBar(
+                modifier = modifier.fillMaxWidth(),
+                onSortBarClick = onSortBarClick,
+                sortOption = sortOption,
+            )
             when (uiState) {
                 is HomeUiState.Loading -> {
                     Box(
@@ -175,9 +184,10 @@ internal fun HomeScreen(
                                 title = "${item.league.name} • ${item.league.country}"
                             )
                         }
+
                         is LeagueDisplayItem.PlayerItem -> {
                             PlayerCard(
-                                item = item,
+                                item = item.player,
                                 onFollowClick = onFollowClick
                             )
                         }
@@ -207,92 +217,6 @@ private fun LeagueHeaderCard(title: String) {
             style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.SemiBold),
             modifier = Modifier.padding(horizontal = 14.dp, vertical = 10.dp)
         )
-    }
-}
-
-@Composable
-private fun PlayerCard(
-    item: LeagueDisplayItem.PlayerItem,
-    onFollowClick: (Player)-> Unit = {}
-) {
-    ElevatedCard(
-        modifier = Modifier.fillMaxWidth(),
-        shape = RoundedCornerShape(20.dp),
-        elevation = CardDefaults.elevatedCardElevation(defaultElevation = 6.dp)
-    ) {
-        Column(modifier = Modifier.padding(16.dp)) {
-            Row(verticalAlignment = Alignment.CenterVertically) {
-
-                Box(
-                    modifier = Modifier
-                        .clip(CircleShape)
-                        .background(MaterialTheme.colorScheme.primary.copy(alpha = 0.12f))
-                        .height(40.dp)
-                        .fillMaxWidth(0.0f)
-                        .then(Modifier)
-                )
-
-                Text(
-                    text = item.player.name,
-                    style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.SemiBold),
-                    modifier = Modifier
-                        .padding(start = 12.dp)
-                        .weight(1f)
-                )
-
-                AssistChip(
-                    onClick = {
-                        onFollowClick(item.player)
-                    },
-                    label = { Text(
-                        text = if (item.player.isFollowed) "Followed" else "Follow"
-                    ) },
-                    colors = AssistChipDefaults.assistChipColors(
-                        labelColor = MaterialTheme.colorScheme.onSurfaceVariant,
-                    )
-                )
-            }
-
-            Spacer(Modifier.height(10.dp))
-            Divider()
-            Spacer(Modifier.height(10.dp))
-
-            Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-                StatPill(title = "Goals", value = "${item.player.totalGoal}")
-                StatPill(title = "Team", value = item.player.team.name)
-                item.avgGoals?.let {
-                    StatPill(
-                        title = "Avg/Match",
-                        value = String.format("%.2f", it)
-                    )
-                }
-            }
-        }
-    }
-}
-
-@Composable
-private fun StatPill(title: String, value: String) {
-    Card(
-        shape = RoundedCornerShape(50),
-        colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.secondaryContainer
-        ),
-        elevation = CardDefaults.cardElevation(defaultElevation = 0.5.dp)
-    ) {
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp)
-        ) {
-            Text(
-                text = "$title: ",
-                style = MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.SemiBold)
-            )
-            Text(
-                text = value,
-                style = MaterialTheme.typography.labelMedium
-            )
-        }
     }
 }
 
@@ -366,6 +290,53 @@ private fun SortCompact(
     }
 }
 
+@Composable
+fun SortBar(
+    modifier: Modifier = Modifier,
+    onSortBarClick: () -> Unit = {},
+    sortOption: SortOption,
+) {
+
+    Column(
+        modifier = modifier
+            .padding(horizontal = 10.dp)
+            .clickable {
+                onSortBarClick()
+            },
+    ) {
+
+        Row(
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+
+            Icon(
+                imageVector = Icons.Default.Menu,
+                contentDescription = "Sort icon",
+                tint = MaterialTheme.colorScheme.onSurface,
+                modifier = Modifier.size(20.dp)
+            )
+
+            Spacer(modifier = Modifier.width(8.dp))
+
+            Text(
+                text = "Tap to sort",
+                fontSize = 14.sp,
+                color = MaterialTheme.colorScheme.onSurface,
+                fontWeight = FontWeight.Medium
+            )
+        }
+        Text(
+            modifier = Modifier.fillMaxWidth(),
+            textAlign = TextAlign.End,
+            text = sortOption.value,
+            fontSize = 16.sp,
+            color = MaterialTheme.colorScheme.onSurface,
+            fontWeight = FontWeight.Medium
+        )
+
+    }
+}
+
 
 @Composable
 private fun demoPagingItems(): LazyPagingItems<LeagueDisplayItem> {
@@ -430,8 +401,6 @@ private fun HomeScreenPreview() {
         uiState = HomeUiState.Success(emptyList()),
         sortOption = SortOption.NONE,
         pagingData = demoPagingItems(),
-        onSortChanged = {},
-        onBackClick = {}
     )
 }
 
@@ -442,7 +411,5 @@ private fun ErrorPreview() {
         uiState = HomeUiState.Error("Network error. Please try again."),
         sortOption = SortOption.NONE,
         pagingData = demoPagingItems(),
-        onSortChanged = {},
-        onBackClick = {}
     )
 }

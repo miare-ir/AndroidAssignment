@@ -1,16 +1,30 @@
 package ir.miare.androidcodechallenge
 
-import androidx.compose.animation.core.*
+import androidx.compose.animation.core.FastOutSlowInEasing
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.LinearOutSlowInEasing
+import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
+import androidx.compose.animation.core.tween
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.PlayArrow
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
@@ -18,7 +32,7 @@ import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -28,7 +42,6 @@ import androidx.compose.ui.unit.sp
 fun SplashScreen() {
     val dark = androidx.compose.foundation.isSystemInDarkTheme()
 
-    // Animated gradient background
     val gradientColors = if (dark) {
         listOf(Color(0xFF0B1220), Color(0xFF0F2E53), Color(0xFF144E7A))
     } else {
@@ -58,7 +71,6 @@ fun SplashScreen() {
             )
             .padding(24.dp)
     ) {
-        // Decorative soft circles
         SoftBlob(
             modifier = Modifier
                 .size(220.dp)
@@ -85,7 +97,7 @@ fun SplashScreen() {
             Spacer(Modifier.height(20.dp))
 
             Text(
-                text = "brandName",
+                text = "Fooootball",
                 style = MaterialTheme.typography.headlineMedium.copy(
                     fontWeight = FontWeight.ExtraBold,
                     letterSpacing = 0.5.sp
@@ -98,8 +110,6 @@ fun SplashScreen() {
                 color = if (dark) Color(0xFFB7D8F7) else Color(0xFF1B4A66).copy(alpha = 0.8f)
             )
         }
-
-        // Bottom subtle caption
         Text(
             text = "Loading…",
             style = MaterialTheme.typography.labelLarge,
@@ -149,7 +159,6 @@ private fun GlowingRotatingBall() {
         modifier = Modifier
             .size(ringSize)
             .drawBehind {
-                // soft pulse ring
                 val r = (size.toPx() * pulse)
                 drawCircle(
                     color = Color.White.copy(alpha = 0.16f),
@@ -163,7 +172,6 @@ private fun GlowingRotatingBall() {
                 .size(size)
                 .rotate(rotation)
                 .drawBehind {
-                    // glow
                     val radius = size.toPx() * 0.95f
                     drawCircle(
                         brush = Brush.radialGradient(
@@ -181,10 +189,9 @@ private fun GlowingRotatingBall() {
             color = Color.White.copy(alpha = 0.9f)
         ) {
             Box(contentAlignment = Alignment.Center) {
-                Icon(
-                    imageVector = Icons.Outlined.PlayArrow,
+                Image(
+                    painter = painterResource(R.drawable.ic_ball),
                     contentDescription = "Football",
-                    tint = Color(0xFF0F4060),
                     modifier = Modifier.size(56.dp)
                 )
             }
@@ -194,8 +201,6 @@ private fun GlowingRotatingBall() {
 
 @Composable
 private fun SoftBlob(modifier: Modifier, color: Color) {
-    // Simple circular blur-like blob using radial gradient
-    val density = LocalDensity.current
     Box(
         modifier = modifier.drawBehind {
             val radius = size.maxDimension / 2f
