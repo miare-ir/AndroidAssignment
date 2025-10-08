@@ -6,6 +6,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import ir.miare.androidcodechallenge.core.database.entity.FollowedPlayerEntity
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface FollowedPlayerDao {
@@ -14,6 +15,9 @@ interface FollowedPlayerDao {
 
     @Query("SELECT * FROM followed_players WHERE id = :playerId LIMIT 1")
     suspend fun findByPlayerId(playerId: Long): FollowedPlayerEntity?
+
+    @Query(value = "SELECT * FROM followed_players")
+    fun getAllPlayers(): Flow<List<FollowedPlayerEntity>>
 
     @Delete
     suspend fun delete(entity: FollowedPlayerEntity)
