@@ -99,12 +99,10 @@ class HomeViewModel @Inject constructor(
         combine(basePaging, followedKeys) { paging, keys ->
             paging.map { item ->
                 when (item) {
-                    is LeagueDisplayItem.Header -> {
-                        item
-                    }
+                    is LeagueDisplayItem.Header -> item
                     is LeagueDisplayItem.PlayerItem -> {
-                        item.player.isFollowed = item.player.stableKey() in keys
-                        item
+                        val followed = item.player.stableKey() in keys
+                        item.copy(player = item.player.copy(isFollowed = followed))
                     }
                 }
             }

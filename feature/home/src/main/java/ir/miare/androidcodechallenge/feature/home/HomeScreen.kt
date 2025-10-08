@@ -158,64 +158,33 @@ internal fun HomeScreen(
                 contentPadding = PaddingValues(horizontal = 16.dp, vertical = 12.dp),
                 verticalArrangement = Arrangement.spacedBy(10.dp)
             ) {
-
-                for (index in 0 until pagingData.itemCount) {
-                    val item = pagingData.peek(index) ?: continue
+                items(
+                    count = pagingData.itemCount,
+                    key = { index ->
+                        when (val item = pagingData.peek(index)) {
+                            is LeagueDisplayItem.Header -> "hdr-${item.league.name}"
+                            is LeagueDisplayItem.PlayerItem -> "ply-${item.player.stableKey()}"
+                            else -> "row-$index"
+                        }
+                    }
+                ) { index ->
+                    val item = pagingData[index] ?: return@items  // <-- observable read, not peek
                     when (item) {
                         is LeagueDisplayItem.Header -> {
-                            stickyHeader(key = "hdr-$index") {
-                                LeagueHeaderCard(
-                                    title = "${item.league.name} • ${item.league.country}"
-                                )
-                            }
+                            LeagueHeaderCard(
+                                title = "${item.league.name} • ${item.league.country}"
+                            )
                         }
-
                         is LeagueDisplayItem.PlayerItem -> {
-                            item(
-                                key = item.player.stableKey(),
-                                contentType = "player"
-                            ) {
-                                PlayerCard(
-                                    item = item,
-                                    onFollowClick = onFollowClick
-                                )
-
-                            }
-                        }
-                    }
-                }
-
-
-                when (val append = pagingData.loadState.append) {
-                    is androidx.paging.LoadState.Loading -> {
-                        item("append-loading") {
-                            Box(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(16.dp),
-                                contentAlignment = Alignment.Center
-                            ) {
-                                CircularProgressIndicator()
-                            }
-                        }
-                    }
-
-                    is androidx.paging.LoadState.Error -> {
-                        item("append-error") {
-                            Text(
-                                text = append.error.message ?: "Error loading more",
-                                color = MaterialTheme.colorScheme.error,
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(16.dp),
-                                textAlign = TextAlign.Center
+                            PlayerCard(
+                                item = item,
+                                onFollowClick = onFollowClick
                             )
                         }
                     }
-
-                    else -> Unit
                 }
             }
+
 
 
             Spacer(Modifier.windowInsetsBottomHeight(WindowInsets.navigationBars))
@@ -245,7 +214,7 @@ private fun LeagueHeaderCard(title: String) {
 private fun PlayerCard(
     item: LeagueDisplayItem.PlayerItem,
     onFollowClick: (Player)-> Unit = {}
-    ) {
+) {
     ElevatedCard(
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(20.dp),
