@@ -68,27 +68,25 @@ class HomeViewModel @Inject constructor(
             )
 
     private val basePaging: Flow<PagingData<LeagueDisplayItem>> =
-        homeUiState
-            .flatMapLatest { state ->
-                when (state) {
-                    is HomeUiState.Success -> {
-                        Pager(
-                            config = PagingConfig(
-                                pageSize = 20,
-                                enablePlaceholders = true,
-                                prefetchDistance = 2),
-                            pagingSourceFactory = {
-                                LeagueDisplayItemPagingSource(
-                                      items = state.displayItems
-                                )
-                            }
-                        ).flow
-                    }
-
-                    else -> flowOf(PagingData.empty())
+        combine(_sortOption, homeUiState) { sortOption, state ->
+            when (state) {
+                is HomeUiState.Success -> {
+                    Pager(
+                        config = PagingConfig(
+                            pageSize = 20,
+                            enablePlaceholders = true,
+                            prefetchDistance = 2
+                        ),
+                        pagingSourceFactory = {
+                            LeagueDisplayItemPagingSource(
+                                items = state.displayItems,
+                            )
+                        }
+                    ).flow
                 }
+                else -> flowOf(PagingData.empty())
             }
-            .cachedIn(viewModelScope)
+        }.flatMapLatest { it }.cachedIn(viewModelScope)
 
     private val followedKeys: StateFlow<Set<String>> =
         observeFollowedSet()

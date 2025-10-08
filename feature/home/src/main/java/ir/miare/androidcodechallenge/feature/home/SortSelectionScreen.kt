@@ -37,7 +37,6 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -52,6 +51,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun SortSelectionBottomSheet(
     modifier: Modifier = Modifier,
+    sortOption: SortOption = SortOption.NONE,
     onCancel: () -> Unit,
     onConfirm: (SortOption) -> Unit = {},
 ) {
@@ -65,7 +65,7 @@ fun SortSelectionBottomSheet(
     val scope = rememberCoroutineScope()
 
     var selectedSortOption by
-    rememberSaveable { mutableStateOf(SortOption.NONE) }
+    rememberSaveable { mutableStateOf(sortOption) }
 
     ModalBottomSheet(
         modifier = modifier,
@@ -102,7 +102,7 @@ fun SortSelectionScreen(
     Surface(
         modifier = modifier,
         shape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp),
-        color = Color.White
+        color = MaterialTheme.colorScheme.surfaceContainerHigh
     ) {
         Column(
             modifier = Modifier
@@ -118,7 +118,7 @@ fun SortSelectionScreen(
                     text = "Choose sort",
                     fontSize = 18.sp,
                     fontWeight = FontWeight.Bold,
-                    color = Color.DarkGray,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
                     textAlign = TextAlign.Center
                 )
             }

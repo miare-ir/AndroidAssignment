@@ -11,29 +11,28 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.windowInsetsBottomHeight
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.RadioButton
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -72,10 +71,19 @@ internal fun HomeRoute(
     val sortOption by viewModel.sortOption.collectAsStateWithLifecycle()
     val pagingData = viewModel.pagingUi.collectAsLazyPagingItems()
 
+    val listState = rememberLazyListState()
     var showSortSelectionBottomSheet by remember { mutableStateOf(false) }
+
+    val refreshState = pagingData.loadState.refresh
+    LaunchedEffect(sortOption, refreshState) {
+        if (refreshState is androidx.paging.LoadState.NotLoading && pagingData.itemCount > 0) {
+            listState.animateScrollToItem(0)
+        }
+    }
 
     if (showSortSelectionBottomSheet) {
         SortSelectionBottomSheet(
+            sortOption = sortOption,
             onCancel = {
                 showSortSelectionBottomSheet = false
             },
@@ -95,6 +103,7 @@ internal fun HomeRoute(
         onSortBarClick = {
             showSortSelectionBottomSheet = true
         },
+        listState = listState
     )
 }
 
@@ -106,99 +115,88 @@ internal fun HomeScreen(
     sortOption: SortOption,
     pagingData: LazyPagingItems<LeagueDisplayItem>,
     onSortBarClick: () -> Unit = {},
-    onFollowClick: (Player) -> Unit = {}
+    onFollowClick: (Player) -> Unit = {},
+    listState: LazyListState
 ) {
-    val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
-    val listState = rememberLazyListState()
 
-    Scaffold(
-        modifier = modifier,
-        contentWindowInsets = WindowInsets.safeDrawing,
-        topBar = {
-            CenterAlignedTopAppBar(
-                title = {
-                    Text(
-                        "Leagues & Players",
-                        style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.SemiBold)
-                    )
-                },
-                scrollBehavior = scrollBehavior
-            )
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+    ) {
+
+        Spacer(Modifier.height(10.dp))
+
+        Text(
+            modifier = modifier.fillMaxWidth(),
+            textAlign = TextAlign.Center,
+            text = "Leagues & Players",
+            style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.SemiBold)
+        )
+
+        Spacer(Modifier.height(20.dp))
+
+        SortBar(
+            modifier = modifier.fillMaxWidth(),
+            onSortBarClick = onSortBarClick,
+            sortOption = sortOption,
+        )
+        when (uiState) {
+            is HomeUiState.Loading -> {
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(32.dp),
+                    contentAlignment = Alignment.Center
+                ) {
+                    CircularProgressIndicator()
+                }
+            }
+
+            is HomeUiState.Error -> {
+                ErrorPane(
+                    message = uiState.message,
+                    onRetry = { pagingData.refresh() }
+                )
+            }
+
+            is HomeUiState.Success -> {
+            }
         }
-    ) { innerPadding ->
 
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(innerPadding)
+        LazyColumn(
+            state = listState,
+            modifier = Modifier.fillMaxSize(),
+            contentPadding = PaddingValues(horizontal = 16.dp, vertical = 12.dp),
+            verticalArrangement = Arrangement.spacedBy(10.dp)
         ) {
-
-            SortBar(
-                modifier = modifier.fillMaxWidth(),
-                onSortBarClick = onSortBarClick,
-                sortOption = sortOption,
-            )
-            when (uiState) {
-                is HomeUiState.Loading -> {
-                    Box(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .padding(32.dp),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        CircularProgressIndicator()
+            items(
+                count = pagingData.itemCount,
+                key = { index ->
+                    when (val item = pagingData.peek(index)) {
+                        is LeagueDisplayItem.Header -> "hdr-${item.league.name}"
+                        is LeagueDisplayItem.PlayerItem -> "ply-${item.player.stableKey()}"
+                        else -> "row-$index"
                     }
                 }
-
-                is HomeUiState.Error -> {
-                    ErrorPane(
-                        message = uiState.message,
-                        onRetry = { pagingData.refresh() }
-                    )
-                }
-
-                is HomeUiState.Success -> {
-                }
-            }
-
-            LazyColumn(
-                state = listState,
-                modifier = Modifier.fillMaxSize(),
-                contentPadding = PaddingValues(horizontal = 16.dp, vertical = 12.dp),
-                verticalArrangement = Arrangement.spacedBy(10.dp)
-            ) {
-                items(
-                    count = pagingData.itemCount,
-                    key = { index ->
-                        when (val item = pagingData.peek(index)) {
-                            is LeagueDisplayItem.Header -> "hdr-${item.league.name}"
-                            is LeagueDisplayItem.PlayerItem -> "ply-${item.player.stableKey()}"
-                            else -> "row-$index"
-                        }
+            ) { index ->
+                val item = pagingData[index] ?: return@items  // <-- observable read, not peek
+                when (item) {
+                    is LeagueDisplayItem.Header -> {
+                        LeagueHeaderCard(
+                            title = "${item.league.name} • ${item.league.country}"
+                        )
                     }
-                ) { index ->
-                    val item = pagingData[index] ?: return@items  // <-- observable read, not peek
-                    when (item) {
-                        is LeagueDisplayItem.Header -> {
-                            LeagueHeaderCard(
-                                title = "${item.league.name} • ${item.league.country}"
-                            )
-                        }
 
-                        is LeagueDisplayItem.PlayerItem -> {
-                            PlayerCard(
-                                item = item.player,
-                                onFollowClick = onFollowClick
-                            )
-                        }
+                    is LeagueDisplayItem.PlayerItem -> {
+                        PlayerCard(
+                            item = item.player,
+                            onFollowClick = onFollowClick
+                        )
                     }
                 }
             }
-
-
-
-            Spacer(Modifier.windowInsetsBottomHeight(WindowInsets.navigationBars))
         }
+        Spacer(Modifier.windowInsetsBottomHeight(WindowInsets.navigationBars))
     }
 }
 
@@ -401,6 +399,7 @@ private fun HomeScreenPreview() {
         uiState = HomeUiState.Success(emptyList()),
         sortOption = SortOption.NONE,
         pagingData = demoPagingItems(),
+        listState = rememberLazyListState()
     )
 }
 
@@ -411,5 +410,6 @@ private fun ErrorPreview() {
         uiState = HomeUiState.Error("Network error. Please try again."),
         sortOption = SortOption.NONE,
         pagingData = demoPagingItems(),
+        listState = rememberLazyListState()
     )
 }
