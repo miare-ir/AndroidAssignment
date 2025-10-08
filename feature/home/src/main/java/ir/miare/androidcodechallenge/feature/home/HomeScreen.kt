@@ -65,7 +65,7 @@ import ir.miare.androidcodechallenge.core.model.Team
 import kotlinx.coroutines.flow.flowOf
 
 @Composable
-fun HomeRoute(
+internal fun HomeRoute(
     modifier: Modifier = Modifier,
     onBackClick: () -> Unit = {},
     viewModel: HomeViewModel = hiltViewModel(),
