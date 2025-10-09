@@ -58,4 +58,9 @@ dependencies {
     implementation(libs.paging.runtime)
     implementation(libs.paging.compose)
     debugImplementation(libs.androidx.ui.tooling)
+
+    testImplementation(libs.kotlin.test)
+    testImplementation(libs.mockk)
+    testImplementation(libs.kotlinx.coroutines.test)
+    testImplementation(libs.androidx.core.testing)
 }

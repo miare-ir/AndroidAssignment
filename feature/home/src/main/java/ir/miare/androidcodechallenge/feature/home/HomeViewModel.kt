@@ -39,7 +39,7 @@ class HomeViewModel @Inject constructor(
 ) : ViewModel() {
 
     companion object {
-        private const val SORT_OPTION = "sort_option"
+        const val SORT_OPTION = "sort_option"
     }
 
     private val _sortOption =
