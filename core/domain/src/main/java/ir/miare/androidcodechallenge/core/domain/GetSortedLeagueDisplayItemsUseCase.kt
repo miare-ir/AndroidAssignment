@@ -13,7 +13,7 @@ class GetSortedLeagueDisplayItemsUseCase @Inject constructor(
 ) {
     operator fun invoke(sortOption: SortOption): Flow<ApiResult<List<LeagueDisplayItem>>> {
         return leagueRepository.getHome()
-            .map {result ->
+            .map { result ->
                 when (result) {
                     is ApiResult.Success -> {
                         val displayItemsFlow = result.data.let { fakeDataList ->
@@ -21,43 +21,54 @@ class GetSortedLeagueDisplayItemsUseCase @Inject constructor(
                                 fakeData.players.map { player -> player to fakeData.league }
                             }
 
-                            val sortedPlayerLeagues = when (sortOption) {
-                                SortOption.TEAM_AND_LEAGUE_RANK ->
-                                    allPlayerLeagues.sortedBy { (player, league) ->
-                                        player.team.rank + league.rank
-                                    }
-                                SortOption.MOST_GOALS ->
-                                    allPlayerLeagues.sortedByDescending { (player, _) ->
-                                        player.totalGoal
-                                    }
-                                SortOption.AVERAGE_GOALS_PER_MATCH ->
-                                    allPlayerLeagues.sortedByDescending { (player, league) ->
-                                        player.totalGoal.toFloat() / league.totalMatches
-                                    }
-                                SortOption.NONE ->
-                                    allPlayerLeagues
-                            }
-
-                            sortedPlayerLeagues
-                                .groupBy { (_, league) -> league.name }
-                                .map { (_, playerLeagues) ->
-                                    val league = playerLeagues.first().second
-                                    val playerItems = playerLeagues.map { (player, league) ->
-                                        val avgGoals =
-                                            if (sortOption == SortOption.AVERAGE_GOALS_PER_MATCH) {
-                                                player.totalGoal.toFloat() / league.totalMatches
-                                            } else {
-                                                null
+                            when (sortOption) {
+                                SortOption.TEAM_AND_LEAGUE_RANK -> {
+                                    val sortedLeagues = fakeDataList.sortedBy { it.league.rank }
+                                    sortedLeagues.flatMap { leagueData ->
+                                        val league = leagueData.league
+                                        val sortedPlayers = leagueData.players
+                                            .sortedBy { it.team.rank }
+                                            .map { player ->
+                                                LeagueDisplayItem.PlayerItem(player, league, null)
                                             }
-                                        LeagueDisplayItem.PlayerItem(player, league, avgGoals)
+                                        listOf(LeagueDisplayItem.Header(league)) + sortedPlayers
                                     }
-                                    listOf(LeagueDisplayItem.Header(league)) + playerItems
                                 }
-                                .flatten()
+                                SortOption.MOST_GOALS -> {
+                                    allPlayerLeagues
+                                        .sortedByDescending { (player, _) -> player.totalGoal }
+                                        .map { (player, league) ->
+                                            LeagueDisplayItem.PlayerItem(player, league, null)
+                                        }
+                                }
+                                SortOption.AVERAGE_GOALS_PER_MATCH -> {
+                                    val leagueAverages = fakeDataList.map { leagueData ->
+                                        val league = leagueData.league
+                                        val totalGoals = leagueData.players.sumOf { it.totalGoal }
+                                        val avgGoalsPerMatch = if (league.totalMatches > 0) {
+                                            totalGoals.toFloat() / league.totalMatches
+                                        } else {
+                                            0f
+                                        }
+                                        league to avgGoalsPerMatch
+                                    }
+                                    leagueAverages
+                                        .sortedByDescending { (_, avg) -> avg }
+                                        .map { (league, _) -> LeagueDisplayItem.Header(league) }
+                                }
+                                SortOption.NONE -> {
+                                    fakeDataList.flatMap { leagueData ->
+                                        val league = leagueData.league
+                                        val playerItems = leagueData.players.map { player ->
+                                            LeagueDisplayItem.PlayerItem(player, league, null)
+                                        }
+                                        listOf(LeagueDisplayItem.Header(league)) + playerItems
+                                    }
+                                }
+                            }
                         }
                         ApiResult.Success(displayItemsFlow)
                     }
-
                     is ApiResult.Error -> result
                 }
             }
