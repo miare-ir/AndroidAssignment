@@ -33,6 +33,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -68,13 +69,16 @@ internal fun HomeRoute(
     val sortOption by viewModel.sortOption.collectAsStateWithLifecycle()
     val pagingData = viewModel.pagingUi.collectAsLazyPagingItems()
 
-    val listState = rememberLazyListState()
+    val listState = rememberSaveable(saver = LazyListState.Saver) {
+        LazyListState()
+    }
     var showSortSelectionBottomSheet by remember { mutableStateOf(false) }
 
-    val refreshState = pagingData.loadState.refresh
-    LaunchedEffect(sortOption, refreshState) {
-        if (refreshState is LoadState.NotLoading && pagingData.itemCount > 0) {
+    var lastSortOption by rememberSaveable { mutableStateOf(sortOption) }
+    LaunchedEffect(sortOption) {
+        if (sortOption != lastSortOption) {
             listState.animateScrollToItem(0)
+            lastSortOption = sortOption
         }
     }
 
