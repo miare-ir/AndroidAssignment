@@ -225,7 +225,7 @@ fun PaginationLoadingIndicator(modifier: Modifier = Modifier) {
 }
 
 @Composable
-private fun LeagueHeaderCard(title: String) {
+fun LeagueHeaderCard(title: String) {
     Card(
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(18.dp),

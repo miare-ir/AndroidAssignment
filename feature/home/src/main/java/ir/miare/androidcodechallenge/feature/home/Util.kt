@@ -66,3 +66,9 @@ internal fun demoPagingItems(): LazyPagingItems<LeagueDisplayItem> {
     )
     return flowOf(PagingData.from(demo)).collectAsLazyPagingItems()
 }
+
+@Composable
+internal fun demoEmptyPagingItems(): LazyPagingItems<LeagueDisplayItem> {
+    val demo = emptyList<LeagueDisplayItem>()
+    return flowOf(PagingData.from(demo)).collectAsLazyPagingItems()
+}

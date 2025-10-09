@@ -19,6 +19,6 @@ class ExampleInstrumentedTest {
     fun useAppContext() {
         // Context of the app under test.
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
-        assertEquals("ir.miare.androidcodechallenge", appContext.packageName)
+        assertEquals("ir.miare.androidcodechallenge.beta", appContext.packageName)
     }
 }

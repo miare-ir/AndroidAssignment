@@ -13,7 +13,7 @@ android {
     defaultConfig {
         minSdk = 24
 
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner = "ir.miare.androidcodechallenge.feature.home.HiltTestRunner"
         consumerProguardFiles("consumer-rules.pro")
     }
 
@@ -62,4 +62,14 @@ dependencies {
     testImplementation(libs.mockk)
     testImplementation(libs.kotlinx.coroutines.test)
     testImplementation(libs.androidx.core.testing)
+
+    testImplementation(libs.junit)
+    androidTestImplementation(libs.androidx.junit)
+    androidTestImplementation(libs.androidx.espresso.core)
+    androidTestImplementation(platform(libs.androidx.compose.bom))
+    androidTestImplementation(libs.androidx.ui.test.junit4)
+    androidTestImplementation(libs.hilt.android.testing)
+    kaptAndroidTest(libs.hilt.android.compiler)
+    debugImplementation(libs.androidx.ui.tooling)
+    debugImplementation(libs.androidx.ui.test.manifest)
 }
