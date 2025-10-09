@@ -50,13 +50,13 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
-
-    implementation(libs.hilt.android)
-    kapt(libs.hilt.android.compiler)
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.hilt.navigation.compose)
     implementation(libs.paging.runtime)
     implementation(libs.paging.compose)
+    implementation(libs.hilt.android)
+    kapt(libs.hilt.android.compiler)
+
     debugImplementation(libs.androidx.ui.tooling)
 
     testImplementation(libs.kotlin.test)
@@ -71,6 +71,5 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     androidTestImplementation(libs.hilt.android.testing)
     kaptAndroidTest(libs.hilt.android.compiler)
-    debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 }
