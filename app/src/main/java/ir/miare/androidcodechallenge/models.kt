@@ -1,28 +1,32 @@
 package ir.miare.androidcodechallenge
 
-import com.fasterxml.jackson.annotation.JsonProperty
-import java.io.Serializable
+import java.io.Serializable as JavaSerializable
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
-
+@Serializable
 data class FakeData(
-    @JsonProperty("league") var league: League,
-    @JsonProperty("players") var players: List<Player>
+    @SerialName("league") val league: League,
+    @SerialName("players") val players: List<Player>
 )
 
+@Serializable
 data class League(
-    @JsonProperty("name") val name: String,
-    @JsonProperty("country") val country: String,
-    @JsonProperty("rank") val rank: Int,
-    @JsonProperty("total_matches") val totalMatches: Int,
+    @SerialName("name") val name: String,
+    @SerialName("country") val country: String,
+    @SerialName("rank") val rank: Int,
+    @SerialName("total_matches") val totalMatches: Int,
 )
 
+@Serializable
 data class Player(
-    @JsonProperty("name") val name: String,
-    @JsonProperty("team") val team: Team,
-    @JsonProperty("total_goal") val totalGoal: Int
-) : Serializable
+    @SerialName("name") val name: String,
+    @SerialName("team") val team: Team,
+    @SerialName("total_goal") val totalGoal: Int
+) : JavaSerializable
 
+@Serializable
 data class Team(
-    @JsonProperty("name") val name: String,
-    @JsonProperty("rank") val rank: Int
-) : Serializable
+    @SerialName("name") val name: String,
+    @SerialName("rank") val rank: Int
+) : JavaSerializable

@@ -14,12 +14,14 @@ import ir.logicbase.mockfit.MockFitInterceptor
 import ir.miare.androidcodechallenge.databinding.FragmentRankingBinding
 import ir.miare.androidcodechallenge.databinding.ItemLeagueBinding
 import ir.miare.androidcodechallenge.databinding.ItemPlayerBinding
+import kotlinx.serialization.json.Json
+import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
-import retrofit2.converter.jackson.JacksonConverterFactory
+import retrofit2.converter.kotlinx.serialization.asConverterFactory
 import retrofit2.http.GET
 import java.util.concurrent.TimeUnit
 import kotlin.concurrent.thread
@@ -40,9 +42,10 @@ class RankingFragment(val sortingMode: Int) : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_ranking, container, false)
         binding = FragmentRankingBinding.bind(view)
+        val json = Json { ignoreUnknownKeys = true }
         val retrofit = Retrofit.Builder()
             .baseUrl("https://test_baseurl.com/v2/")
-            .addConverterFactory(JacksonConverterFactory.create())
+            .addConverterFactory(json.asConverterFactory("application/json".toMediaType()))
             .client(
                 OkHttpClient.Builder()
                     .addInterceptor(
