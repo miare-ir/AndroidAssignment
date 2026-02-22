@@ -1,69 +1,127 @@
-# Android Assignment
-######  We have an interview, yay
+# Android Live Coding Challenge
 
-### TL;DR
+## Overview
 
-Clone this project, open it in Android Studio and build it.
+You are given an Android project that:
 
-#### What is this?
+- Uses Activity + Fragment
+- Contains business logic inside the Fragment
+- Displays a list of football players
 
-This app shows a list of the top three scoring football players in different leagues.
+The current implementation works but is not structured for scalability or long-term maintenance.
 
-#### What do I do with this?
+Your task is to improve and extend the project to a production-ready level.
 
-- Clone it
-- Open it in Android Studio
-- Let it download its dependencies
-- Make the project once (since we have some intermediate classes which need to be generated)
-- Chill :)
+---
 
-#### 📝 Task Description
-In this task, you are expected to design and implement an Android application that displays football player data for all leagues and players provided.
+## Goals
 
-Core Requirements:
-1. Display a list of players
-- Player data must be displayed using pagination.
-- Sorting should be applied across the entire dataset, not just the current page.
-- The method of implementing pagination and sorting — and how they interact — is completely up to you.
+We are interested in:
 
-2. Follow / Unfollow players
+- How you structure code
+- How you manage state
+- How you separate responsibilities
+- How you reason about architectural decisions
+- How you ensure maintainability and testability
+
+Please explain your decisions while working.
+
+---
+
+## Requirements
+
+### 1. Improve the Project Structure
+
+Refactor the existing implementation to improve:
+
+- Separation of concerns
+- State management
+- Scalability
+- Testability
+- Code readability
+
+You are free to decide:
+
+- Architectural style
+- Project structure
+- How responsibilities are divided
+- How state is managed
+
+---
+
+### 2. Replace the UI with Jetpack Compose
+
+- Display a list of players.
+- Each player item should show:
+    - Name
+    - League
+    - Goals scored
+- The UI should react to state changes.
+- Keep the data flow predictable and clean.
+
+---
+
+### 3. Follow / Unfollow Players
+
 - The user must be able to follow or unfollow any player.
-- Followed players should be persisted locally, so the follow status remains after closing and reopening the app.
-- How you model and store this state is entirely your decision.
+- The UI should update immediately when toggled.
+- The follow state must survive configuration changes (e.g., rotation).
 
-3. Followed players screen
-- The user must be able to view their followed players in a dedicated screen.
-- How this screen is accessed is also up to you (e.g. a button on the main screen, or a tab in bottom navigation).
+Persistent storage is optional.
 
+---
 
+### 4. Data Consideration
 
-#### 🔧 Technical Requirements
-The following are mandatory and will be strictly evaluated:
+Assume:
 
-Use Jetpack Compose for UI.
+- Player data may come from a remote source.
+- Follow state may come from a local source.
 
-Follow Clean Architecture principles with clear separation of layers (Presentation / Domain / Data).
+Design your solution in a way that could support both cleanly.
 
-Implement Unit Tests for key components.
+You do not need to implement networking.
 
-Implement UI Tests for important user flows.
+---
 
-Additional technical decisions — including state management, navigation, persistence, dependency injection, design system, etc. — are entirely up to you.
+### 5. Testing
 
-Final UI/UX design is also open to your judgment and will be evaluated based on your analysis and decisions.
+Add at least one meaningful unit test for core logic.
 
+The test should not depend on Android framework classes.
 
+---
 
-#### 📌 Evaluation Criteria
-This task is not just about the final result — we're primarily evaluating your approach and thought process:
+## Optional (If Time Allows)
 
-- Accurate understanding and coverage of the requirements
-- Scalable and flexible architectural design
-- Clean and maintainable code structure
-- Proper state and data flow management
-- Code readability and modularity
-- Smooth, intuitive, and consistent user experience
-- Effective persistence and handling of follow state
-- Meaningful test coverage (both Unit and UI)
-- Quality of documentation and clarity of technical decisions
+- Discuss or implement pagination
+- Discuss sorting across the full dataset
+- Add persistence for follow state
+- Improve modularity
+- Add additional tests
 
+---
+
+## Evaluation Focus
+
+We are evaluating:
+
+- Architectural decisions
+- State management approach
+- Code quality and readability
+- Testability
+- Communication and reasoning
+- Ability to scale the solution
+
+---
+
+## Important
+
+This is not about finishing every feature.
+
+We are more interested in:
+
+- How you think
+- How you structure code
+- How you approach problems
+- The trade-offs you make
