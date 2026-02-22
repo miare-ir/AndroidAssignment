@@ -1,6 +1,7 @@
 [
   {
     "league": {
+      "id": 1,
       "name": "La Liga",
       "country": "Spain",
       "rank": 2,
@@ -8,49 +9,28 @@
     },
     "players": [
       {
+        "id": 101,
         "name": "Jude Bellingham",
         "total_goal": 19,
-        "team": {
-          "name": "Real Madrid",
-          "rank": 1
-        }
+        "team": { "id": 11, "name": "Real Madrid", "rank": 1 }
       },
       {
+        "id": 102,
         "name": "Robert Lewandowski",
         "total_goal": 23,
-        "team": {
-          "name": "Barcelona",
-          "rank": 2
-        }
+        "team": { "id": 12, "name": "Barcelona", "rank": 2 }
       },
       {
-        "name": "Takefusa Kubo",
-        "total_goal": 15,
-        "team": {
-          "name": "Real Sociedad",
-          "rank": 5
-        }
-      },
-      {
+        "id": 103,
         "name": "Antoine Griezmann",
         "total_goal": 21,
-        "team": {
-          "name": "Atletico Madrid",
-          "rank": 3
-        }
-      },
-      {
-        "name": "Iago Aspas",
-        "total_goal": 16,
-        "team": {
-          "name": "Celta Vigo",
-          "rank": 4
-        }
+        "team": { "id": 13, "name": "Atletico Madrid", "rank": 3 }
       }
     ]
   },
   {
     "league": {
+      "id": 2,
       "name": "Ligue 1",
       "country": "France",
       "rank": 5,
@@ -58,49 +38,28 @@
     },
     "players": [
       {
+        "id": 201,
         "name": "Arnaud Kalimuendo",
         "total_goal": 17,
-        "team": {
-          "name": "Rennes",
-          "rank": 3
-        }
+        "team": { "id": 21, "name": "Rennes", "rank": 3 }
       },
       {
+        "id": 202,
         "name": "Ousmane Dembélé",
         "total_goal": 21,
-        "team": {
-          "name": "Paris Saint-Germain",
-          "rank": 1
-        }
+        "team": { "id": 22, "name": "Paris Saint-Germain", "rank": 1 }
       },
       {
-        "name": "Alexandre Lacazette",
-        "total_goal": 15,
-        "team": {
-          "name": "Olympique Lyonnais",
-          "rank": 5
-        }
-      },
-      {
+        "id": 203,
         "name": "Mason Greenwood",
         "total_goal": 21,
-        "team": {
-          "name": "Olympique Marseille",
-          "rank": 2
-        }
-      },
-      {
-        "name": "Jonathan David",
-        "total_goal": 16,
-        "team": {
-          "name": "Lille",
-          "rank": 4
-        }
+        "team": { "id": 23, "name": "Olympique Marseille", "rank": 2 }
       }
     ]
   },
   {
     "league": {
+      "id": 3,
       "name": "Serie A",
       "country": "Italy",
       "rank": 3,
@@ -108,49 +67,28 @@
     },
     "players": [
       {
+        "id": 301,
         "name": "Victor Osimhen",
         "total_goal": 22,
-        "team": {
-          "name": "Napoli",
-          "rank": 1
-        }
+        "team": { "id": 31, "name": "Napoli", "rank": 1 }
       },
       {
-        "name": "Rafael Leão",
-        "total_goal": 16,
-        "team": {
-          "name": "AC Milan",
-          "rank": 4
-        }
-      },
-      {
+        "id": 202,
         "name": "Dusan Vlahović",
         "total_goal": 18,
-        "team": {
-          "name": "Juventus",
-          "rank": 3
-        }
+        "team": { "id": 32, "name": "Juventus", "rank": 3 }
       },
       {
+        "id": 303,
         "name": "Lautaro Martínez",
         "total_goal": 20,
-        "team": {
-          "name": "Inter Milan",
-          "rank": 2
-        }
-      },
-      {
-        "name": "Sergej Milinković-Savić",
-        "total_goal": 14,
-        "team": {
-          "name": "Lazio",
-          "rank": 5
-        }
+        "team": { "id": 33, "name": "Inter Milan", "rank": 2 }
       }
     ]
   },
   {
     "league": {
+      "id": 4,
       "name": "Bundesliga",
       "country": "Germany",
       "rank": 4,
@@ -158,49 +96,28 @@
     },
     "players": [
       {
+        "id": 401,
         "name": "Serge Gnabry",
         "total_goal": 15,
-        "team": {
-          "name": "Bayern Munich",
-          "rank": 1
-        }
+        "team": { "id": 41, "name": "Bayern Munich", "rank": 1 }
       },
       {
+        "id": 402,
         "name": "Taiwo Awoniyi",
         "total_goal": 14,
-        "team": {
-          "name": "Union Berlin",
-          "rank": 3
-        }
+        "team": { "id": 42, "name": "Union Berlin", "rank": 3 }
       },
       {
-        "name": "Niclas Füllkrug",
-        "total_goal": 16,
-        "team": {
-          "name": "Werder Bremen",
-          "rank": 4
-        }
-      },
-      {
+        "id": 403,
         "name": "Ramy Bensebaini",
         "total_goal": 12,
-        "team": {
-          "name": "Borussia Mönchengladbach",
-          "rank": 2
-        }
-      },
-      {
-        "name": "Manuel Wintzheimer",
-        "total_goal": 13,
-        "team": {
-          "name": "1. FC Köln",
-          "rank": 5
-        }
+        "team": { "id": 43, "name": "Borussia Mönchengladbach", "rank": 2 }
       }
     ]
   },
   {
     "league": {
+      "id": 5,
       "name": "Premier League",
       "country": "England",
       "rank": 1,
@@ -208,794 +125,22 @@
     },
     "players": [
       {
+        "id": 501,
         "name": "Mohamed Salah",
         "total_goal": 29,
-        "team": {
-          "name": "Liverpool",
-          "rank": 1
-        }
+        "team": { "id": 51, "name": "Liverpool", "rank": 1 }
       },
       {
-        "name": "Bryan Mbeumo",
-        "total_goal": 20,
-        "team": {
-          "name": "Brentford",
-          "rank": 5
-        }
-      },
-      {
-        "name": "Erling Haaland",
-        "total_goal": 22,
-        "team": {
-          "name": "Manchester City",
-          "rank": 2
-        }
-      },
-      {
-        "name": "Alexander Isak",
-        "total_goal": 23,
-        "team": {
-          "name": "Newcastle United",
-          "rank": 4
-        }
-      },
-      {
+        "id": 502,
         "name": "Chris Wood",
         "total_goal": 20,
-        "team": {
-          "name": "Nottingham Forest",
-          "rank": 3
-        }
-      }
-    ]
-  },
-  {
-    "league": {
-      "name": "Primeira Liga",
-      "country": "Portugal",
-      "rank": 6,
-      "total_matches": 34
-    },
-    "players": [
-      {
-        "name": "Viktor Gyökeres",
-        "total_goal": 39,
-        "team": {
-          "name": "Sporting CP",
-          "rank": 1
-        }
+        "team": { "id": 52, "name": "Nottingham Forest", "rank": 3 }
       },
       {
-        "name": "Clayton",
-        "total_goal": 14,
-        "team": {
-          "name": "Rio Ave",
-          "rank": 4
-        }
-      },
-      {
-        "name": "Samu Aghehowa",
-        "total_goal": 19,
-        "team": {
-          "name": "FC Porto",
-          "rank": 2
-        }
-      },
-      {
-        "name": "Vangelis Pavlidis",
-        "total_goal": 19,
-        "team": {
-          "name": "Benfica",
-          "rank": 3
-        }
-      },
-      {
-        "name": "Yanis Begraoui",
-        "total_goal": 11,
-        "team": {
-          "name": "Estoril Praia",
-          "rank": 5
-        }
-      }
-    ]
-  },
-  {
-    "league": {
-      "name": "Eredivisie",
-      "country": "Netherlands",
-      "rank": 7,
-      "total_matches": 34
-    },
-    "players": [
-      {
-        "name": "Igor Paixão",
-        "total_goal": 16,
-        "team": {
-          "name": "Feyenoord",
-          "rank": 2
-        }
-      },
-      {
-        "name": "Troy Parrott",
-        "total_goal": 14,
-        "team": {
-          "name": "AZ Alkmaar",
-          "rank": 4
-        }
-      },
-      {
-        "name": "Sem Steijn",
-        "total_goal": 24,
-        "team": {
-          "name": "FC Twente",
-          "rank": 1
-        }
-      },
-      {
-        "name": "Luuk de Jong",
-        "total_goal": 14,
-        "team": {
-          "name": "PSV Eindhoven",
-          "rank": 3
-        }
-      },
-      {
-        "name": "Dylan Vente",
-        "total_goal": 13,
-        "team": {
-          "name": "PEC Zwolle",
-          "rank": 5
-        }
-      }
-    ]
-  },
-  {
-    "league": {
-      "name": "Süper Lig",
-      "country": "Turkey",
-      "rank": 8,
-      "total_matches": 38
-    },
-    "players": [
-      {
-        "name": "Krzysztof Piątek",
-        "total_goal": 21,
-        "team": {
-          "name": "İstanbul Başakşehir",
-          "rank": 2
-        }
-      },
-      {
-        "name": "Ali Sowe",
-        "total_goal": 19,
-        "team": {
-          "name": "Çaykur Rizespor",
-          "rank": 4
-        }
-      },
-      {
-        "name": "Victor Osimhen",
-        "total_goal": 26,
-        "team": {
-          "name": "Galatasaray",
-          "rank": 1
-        }
-      },
-      {
-        "name": "Youssef En-Nesyri",
-        "total_goal": 20,
-        "team": {
-          "name": "Fenerbahçe",
-          "rank": 3
-        }
-      },
-      {
-        "name": "Simon Banza",
-        "total_goal": 19,
-        "team": {
-          "name": "Trabzonspor",
-          "rank": 5
-        }
-      }
-    ]
-  },
-  {
-    "league": {
-      "name": "Russian Premier League",
-      "country": "Russia",
-      "rank": 9,
-      "total_matches": 30
-    },
-    "players": [
-      {
-        "name": "Aleksey Batrakov",
-        "total_goal": 3,
-        "team": {
-          "name": "Lokomotiv Moscow",
-          "rank": 2
-        }
-      },
-      {
-        "name": "Chinonso Offor",
-        "total_goal": 2,
-        "team": {
-          "name": "FC Baltika Kaliningrad",
-          "rank": 5
-        }
-      },
-      {
-        "name": "Andrei Mostovoy",
-        "total_goal": 2,
-        "team": {
-          "name": "Zenit St. Petersburg",
-          "rank": 3
-        }
-      },
-      {
-        "name": "Vadim Rakov",
-        "total_goal": 4,
-        "team": {
-          "name": "Krylia Sovetov",
-          "rank": 1
-        }
-      },
-      {
-        "name": "Artem Dzyuba",
-        "total_goal": 2,
-        "team": {
-          "name": "Akron Tolyatti",
-          "rank": 4
-        }
-      }
-    ]
-  },
-  {
-    "league": {
-      "name": "Jupiler Pro League",
-      "country": "Belgium",
-      "rank": 10,
-      "total_matches": 34
-    },
-    "players": [
-      {
-        "name": "Christos Tzolis",
-        "total_goal": 12,
-        "team": {
-          "name": "Club Brugge",
-          "rank": 5
-        }
-      },
-      {
-        "name": "Tolu Arokodare",
-        "total_goal": 17,
-        "team": {
-          "name": "KRC Genk",
-          "rank": 1
-        }
-      },
-      {
-        "name": "Benito Raman",
-        "total_goal": 13,
-        "team": {
-          "name": "KV Mechelen",
-          "rank": 4
-        }
-      },
-      {
-        "name": "Kasper Dolberg",
-        "total_goal": 14,
-        "team": {
-          "name": "RSC Anderlecht",
-          "rank": 3
-        }
-      },
-      {
-        "name": "Adriano Bertaccini",
-        "total_goal": 16,
-        "team": {
-          "name": "Sint-Truidense",
-          "rank": 2
-        }
-      }
-    ]
-  },
-  {
-    "league": {
-      "name": "Scottish Premiership",
-      "country": "Scotland",
-      "rank": 11,
-      "total_matches": 38
-    },
-    "players": [
-      {
-        "name": "Daizen Maeda",
-        "total_goal": 16,
-        "team": {
-          "name": "Celtic",
-          "rank": 2
-        }
-      },
-      {
-        "name": "Martin Boyle",
-        "total_goal": 15,
-        "team": {
-          "name": "Hibernian",
-          "rank": 5
-        }
-      },
-      {
-        "name": "Simon Murray",
-        "total_goal": 16,
-        "team": {
-          "name": "Dundee",
-          "rank": 3
-        }
-      },
-      {
-        "name": "Cyriel Dessers",
-        "total_goal": 18,
-        "team": {
-          "name": "Rangers",
-          "rank": 1
-        }
-      },
-      {
-        "name": "Sam Dalby",
-        "total_goal": 15,
-        "team": {
-          "name": "Dundee United",
-          "rank": 4
-        }
-      }
-    ]
-  },
-  {
-    "league": {
-      "name": "Swiss Super League",
-      "country": "Switzerland",
-      "rank": 12,
-      "total_matches": 38
-    },
-    "players": [
-      {
-        "name": "Dereck Kutesa",
-        "total_goal": 15,
-        "team": {
-          "name": "Servette",
-          "rank": 2
-        }
-      },
-      {
-        "name": "Xherdan Shaqiri",
-        "total_goal": 18,
-        "team": {
-          "name": "FC Basel",
-          "rank": 1
-        }
-      },
-      {
-        "name": "Miroslav Stevanović",
-        "total_goal": 14,
-        "team": {
-          "name": "Luzern",
-          "rank": 5
-        }
-      },
-      {
-        "name": "Willem Geubbels",
-        "total_goal": 11,
-        "team": {
-          "name": "FC St. Gallen",
-          "rank": 4
-        }
-      },
-      {
-        "name": "Alvyn Sanches",
-        "total_goal": 12,
-        "team": {
-          "name": "Lausanne-Sport",
-          "rank": 3
-        }
-      }
-    ]
-  },
-  {
-    "league": {
-      "name": "Austrian Bundesliga",
-      "country": "Austria",
-      "rank": 13,
-      "total_matches": 32
-    },
-    "players": [
-      {
-        "name": "Patrik Mijić",
-        "total_goal": 12,
-        "team": {
-          "name": "TSV Hartberg",
-          "rank": 5
-        }
-      },
-      {
-        "name": "Maximilian Entrup",
-        "total_goal": 13,
-        "team": {
-          "name": "LASK Linz",
-          "rank": 3
-        }
-      },
-      {
-        "name": "Otar Kiteishvili",
-        "total_goal": 12,
-        "team": {
-          "name": "SK Sturm Graz",
-          "rank": 1
-        }
-      },
-      {
-        "name": "Dorgelès Nene",
-        "total_goal": 13,
-        "team": {
-          "name": "Red Bull Salzburg",
-          "rank": 2
-        }
-      },
-      {
-        "name": "Dominik Fitz",
-        "total_goal": 12,
-        "team": {
-          "name": "Austria Wien",
-          "rank": 4
-        }
-      }
-    ]
-  },
-  {
-    "league": {
-      "name": "Greek Super League",
-      "country": "Greece",
-      "rank": 14,
-      "total_matches": 30
-    },
-    "players": [
-      {
-        "name": "Ayoub El Kaabi",
-        "total_goal": 18,
-        "team": {
-          "name": "Olympiacos",
-          "rank": 1
-        }
-      },
-      {
-        "name": "Mady Camara",
-        "total_goal": 9,
-        "team": {
-          "name": "PAOK",
-          "rank": 2
-        }
-      },
-      {
-        "name": "Zini",
-        "total_goal": 14,
-        "team": {
-          "name": "Levadiakos",
-          "rank": 5
-        }
-      },
-      {
-        "name": "Loren Morón",
-        "total_goal": 18,
-        "team": {
-          "name": "Aris Thessaloniki",
-          "rank": 3
-        }
-      },
-      {
-        "name": "Jefté Betancor",
-        "total_goal": 19,
-        "team": {
-          "name": "Panserraikos",
-          "rank": 4
-        }
-      }
-    ]
-  },
-  {
-    "league": {
-      "name": "Saudi Pro League",
-      "country": "Saudi Arabia",
-      "rank": 15,
-      "total_matches": 30
-    },
-    "players": [
-      {
-        "name": "Cristiano Ronaldo",
-        "total_goal": 25,
-        "team": {
-          "name": "Al Nassr",
-          "rank": 3
-        }
-      },
-      {
-        "name": "Karim Benzema",
-        "total_goal": 21,
-        "team": {
-          "name": "Al Ittihad",
-          "rank": 1
-        }
-      },
-      {
-        "name": "Ivan Toney",
-        "total_goal": 23,
-        "team": {
-          "name": "Al Ahli",
-          "rank": 2
-        }
-      },
-      {
-        "name": "Julián Quiñones",
-        "total_goal": 20,
-        "team": {
-          "name": "Al Qadsiah",
-          "rank": 5
-        }
-      },
-      {
-        "name": "Abderrazak Hamdallah",
-        "total_goal": 21,
-        "team": {
-          "name": "Al Shabab",
-          "rank": 4
-        }
-      }
-    ]
-  },
-  {
-    "league": {
-      "name": "J1 League",
-      "country": "Japan",
-      "rank": 16,
-      "total_matches": 34
-    },
-    "players": [
-      {
-        "name": "Rafael Ratão",
-        "total_goal": 11,
-        "team": {
-          "name": "Cerezo Osaka",
-          "rank": 4
-        }
-      },
-      {
-        "name": "Erik",
-        "total_goal": 7,
-        "team": {
-          "name": "Kashima Antlers",
-          "rank": 3
-        }
-      },
-      {
-        "name": "Taisei Miyashiro",
-        "total_goal": 9,
-        "team": {
-          "name": "Vissel Kobe",
-          "rank": 1
-        }
-      },
-      {
-        "name": "Rafael Elias",
-        "total_goal": 8,
-        "team": {
-          "name": "Kyoto Sanga",
-          "rank": 5
-        }
-      },
-      {
-        "name": "Léo Ceará",
-        "total_goal": 14,
-        "team": {
-          "name": "Kashima Antlers",
-          "rank": 2
-        }
-      }
-    ]
-  },
-  {
-    "league": {
-      "name": "K League 1",
-      "country": "South Korea",
-      "rank": 17,
-      "total_matches": 33
-    },
-    "players": [
-      {
-        "name": "Joo Min-kyu",
-        "total_goal": 10,
-        "team": {
-          "name": "Daejeon Hana Citizen",
-          "rank": 2
-        }
-      },
-      {
-        "name": "Jeon Jin-woo",
-        "total_goal": 12,
-        "team": {
-          "name": "Jeonbuk Hyundai Motors",
-          "rank": 1
-        }
-      },
-      {
-        "name": "Erick Farias",
-        "total_goal": 8,
-        "team": {
-          "name": "Ulsan Hyundai FC",
-          "rank": 4
-        }
-      },
-      {
-        "name": "Bruno Mota",
-        "total_goal": 9,
-        "team": {
-          "name": "FC Anyang",
-          "rank": 3
-        }
-      },
-      {
-        "name": "Lee Ho-jae",
-        "total_goal": 8,
-        "team": {
-          "name": "Pohang Steelers",
-          "rank": 5
-        }
-      }
-    ]
-  },
-  {
-    "league": {
-      "name": "Campeonato Brasileiro Série A",
-      "country": "Brazil",
-      "rank": 18,
-      "total_matches": 38
-    },
-    "players": [
-      {
-        "name": "Pablo Vegetti",
-        "total_goal": 9,
-        "team": {
-          "name": "Vasco da Gama",
-          "rank": 5
-        }
-      },
-      {
-        "name": "Kaio Jorge",
-        "total_goal": 13,
-        "team": {
-          "name": "Cruzeiro",
-          "rank": 1
-        }
-      },
-      {
-        "name": "Giorgian de Arrascaeta",
-        "total_goal": 10,
-        "team": {
-          "name": "Flamengo",
-          "rank": 2
-        }
-      },
-      {
-        "name": "Martin Braithwaite",
-        "total_goal": 6,
-        "team": {
-          "name": "Grêmio",
-          "rank": 4
-        }
-      },
-      {
-        "name": "Pedro Raúl",
-        "total_goal": 7,
-        "team": {
-          "name": "Ceará",
-          "rank": 3
-        }
-      }
-    ]
-  },
-  {
-    "league": {
-      "name": "Campeonato de Primera División",
-      "country": "Argentina",
-      "rank": 19,
-      "total_matches": 28
-    },
-    "players": [
-      {
-        "name": "Adrián Martínez",
-        "total_goal": 9,
-        "team": {
-          "name": "Racing Club",
-          "rank": 2
-        }
-      },
-      {
-        "name": "Nicolás Fernández",
-        "total_goal": 8,
-        "team": {
-          "name": "Belgrano",
-          "rank": 5
-        }
-      },
-      {
-        "name": "Andrés Vombergar",
-        "total_goal": 9,
-        "team": {
-          "name": "San Lorenzo",
-          "rank": 3
-        }
-      },
-      {
-        "name": "Gabriel Ávalos",
-        "total_goal": 8,
-        "team": {
-          "name": "Independiente",
-          "rank": 4
-        }
-      },
-      {
-        "name": "Tomás Molina",
-        "total_goal": 10,
-        "team": {
-          "name": "Argentinos Juniors",
-          "rank": 1
-        }
-      }
-    ]
-  },
-  {
-    "league": {
-      "name": "Persian Gulf Pro League",
-      "country": "Iran",
-      "rank": 21,
-      "total_matches": 30
-    },
-    "players": [
-      {
-        "name": "Ali Alipour",
-        "total_goal": 12,
-        "team": {
-          "name": "Persepolis",
-          "rank": 2
-        }
-      },
-      {
-        "name": "Mehdi Limoochi",
-        "total_goal": 9,
-        "team": {
-          "name": "Sepahan",
-          "rank": 4
-        }
-      },
-      {
-        "name": "Ramin Rezaeian",
-        "total_goal": 10,
-        "team": {
-          "name": "Esteghlal",
-          "rank": 3
-        }
-      },
-      {
-        "name": "Amirhossein Hosseinzadeh",
-        "total_goal": 14,
-        "team": {
-          "name": "Tractor",
-          "rank": 1
-        }
-      },
-      {
-        "name": "Mohammadamin Kazemian",
-        "total_goal": 9,
-        "team": {
-          "name": "Aluminium Arak",
-          "rank": 5
-        }
+        "id": 203,
+        "name": "Erling Haaland",
+        "total_goal": 22,
+        "team": { "id": 53, "name": "Manchester City", "rank": 2 }
       }
     ]
   }
